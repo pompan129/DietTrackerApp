@@ -1,6 +1,5 @@
-package test.java.edu.uml.diet;
+package edu.uml.diet;
 
-import main.java.edu.uml.diet.DbParser;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
@@ -10,8 +9,9 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Raymond on 2/15/2015.
+/** Class utilized to read in data from USDA food database
+ *
+ * @author Ray Goolishian
  */
 public class DbParserTest {
     String filename;
@@ -26,7 +26,9 @@ public class DbParserTest {
         file = new File(filename);
         lengthOfFile = 0;
 
-        //get length of file
+        /**get length of file
+         *
+         */
         try {
             FileReader fr = new FileReader(file);
             LineNumberReader lnr = new LineNumberReader(fr);
@@ -42,6 +44,10 @@ public class DbParserTest {
         foodName = "TURTLE,GREEN,RAW";
     }
 
+    /**Test that all records were imported
+     *  and that all records were imported properly by
+     *  checking last record name
+     */
     @Test
     public void testImportDatabase(){
         ArrayList<DbParser.dbFood> dbFoodList = dbp.importDatabase(filename);
@@ -50,6 +56,6 @@ public class DbParserTest {
         assertEquals(lengthOfFile,dbFoodList.size());
 
         // test that name of food in last record matches ASCII file
-        assertEquals(dbFoodList.get(dbFoodList.size() - 1).Shrt_Desc,foodName);
+        assertEquals(dbFoodList.get(dbFoodList.size() - 1).getShrt_Desc(),foodName);
     }
 }
