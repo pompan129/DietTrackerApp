@@ -503,13 +503,12 @@ public class DbParser {
      * @return databaseFoodList      ArrayList of dbFood objects that will be used to populate
      *                               food database
      */
-    public ArrayList<dbFood> importDatabase(String filePath) {
+    public ArrayList<dbFood> importDatabase(String filePath) throws IOException{
 
         //initialize list to be returned
         ArrayList<dbFood> databaseFoodList = new ArrayList<dbFood>();
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(filePath));
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath))){
             String record = null;
 
             while ((record = br.readLine()) != null) {
@@ -594,14 +593,8 @@ public class DbParser {
 
                 databaseFoodList.add(databaseFood);
             }
-
             br.close();
-
         }
-        catch (Exception e){
-            System.out.println(e.toString());
-        }
-
         return databaseFoodList;
     }
 }

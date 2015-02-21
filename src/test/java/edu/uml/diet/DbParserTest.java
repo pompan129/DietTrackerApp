@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class DbParserTest {
     int lengthOfFile;
 
     @Before
-    public void setup(){
+    public void setup() throws IOException{
         filename = "./USDAdatabase.txt";
         file = new File(filename);
         lengthOfFile = 0;
@@ -29,16 +30,12 @@ public class DbParserTest {
         /**get length of file
          *
          */
-        try {
-            FileReader fr = new FileReader(file);
-            LineNumberReader lnr = new LineNumberReader(fr);
-            while (lnr.readLine() != null) {
-                lengthOfFile++;
-            }
+        FileReader fr = new FileReader(file);
+        LineNumberReader lnr = new LineNumberReader(fr);
+        while (lnr.readLine() != null) {
+            lengthOfFile++;
         }
-        catch(Exception e){
-            System.out.println(e);
-        }
+
 
         dbp = new DbParser();
         foodName = "TURTLE,GREEN,RAW";
