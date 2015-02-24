@@ -1,25 +1,24 @@
 package edu.uml.diet;
 
-import javafx.scene.control.Tab;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import java.sql.*;
 import static org.junit.Assert.*;
 
 /**
+ * Test class fo DbBuilder class
  * Created by Raymond on 2/22/2015.
  */
 public class TestDbBuilder {
-    private static String JDBC_DRIVER;
-    private static String HOST_URL;
-    private static String DB_URL;
-    private static String USER;
-    private static String PASS;
-    private static DatabaseConnector databaseConnector;
-    private static String DbName;
-    private static String TableName;
+    private String JDBC_DRIVER;
+    private String HOST_URL;
+    private String DB_URL;
+    private String USER;
+    private String PASS;
+    private DatabaseConnector databaseConnector;
+    private String DbName;
+    private String TableName;
 
     @Before
     public void setup() {
@@ -42,17 +41,17 @@ public class TestDbBuilder {
     @Test
     public void testGetDbName(){
         DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
-        assertEquals(DbName,dbBuilder.getDbName());
+        assertEquals(DbName, dbBuilder.getDbName());
     }
 
     @Test
-    public void testCheckIfDbExists(){
+    public void testCheckIfDbExistsNegative()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
         assertFalse(dbBuilder.CheckIfDbExists(DbName));
     }
 
     @Test
-    public void testCreateDatabase(){
+    public void testCreateDatabase()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
         assertFalse(dbBuilder.CheckIfDbExists(DbName));
 
@@ -61,13 +60,18 @@ public class TestDbBuilder {
     }
 
     @Test
-    public void testCheckIfTableExists(){
+    public void testCheckIfTableExistsNegative()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
+
+        if(!dbBuilder.CheckIfDbExists(DbName)) {
+            dbBuilder.CreateDatabase();
+        }
+
         assertFalse(dbBuilder.CheckIfTableExists(TableName));
     }
 
     @Test
-    public void testCreateUserTable(){
+    public void testCreateUserTable()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
 
         if(!dbBuilder.CheckIfDbExists(DbName)){

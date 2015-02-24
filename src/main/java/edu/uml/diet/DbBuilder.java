@@ -1,9 +1,17 @@
 package edu.uml.diet;
 
-import com.mysql.jdbc.Field;
+import com.mysql.jdbc.*;
+
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.Statement;
+
 /**
- * Created by Raymond on 2/22/2015.
+ * Class used to check whether DB and required tables exist
+ * and create DB and tabled if not existing
+ *
+ * Created by Ray Goolishian on 2/22/2015.
  */
 public class DbBuilder {
 
@@ -37,9 +45,9 @@ public class DbBuilder {
      * @param dbName    name of database
      * @return          returns true if specified database exists
      */
-    public boolean CheckIfDbExists(String dbName){
+    public boolean CheckIfDbExists(String dbName) throws SQLException{
         Statement stmt = null;
-        Connection conn = databaseConnector.ConnectToDatabase();
+        Connection conn = databaseConnector.ConnectToDatabaseServer();
         try{
             ResultSet resultSet = conn.getMetaData().getCatalogs();
 
@@ -51,8 +59,11 @@ public class DbBuilder {
             }
             resultSet.close();
         }
-        catch(SQLException e){
-            return false;
+        finally{
+            if(stmt!=null)
+                stmt.close();
+            if(conn!=null)
+                conn.close();
         }
         return false;
     }
@@ -63,23 +74,26 @@ public class DbBuilder {
      * @param tableName    name of table to be checked for
      * @return          returns true if specified database exists
      */
-    public boolean CheckIfTableExists(String tableName){
+    public boolean CheckIfTableExists(String tableName) throws SQLException{
         Statement stmt = null;
         Connection conn = databaseConnector.ConnectToDatabase();
         try{
-            ResultSet resultSet = conn.getMetaData().getTables(null, null, null,
-                    new String[] {"TABLE"});
+            DatabaseMetaData md = conn.getMetaData();
+            ResultSet resultSet = md.getTables(null, null, "%",null);
 
             while(resultSet.next()){
-                String tblName = resultSet.getString(1);
+                String tblName = resultSet.getString(3);
                 if (tblName.equals(tableName)){
                     return true;
                 }
             }
             resultSet.close();
         }
-        catch(SQLException e){
-            return false;
+        finally{
+            if(stmt!=null)
+                stmt.close();
+            if(conn!=null)
+                conn.close();
         }
         return false;
     }
@@ -88,7 +102,7 @@ public class DbBuilder {
      * Method used to create local database
      *
      */
-    public void CreateDatabase(){
+    public void CreateDatabase() throws SQLException{
         Statement stmt = null;
         Connection conn = databaseConnector.ConnectToDatabaseServer();
 
@@ -98,25 +112,11 @@ public class DbBuilder {
             stmt.executeUpdate(sql);
             conn.close();
         }
-        catch(SQLException se){
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }catch(Exception e){
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        }finally{
-            //finally block used to close resources
-            try{
-                if(stmt!=null)
-                    stmt.close();
-            }catch(SQLException se2){
-            }// nothing we can do
-            try{
-                if(conn!=null)
-                    conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }
+        finally{
+            if(stmt!=null)
+                stmt.close();
+            if(conn!=null)
+                conn.close();
         }
     }
 
@@ -124,8 +124,8 @@ public class DbBuilder {
      *  Method used to create User database table
      *
      */
-    public void CreateUserTable(){
-        databaseConnector.setDB_URL(databaseConnector.getDB_URL() + dbName);
+    public void CreateUserTable() throws SQLException{
+        databaseConnector.setDB_URL(databaseConnector.getDB_URL());
         Connection conn = databaseConnector.ConnectToDatabase();
         Statement stmt = null;
         try {
@@ -136,25 +136,13 @@ public class DbBuilder {
                     "last_name VARCHAR(255))";
             stmt.executeUpdate(sql);
         }
-        catch(SQLException se){
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }catch(Exception e){
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        }finally{
+        finally{
             //finally block used to close resources
-            try{
-                if(stmt!=null)
-                    stmt.close();
-            }catch(SQLException se2){
-            }// nothing we can do
-            try{
-                if(conn!=null)
-                    conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }
+            if(stmt!=null)
+               stmt.close();
+            if(conn!=null)
+                conn.close();
+
         }
     }
 }

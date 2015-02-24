@@ -64,18 +64,11 @@ public class DatabaseConnector {
      *
      * @return opened database connection
      */
-    public Connection ConnectToDatabaseServer(){
+    public Connection ConnectToDatabaseServer() throws SQLException{
         Connection conn = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(HOST_URL,USER,PASS);
-        }
-        catch(SQLException se){
-
-        }
-        catch(ClassNotFoundException e){
-
-        }
+        Driver d = new com.mysql.jdbc.Driver();
+        DriverManager.registerDriver(d);
+        conn = DriverManager.getConnection(HOST_URL,USER,PASS);
         return conn;
     }
 
@@ -84,20 +77,11 @@ public class DatabaseConnector {
      *
      * @return opened database connection
      */
-    public Connection ConnectToDatabase(){
+    public Connection ConnectToDatabase() throws SQLException{
         Connection conn = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-        }
-        catch(SQLException se){
-
-        }
-        catch(ClassNotFoundException e){
-
-        }
+        Driver d = new com.mysql.jdbc.Driver();
+        DriverManager.registerDriver(d);
+        conn = DriverManager.getConnection(DB_URL,USER,PASS);
         return conn;
     }
-
-
 }

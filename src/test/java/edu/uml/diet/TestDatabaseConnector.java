@@ -23,7 +23,7 @@ public class TestDatabaseConnector {
     @Before
     public void setup() {
         JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        DbName = "diettracker";
+        DbName = "mysql";
         DB_URL = "jdbc:mysql://localhost/" + DbName;
         HOST_URL = "jdbc:mysql://localhost/";
         USER = "root";
@@ -69,7 +69,7 @@ public class TestDatabaseConnector {
         assertFalse(conn.isClosed()) ;
     }
 
-    @Test
+    @Test(expected = SQLException.class)
     public void testConnectToDatabaseNegative() throws SQLException{
         DatabaseConnector databaseConnector = new DatabaseConnector(JDBC_DRIVER,HOST_URL,DB_URL,USER,BADPASS);
         Connection conn = databaseConnector.ConnectToDatabase();
