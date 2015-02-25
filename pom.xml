@@ -11,17 +11,20 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-<<<<<<< HEAD
-=======
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
->>>>>>> e78a5f3dc7ba262b05ac47bafc0abe26f0160ab7
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.jasypt</groupId>
+          <artifactId>jasypt</artifactId>
+          <version>1.9.2</version>
+          <classifier>lite</classifier>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-all</artifactId>
+          <version>1.9.5</version>
+      </dependency>
   </dependencies>
 </project>

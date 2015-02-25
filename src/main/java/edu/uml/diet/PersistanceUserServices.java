@@ -9,10 +9,10 @@ public interface PersistanceUserServices {
     /**
      * method to retrieve encrypted password from Persistence Layer
      * @param username
-     * @param password
+     *
      * @return String containing encrypted password
      */
-    public String getPassword(String username, String password);
+    public String getPassword(String username);
 
 
     /**
@@ -25,8 +25,8 @@ public interface PersistanceUserServices {
     /**
      * method to create new user account in persistence layer
      * @param username
-     * @param password
+     * @param passKey
      * @return boolean. true if user creation is successful.
      */
-    public boolean createUser(String username, String password);
+    public boolean createUser(String username, String passKey);
 }
