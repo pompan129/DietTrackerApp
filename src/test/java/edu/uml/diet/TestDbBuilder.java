@@ -47,23 +47,23 @@ public class TestDbBuilder {
     @Test
     public void testCheckIfDbExistsNegative()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
-        assertFalse(dbBuilder.CheckIfDbExists(DbName));
+        assertFalse(dbBuilder.CheckIfDbExists());
     }
 
     @Test
     public void testCreateDatabase()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
-        assertFalse(dbBuilder.CheckIfDbExists(DbName));
+        assertFalse(dbBuilder.CheckIfDbExists());
 
         dbBuilder.CreateDatabase();
-        assertTrue(dbBuilder.CheckIfDbExists(DbName));
+        assertTrue(dbBuilder.CheckIfDbExists());
     }
 
     @Test
     public void testCheckIfTableExistsNegative()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
 
-        if(!dbBuilder.CheckIfDbExists(DbName)) {
+        if(!dbBuilder.CheckIfDbExists()) {
             dbBuilder.CreateDatabase();
         }
 
@@ -74,7 +74,7 @@ public class TestDbBuilder {
     public void testCreateUserTable()throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
 
-        if(!dbBuilder.CheckIfDbExists(DbName)){
+        if(!dbBuilder.CheckIfDbExists()){
             dbBuilder.CreateDatabase();
         }
 
@@ -85,12 +85,12 @@ public class TestDbBuilder {
     @After
     public void teardown() throws SQLException{
         DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
-        if(dbBuilder.CheckIfDbExists(DbName)) {
+        if(dbBuilder.CheckIfDbExists()) {
             Statement stmt = databaseConnector.ConnectToDatabase().createStatement();
             String sql = "DROP DATABASE " + DbName;
             stmt.executeUpdate(sql);
         }
-        assertFalse(dbBuilder.CheckIfDbExists(DbName));
+        assertFalse(dbBuilder.CheckIfDbExists());
     }
 
 }

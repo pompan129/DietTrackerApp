@@ -42,10 +42,9 @@ public class DbBuilder {
     /**
      * Method to check whether or not database has already been created locally
      *
-     * @param dbName    name of database
      * @return          returns true if specified database exists
      */
-    public boolean CheckIfDbExists(String dbName) throws SQLException{
+    public boolean CheckIfDbExists() throws SQLException{
         Statement stmt = null;
         Connection conn = databaseConnector.ConnectToDatabaseServer();
         try{
@@ -53,7 +52,7 @@ public class DbBuilder {
 
             while(resultSet.next()){
                 String databaseName = resultSet.getString(1);
-                if (databaseName.equals(dbName)){
+                if (databaseName.equals(this.dbName)){
                     return true;
                 }
             }
@@ -131,11 +130,12 @@ public class DbBuilder {
         try {
             stmt = conn.createStatement();
             String sql = "CREATE TABLE USERS (" +
-                    "id INTEGER not NULL, " +
+                    "id INTEGER not NULL AUTO_INCREMENT, " +
                     "first_name VARCHAR(255)," +
-                    "last_name VARCHAR(255))" +
-                    "username VARCHAR(255))" +
-                    "password VARCHAR(255))";
+                    "last_name VARCHAR(255)," +
+                    "username VARCHAR(255)," +
+                    "password VARCHAR(255), "+
+                    "PRIMARY KEY(id))";
             stmt.executeUpdate(sql);
         }
         finally{
