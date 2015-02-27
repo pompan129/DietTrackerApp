@@ -14,61 +14,61 @@ import static org.junit.Assert.*;
  */
 public class DbUserServicesTest {
 
-    private String ExistingUsername;
-    private String NonExistingUsername;
-    private String NewUsername;
-    private String NewPassword;
+    private String existingUsername;
+    private String nonExistingUsername;
+    private String newUsername;
+    private String newPassword;
     private static DbUserServices dbUserServices;
 
-
     @Before
-    public void setup() throws SQLException{
-        ExistingUsername = "rgoolishian";
-        NonExistingUsername = "test";
-        NewUsername = "rgoolishian";
-        NewPassword = "PASSWORD1";
+    public void setup() throws DatabaseConnectorException{
+        existingUsername = "rgoolishian";
+        nonExistingUsername = "test";
+        newUsername = "rgoolishian";
+        newPassword = "PASSWORD1";
         dbUserServices = new DbUserServices();
 
         // create database to test
-        if(!dbUserServices.dbBuilder.CheckIfDbExists()){
-            dbUserServices.dbBuilder.CreateDatabase();
-            if(!dbUserServices.dbBuilder.CheckIfTableExists("users")) {
-                dbUserServices.dbBuilder.CreateUserTable();
+        if(!dbUserServices.databaseBuilder.CheckIfDbExists()){
+            dbUserServices.databaseBuilder.CreateDatabase();
+            if(!dbUserServices.databaseBuilder.CheckIfTableExists("users")) {
+                dbUserServices.databaseBuilder.CreateUserTable();
             }
         }
     }
 
     @Test
-    public void TestCreateUser() throws SQLException{
-        assertTrue(dbUserServices.createUser(NewUsername,NewPassword));
+    public void TestCreateUser() throws PersistanceUserServicesException, DuplicateUserException{
+        dbUserServices.createUser(newUsername, newPassword);
+        assertTrue(dbUserServices.verifyUsername(newUsername));
     }
 
     @Test
-    public void TestVerifyUsername() throws SQLException{
+    public void TestVerifyUsername() throws PersistanceUserServicesException{
         DbUserServices dbUserServices = new DbUserServices();
-        assertTrue(dbUserServices.verifyUsername(ExistingUsername));
+        assertTrue(dbUserServices.verifyUsername(existingUsername));
     }
 
     @Test
-    public void TestVerifyUsernameNegative() throws SQLException{
+    public void TestVerifyUsernameNegative() throws PersistanceUserServicesException{
         DbUserServices dbUserServices = new DbUserServices();
-        assertFalse(dbUserServices.verifyUsername(NonExistingUsername));
+        assertFalse(dbUserServices.verifyUsername(nonExistingUsername));
     }
 
     @Test
-    public void TestGetPassword() throws SQLException{
+    public void TestGetPassword() throws PersistanceUserServicesException{
         DbUserServices dbUserServices = new DbUserServices();
-        assertEquals(NewPassword, dbUserServices.getPassword(ExistingUsername));
+        assertEquals(newPassword, dbUserServices.getPassword(existingUsername));
     }
 
     @AfterClass
-    public static void teardown() throws SQLException{
-        if(dbUserServices.dbBuilder.CheckIfDbExists()) {
-            Statement stmt = dbUserServices.databaseConnector.ConnectToDatabase().createStatement();
-            String sql = "DROP DATABASE " + dbUserServices.dbBuilder.getDbName();
+    public static void teardown() throws DatabaseConnectorException, SQLException{
+        if(dbUserServices.databaseBuilder.CheckIfDbExists()) {
+            Statement stmt = dbUserServices.databaseConnector.getDatabaseConnection().createStatement();
+            String sql = "DROP DATABASE " + dbUserServices.databaseBuilder.getDbName();
             stmt.executeUpdate(sql);
         }
-        assertFalse(dbUserServices.dbBuilder.CheckIfDbExists());
+        assertFalse(dbUserServices.databaseBuilder.CheckIfDbExists());
     }
 
 

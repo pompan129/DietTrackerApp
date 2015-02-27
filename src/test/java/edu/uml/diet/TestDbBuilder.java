@@ -7,90 +7,80 @@ import java.sql.*;
 import static org.junit.Assert.*;
 
 /**
- * Test class fo DbBuilder class
+ * Test class fo DatabaseBuilder class
  * Created by Raymond on 2/22/2015.
  */
 public class TestDbBuilder {
-    private String JDBC_DRIVER;
-    private String HOST_URL;
-    private String DB_URL;
-    private String USER;
-    private String PASS;
     private DatabaseConnector databaseConnector;
-    private String DbName;
-    private String TableName;
+    private String databaseName;
+    private String tableName;
 
     @Before
     public void setup() {
-        DbName = "diettracker";
-        JDBC_DRIVER = "com.mysql.jdbc.Driver";
-        HOST_URL = "jdbc:mysql://localhost/";
-        DB_URL = "jdbc:mysql://localhost/" + DbName;
-        USER = "root";
-        PASS = "PASSWORD";
-        databaseConnector = new DatabaseConnector(JDBC_DRIVER,HOST_URL,DB_URL,USER,PASS);
-        TableName = "users";
+        databaseName = "diettracker";
+        databaseConnector = new DatabaseConnector();
+        tableName = "users";
     }
 
     @Test
     public void testGetDatabaseConnector(){
-        DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
-        assertEquals(databaseConnector,dbBuilder.getDatabaseConnector());
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        assertEquals(databaseConnector, databaseBuilder.getDatabaseConnector());
     }
 
     @Test
     public void testGetDbName(){
-        DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
-        assertEquals(DbName, dbBuilder.getDbName());
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        assertEquals(databaseName, databaseBuilder.getDbName());
     }
 
     @Test
-    public void testCheckIfDbExistsNegative()throws SQLException{
-        DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
-        assertFalse(dbBuilder.CheckIfDbExists());
+    public void testCheckIfDbExistsNegative()throws DatabaseConnectorException{
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        assertFalse(databaseBuilder.CheckIfDbExists());
     }
 
     @Test
-    public void testCreateDatabase()throws SQLException{
-        DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
-        assertFalse(dbBuilder.CheckIfDbExists());
+    public void testCreateDatabase()throws DatabaseConnectorException{
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        assertFalse(databaseBuilder.CheckIfDbExists());
 
-        dbBuilder.CreateDatabase();
-        assertTrue(dbBuilder.CheckIfDbExists());
+        databaseBuilder.CreateDatabase();
+        assertTrue(databaseBuilder.CheckIfDbExists());
     }
 
     @Test
-    public void testCheckIfTableExistsNegative()throws SQLException{
-        DbBuilder dbBuilder = new DbBuilder(databaseConnector, DbName);
+    public void testCheckIfTableExistsNegative()throws DatabaseConnectorException{
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
-        if(!dbBuilder.CheckIfDbExists()) {
-            dbBuilder.CreateDatabase();
+        if(!databaseBuilder.CheckIfDbExists()) {
+            databaseBuilder.CreateDatabase();
         }
 
-        assertFalse(dbBuilder.CheckIfTableExists(TableName));
+        assertFalse(databaseBuilder.CheckIfTableExists(tableName));
     }
 
     @Test
-    public void testCreateUserTable()throws SQLException{
-        DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
+    public void testCreateUserTable()throws DatabaseConnectorException{
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
-        if(!dbBuilder.CheckIfDbExists()){
-            dbBuilder.CreateDatabase();
+        if(!databaseBuilder.CheckIfDbExists()){
+            databaseBuilder.CreateDatabase();
         }
 
-        dbBuilder.CreateUserTable();
-        assertTrue(dbBuilder.CheckIfTableExists(TableName));
+        databaseBuilder.CreateUserTable();
+        assertTrue(databaseBuilder.CheckIfTableExists(tableName));
     }
 
     @After
-    public void teardown() throws SQLException{
-        DbBuilder dbBuilder = new DbBuilder(databaseConnector,DbName);
-        if(dbBuilder.CheckIfDbExists()) {
-            Statement stmt = databaseConnector.ConnectToDatabase().createStatement();
-            String sql = "DROP DATABASE " + DbName;
-            stmt.executeUpdate(sql);
+    public void teardown() throws DatabaseConnectorException, SQLException{
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        if(databaseBuilder.CheckIfDbExists()) {
+            Statement statement = databaseConnector.getDatabaseConnection().createStatement();
+            String sql = "DROP DATABASE " + databaseName;
+            statement.executeUpdate(sql);
         }
-        assertFalse(dbBuilder.CheckIfDbExists());
+        assertFalse(databaseBuilder.CheckIfDbExists());
     }
 
 }

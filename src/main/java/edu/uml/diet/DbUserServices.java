@@ -1,6 +1,6 @@
 package edu.uml.diet;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
+
 
 import java.sql.*;
 
@@ -11,95 +11,95 @@ import java.sql.*;
  */
 public class DbUserServices implements PersistanceUserServices {
 
-    private String DbName = "diettracker";
-    private String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private String HOST_URL = "jdbc:mysql://localhost/";
-    private String DB_URL = "jdbc:mysql://localhost/" + DbName;
-    private String USER = "root";
-    private String PASS = "PASSWORD";
-    public DatabaseConnector databaseConnector = new DatabaseConnector(JDBC_DRIVER,HOST_URL,DB_URL,USER,PASS);
-    public DbBuilder dbBuilder = new DbBuilder(databaseConnector,"diettracker");
-    private String TableName = "users";
-
+    public DatabaseConnector databaseConnector = new DatabaseConnector();
+    public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"diettracker");
+    private String tableName = "users";
 
     /**
-     * Method to add new user to database
+     * Method to add new User to database
      *
      * @param username
      * @param password
      */
-    public boolean createUser(String username, String password){
-        try(Connection conn = databaseConnector.ConnectToDatabase()){
-            if(!dbBuilder.CheckIfDbExists()) {
-                dbBuilder.CreateDatabase();
+    public void createUser(String username, String password)throws PersistanceUserServicesException, DuplicateUserException{
+        try(Connection connection = databaseConnector.getDatabaseConnection()){
+            if (!databaseBuilder.CheckIfDbExists()) {
+                databaseBuilder.CreateDatabase();
             }
-            if(!dbBuilder.CheckIfTableExists(TableName)){
-                dbBuilder.CreateUserTable();
+            if (!databaseBuilder.CheckIfTableExists(tableName)) {
+                databaseBuilder.CreateUserTable();
             }
 
-            if(!verifyUsername(username)) {
-                String sql = "INSERT INTO users (username, password) VALUES(?, ?)";
-                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            if (!verifyUsername(username)) {
+                String sqlCommand = "INSERT INTO users (username, password) VALUES(?, ?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
                 preparedStatement.execute();
                 preparedStatement.close();
-                conn.close();
+                connection.close();
+            }
+            else{
+                throw new DuplicateUserException("User already exists.",null);
             }
         }
-        catch(SQLException se){
-            return false;
+        catch(SQLException | DatabaseConnectorException e){
+            throw new PersistanceUserServicesException("Could not connect to database." + e.getMessage(), e);
         }
-
-        return true;
     }
 
     /**
-     * Method to query database to check if user exists
+     * Method to query database to check if User exists
      *
      * @param username
-     * @return true if user exists, false if user does not exist
+     * @return true if User exists, false if User does not exist
      * @throws SQLException
      */
-    public boolean verifyUsername(String username) throws SQLException{
+    public boolean verifyUsername(String username) throws PersistanceUserServicesException{
 
         boolean response;
-        try(Connection conn = databaseConnector.ConnectToDatabase()){
+        try(Connection connection = databaseConnector.getDatabaseConnection()){
 
-            String sql = "SELECT * FROM " + TableName +" WHERE username = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            String sqlCommand = "SELECT * FROM " + tableName +" WHERE username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
             preparedStatement.setString(1, username);
-            ResultSet rs = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(rs.next()){response = true;}
+            if(resultSet.next()){response = true;}
             else{response = false;}
 
             preparedStatement.close();
-            conn.close();
+            connection.close();
+        }
+        catch(SQLException | DatabaseConnectorException e){
+            throw new PersistanceUserServicesException("Could not connect to database." + e.getMessage(), e);
         }
         return response;
     }
 
     /**
-     * Method accepts user name string and returns password
+     * Method accepts User name string and returns password
      *
      * @param username
      * @return
      * @throws SQLException
      */
-    public String getPassword(String username) throws SQLException{
+    public String getPassword(String username) throws PersistanceUserServicesException{
 
         String password = null;
-        try(Connection conn = databaseConnector.ConnectToDatabase()){
+        try(Connection connection = databaseConnector.getDatabaseConnection()){
 
-            String sql = "SELECT password FROM " + TableName + " WHERE username = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            String sqlCommand = "SELECT password FROM " + tableName + " WHERE username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
             preparedStatement.setString(1, username);
 
-            ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next()){
-                password = rs.getString(1);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                password = resultSet.getString(1);
             }
+        }
+        catch(SQLException | DatabaseConnectorException e){
+            throw new PersistanceUserServicesException("Could not connect to database." + e.getMessage(), e);
         }
         return password;
     }
