@@ -12,7 +12,7 @@ public class PortionTest extends TestCase {
 
 
     @Before
-    public void setup() {
+    public void setUp() {
         food = new BasicFood("Twinkie", 270, 9, 2, 46);
         portionSize = 3.0;
 
