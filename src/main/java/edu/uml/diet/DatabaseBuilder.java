@@ -15,33 +15,59 @@ import java.sql.Statement;
 public class DatabaseBuilder {
 
     private DatabaseConnector databaseConnector;
-    private String dbName;
+    private String databaseName;
 
+    /**
+     *
+     * @return DatabaseConnector object
+     */
     public DatabaseConnector getDatabaseConnector() {
         return databaseConnector;
     }
 
+    /**
+     * Specify DatabaseConnector object
+     *
+     * @param databaseConnector DatabaseConnector to be specified
+     */
     public void setDatabaseConnector(DatabaseConnector databaseConnector) {
         this.databaseConnector = databaseConnector;
     }
 
-    public String getDbName() {
-        return dbName;
+    /**
+     *
+     * @return name of database to be connected to
+     */
+    public String getDatabaseName() {
+        return databaseName;
     }
 
-    public void setDbName(String dbName) {
-        this.dbName = dbName;
+    /**
+     * Specify the name of the database to be connected to
+     *
+     * @param databaseName name of database as a String
+     */
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
     }
 
-    public DatabaseBuilder(DatabaseConnector databaseConnector, String dbName){
+    /**
+     * Initialize DatabaseBuilder object with DatabaseConnector object
+     * and database name as String
+     *
+     * @param databaseConnector DatabaseConnector object with database properties
+     * @param databaseName name of database to be connected to as a String
+     */
+    public DatabaseBuilder(DatabaseConnector databaseConnector, String databaseName){
         this.databaseConnector = databaseConnector;
-        this.dbName = dbName;
+        this.databaseName = databaseName;
     }
 
     /**
      * Method to check whether or not database has already been created locally
      *
      * @return          returns true if specified database exists
+     * @throws DatabaseConnectorException
      */
     public boolean CheckIfDbExists() throws DatabaseConnectorException {
         Statement statement = null;
@@ -52,7 +78,7 @@ public class DatabaseBuilder {
 
             while(resultSet.next()){
                 String databaseName = resultSet.getString(1);
-                if (databaseName.equals(this.dbName)){
+                if (databaseName.equals(this.databaseName)){
                     exists = true;
                 }
             }
@@ -80,6 +106,7 @@ public class DatabaseBuilder {
      *
      * @param tableName    name of table to be checked for
      * @return          returns true if specified database exists
+     * @throws DatabaseConnectorException
      */
     public boolean CheckIfTableExists(String tableName) throws DatabaseConnectorException{
         Statement statement = null;
@@ -117,7 +144,7 @@ public class DatabaseBuilder {
 
     /**
      * Method used to create local database
-     *
+     * @throws DatabaseConnectorException
      */
     public void CreateDatabase() throws DatabaseConnectorException{
         Statement stmt = null;
@@ -125,7 +152,7 @@ public class DatabaseBuilder {
 
         try{
             stmt = conn.createStatement();
-            String sql = "CREATE DATABASE " + dbName;
+            String sql = "CREATE DATABASE " + databaseName;
             stmt.executeUpdate(sql);
             conn.close();
         }
@@ -147,7 +174,7 @@ public class DatabaseBuilder {
 
     /**
      *  Method used to create User database table
-     *
+     * @throws DatabaseConnectorException
      */
     public void CreateUserTable() throws DatabaseConnectorException{
         Connection connection = databaseConnector.getDatabaseConnection();

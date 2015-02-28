@@ -31,7 +31,7 @@ public class TestDbBuilder {
     @Test
     public void testGetDbName(){
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        assertEquals(databaseName, databaseBuilder.getDbName());
+        assertEquals(databaseName, databaseBuilder.getDatabaseName());
     }
 
     @Test

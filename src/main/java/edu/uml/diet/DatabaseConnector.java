@@ -15,7 +15,7 @@ public class DatabaseConnector {
 
     /**
      *
-     * @return server connection configuration
+     * @return database server connection configuration
      */
     private static Configuration getServerConfiguration(){
         configuration = new Configuration();
@@ -37,6 +37,7 @@ public class DatabaseConnector {
      * Method used to open database server connection
      *
      * @return opened database connection
+     * @throws DatabaseConnectorException
      */
     public static Connection getServerConnection() throws DatabaseConnectorException {
         Connection connection = null;
@@ -57,7 +58,8 @@ public class DatabaseConnector {
     /**
      * Method used to open database server connection
      *
-     * @return opened database connection
+     * @return opened database connection as Connection object
+     * @throws DatabaseConnectorException
      */
     public static Connection getDatabaseConnection() throws DatabaseConnectorException {
         Connection connection = null;
@@ -73,24 +75,5 @@ public class DatabaseConnector {
             throw new DatabaseConnectorException("Could not connect to database." + e.getMessage(), e);
         }
         return connection;
-    }
-
-    /*
-  * @return SessionFactory for use with database transactions
-  */
-    public static SessionFactory getSessionFactory() {
-        SessionFactory sessionFactory = null;
-
-        if (sessionFactory == null) {
-
-            Configuration configuration = getDatabaseConfiguration();
-
-            ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
-                    .applySettings(configuration.getProperties())
-                    .buildServiceRegistry();
-
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-        }
-        return sessionFactory;
     }
 }

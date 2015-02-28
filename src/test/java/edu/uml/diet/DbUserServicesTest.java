@@ -65,7 +65,7 @@ public class DbUserServicesTest {
     public static void teardown() throws DatabaseConnectorException, SQLException{
         if(dbUserServices.databaseBuilder.CheckIfDbExists()) {
             Statement stmt = dbUserServices.databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP DATABASE " + dbUserServices.databaseBuilder.getDbName();
+            String sql = "DROP DATABASE " + dbUserServices.databaseBuilder.getDatabaseName();
             stmt.executeUpdate(sql);
         }
         assertFalse(dbUserServices.databaseBuilder.CheckIfDbExists());

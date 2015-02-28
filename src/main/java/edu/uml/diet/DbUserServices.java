@@ -18,8 +18,10 @@ public class DbUserServices implements PersistanceUserServices {
     /**
      * Method to add new User to database
      *
-     * @param username
-     * @param password
+     * @param username username of user to be created as String
+     * @param password password of user to be created as String
+     * @throws PersistanceUserServicesException
+     * @throws DuplicateUserException
      */
     public void createUser(String username, String password)throws PersistanceUserServicesException, DuplicateUserException{
         try(Connection connection = databaseConnector.getDatabaseConnection()){
@@ -53,7 +55,7 @@ public class DbUserServices implements PersistanceUserServices {
      *
      * @param username
      * @return true if User exists, false if User does not exist
-     * @throws SQLException
+     * @throws PersistanceUserServicesException
      */
     public boolean verifyUsername(String username) throws PersistanceUserServicesException{
 
@@ -80,9 +82,10 @@ public class DbUserServices implements PersistanceUserServices {
     /**
      * Method accepts User name string and returns password
      *
-     * @param username
-     * @return
-     * @throws SQLException
+     * @param username name of use to return the password of as String
+     *
+     * @return user password to as a String
+     * @throws PersistanceUserServicesException
      */
     public String getPassword(String username) throws PersistanceUserServicesException{
 
