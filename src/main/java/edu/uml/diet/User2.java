@@ -1,6 +1,8 @@
 package edu.uml.diet;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
 
 /**
  * Created by adil on 2/26/15.
@@ -8,7 +10,13 @@ import javax.servlet.http.HttpServlet;
 public class User2 extends HttpServlet {
 
     public void User2() {};
+    public User2() {
+        super();
+    }
 
-
-
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        out.println("FUCK THIS SHIT");
+    }
 }
