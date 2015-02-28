@@ -17,6 +17,6 @@ public class User2 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        out.println("FUCK THIS SHIT");
+        out.println("TEST");
     }
 }
