@@ -11,8 +11,8 @@
         <servlet-class>edu.uml.diet.User2</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>loginServlet</servlet-name>
-        <servlet-class>edu.uml.diet.loginServlet</servlet-class>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>edu.uml.diet.LoginServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -21,8 +21,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>loginServlet</servlet-name>
-        <url-pattern>/loginServlet</url-pattern>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
 
     <!-- may need to take this out -->
