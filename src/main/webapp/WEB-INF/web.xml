@@ -15,6 +15,11 @@
         <servlet-class>edu.uml.diet.LoginServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <servlet-class>edu.uml.diet.RegistrationServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>User2</servlet-name>
         <url-pattern>/User2</url-pattern>
@@ -25,14 +30,33 @@
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
 
-    <!-- may need to take this out -->
+    <servlet-mapping>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <url-pattern>/RegistrationServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- SEcurity stuff -->
+    <!-- TODO: configure -->
+    <!--
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>A Protected Page</web-resource-name>
+            <url-pattern>*</url-pattern>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>tomcat</role-name>
+        </auth-constraint>
+    </security-constraint>
+
     <login-config>
         <auth-method>FORM</auth-method>
         <form-login-config>
             <form-login-page>/login.html</form-login-page>
             <form-error-page>/loginError.html</form-error-page>
         </form-login-config>
-    </login-config>
+    </login-config> -->
 
     <jsp-config>
         <jsp-property-group>
