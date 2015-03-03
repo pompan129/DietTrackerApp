@@ -12,8 +12,8 @@ import java.sql.*;
 public class DbUserServices implements PersistanceUserServices {
 
     public DatabaseConnector databaseConnector = new DatabaseConnector();
-    public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"diettracker");
-    private String tableName = "users";
+    public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
+    private String tableName = "USERS";
 
     /**
      * Method to add new User to database
@@ -33,7 +33,7 @@ public class DbUserServices implements PersistanceUserServices {
             }
 
             if (!verifyUsername(username)) {
-                String sqlCommand = "INSERT INTO users (username, password) VALUES(?, ?)";
+                String sqlCommand = "INSERT INTO USERS (username, password) VALUES(?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
                 preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
