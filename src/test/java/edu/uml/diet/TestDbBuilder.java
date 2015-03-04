@@ -17,9 +17,9 @@ public class TestDbBuilder {
 
     @Before
     public void setup() {
-        databaseName = "diettracker";
+        databaseName = "DietTracker";
         databaseConnector = new DatabaseConnector();
-        tableName = "users";
+        tableName = "USERS";
     }
 
     @Test
