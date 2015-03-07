@@ -1,5 +1,6 @@
 package edu.uml.diet;
 
+import edu.uml.diet.model.BasicFood;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

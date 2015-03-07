@@ -1,5 +1,7 @@
 package edu.uml.diet;
 
+import edu.uml.diet.model.BasicFood;
+
 /**
  * Container class to represent one food item and it's portion size
  */

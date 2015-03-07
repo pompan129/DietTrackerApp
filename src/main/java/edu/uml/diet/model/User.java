@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.model;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

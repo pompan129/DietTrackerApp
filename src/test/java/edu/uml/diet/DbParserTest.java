@@ -46,13 +46,13 @@ public class DbParserTest {
      *  checking last record name
      */
     @Test
-    public void testImportDatabase(){
+    public void testImportDatabase() throws IOException{
         ArrayList<DbParser.dbFood> dbFoodList = dbp.importDatabase(filename);
 
         //test that all lines imported
         assertEquals(lengthOfFile,dbFoodList.size());
 
         // test that name of food in last record matches ASCII file
-        assertEquals(dbFoodList.get(dbFoodList.size() - 1).getShrt_Desc(),foodName);
+        assertEquals(dbFoodList.get(dbFoodList.size() - 1).getName(),foodName);
     }
 }

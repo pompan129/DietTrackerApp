@@ -33,7 +33,7 @@ public class BasicUserService implements UserServices {
      * @param password
      * @return
      */
-    public boolean verifyUser(String username, String password){
+    public boolean verifyUser(String username, String password) throws PersistanceUserServicesException {
         //return false if username is NOT in persistence layer
         if(!persistanceUserService.verifyUsername(username)){return false;}
 
@@ -53,7 +53,7 @@ public class BasicUserService implements UserServices {
      * @param password
      * @return boolean. true if user creation is successful. false if username already in use.
      */
-    public boolean createUser(String username, String password){
+    public boolean createUser(String username, String password) throws PersistanceUserServicesException, DuplicateUserException{
         //if username already exists return false
         if(persistanceUserService.verifyUsername(username)){return false;}
 

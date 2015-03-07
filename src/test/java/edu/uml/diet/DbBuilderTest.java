@@ -3,6 +3,8 @@ package edu.uml.diet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
 import java.sql.*;
 import static org.junit.Assert.*;
 
@@ -10,16 +12,18 @@ import static org.junit.Assert.*;
  * Test class fo DatabaseBuilder class
  * Created by Raymond on 2/22/2015.
  */
-public class TestDbBuilder {
+public class DbBuilderTest {
     private DatabaseConnector databaseConnector;
     private String databaseName;
-    private String tableName;
+    private String userTableName;
+    private String foodTableName;
 
     @Before
     public void setup() {
         databaseName = "DietTracker";
         databaseConnector = new DatabaseConnector();
-        tableName = "USERS";
+        userTableName = "USERS";
+        foodTableName = "FOOD";
     }
 
     @Test
@@ -57,7 +61,7 @@ public class TestDbBuilder {
             databaseBuilder.CreateDatabase();
         }
 
-        assertFalse(databaseBuilder.CheckIfTableExists(tableName));
+        assertFalse(databaseBuilder.CheckIfTableExists(userTableName));
     }
 
     @Test
@@ -69,7 +73,19 @@ public class TestDbBuilder {
         }
 
         databaseBuilder.CreateUserTable();
-        assertTrue(databaseBuilder.CheckIfTableExists(tableName));
+        assertTrue(databaseBuilder.CheckIfTableExists(userTableName));
+    }
+
+    @Test
+    public void testCreateFoodTable()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+
+        if(!databaseBuilder.CheckIfDbExists()){
+            databaseBuilder.CreateDatabase();
+        }
+
+        databaseBuilder.CreateFoodTable();
+        assertTrue(databaseBuilder.CheckIfTableExists(foodTableName));
     }
 
     @After
@@ -77,7 +93,11 @@ public class TestDbBuilder {
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
         if(databaseBuilder.CheckIfDbExists()) {
             Statement statement = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP DATABASE " + databaseName;
+            String sql = "DROP TABLE IF EXISTS " + foodTableName;
+            statement.executeUpdate(sql);
+            sql = "DROP TABLE IF EXISTS " + userTableName;
+            statement.executeUpdate(sql);
+            sql = "DROP DATABASE IF EXISTS " + databaseName;
             statement.executeUpdate(sql);
         }
         assertFalse(databaseBuilder.CheckIfDbExists());
