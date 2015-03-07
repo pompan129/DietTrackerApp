@@ -16,484 +16,486 @@ public class DbParser {
 
     /** Container class with member variables for
      * each field from USDA database
+     *
+     * Note: all values are based on 100g serving
      */
     public class dbFood{
-        private int NDB_No;
-        private String Shrt_Desc;
-        private double Water;
-        private double Energ_Kcal;
-        private double Protein;
-        private double Lipid_Tot;
-        private double Ash;
-        private double Carbohydrt;
-        private double Fiber_TD;
-        private double Sugar_Tot;
-        private double Calcium;
-        private double Iron;
-        private double Magnesium;
-        private double Phosphorus;
-        private double Potassium;
-        private double Sodium;
-        private double Zinc;
-        private double Copper;
-        private double Manganese;
-        private double Selenium;
-        private double Vit_C;
-        private double Thiamin;
-        private double Riboflavin;
-        private double Niacin;
-        private double Panto_acid;
-        private double Vit_B6;
-        private double Folate_Tot;
-        private double Folic_acid;
-        private double Food_Folate;
-        private double Folate_DFE;
-        private double Choline_Tot;
-        private double Vit_B12;
-        private double Vit_A_IU;
-        private double Vit_A_RAE;
-        private double Retinol;
-        private double Alpha_Carot;
-        private double Beta_Carot;
-        private double Beta_Crypt;
-        private double Lycopene;
-        private double LutZea;
-        private double Vit_E;
-        private double Vit_D_mcg;
-        private double Vit_D_IU;
-        private double Vit_K;
-        private double FA_Sat;
-        private double FA_Mono;
-        private double FA_Poly;
-        private double Cholestrl;
-        private double GmWt_1;
-        private String GmWt_Desc1;
-        private double GmWt_2;
-        private String GmWt_Desc2;
-        private double Refuse_Pct;
+        private int id;
+        private String name;
+        private double water;
+        private double calories;
+        private double protein;
+        private double lipidTotal;
+        private double ash;
+        private double carbohydrate;
+        private double dietaryFiber;
+        private double sugarTotal;
+        private double calcium;
+        private double iron;
+        private double magnesium;
+        private double phosphorus;
+        private double potassium;
+        private double sodium;
+        private double zinc;
+        private double copper;
+        private double manganese;
+        private double selenium;
+        private double vitaminC;
+        private double thiamin;
+        private double riboflavin;
+        private double niacin;
+        private double pantothenicAcid;
+        private double vitaminB6;
+        private double folateTotal;
+        private double folicAcid;
+        private double foodFolate;
+        private double folateDfe;
+        private double cholineTotal;
+        private double vitaminB12;
+        private double vitaminAIu;
+        private double vitaminARae;
+        private double retinol;
+        private double alphaCarotene;
+        private double betaCarotene;
+        private double betaCryptoxanthin;
+        private double lycopene;
+        private double luteinZeazanthin;
+        private double vitaminE;
+        private double vitaminDMcg;
+        private double vitaminDIu;
+        private double vitaminK;
+        private double saturatedFat;
+        private double monounsaturatedFat;
+        private double polyunsaturatedFat;
+        private double cholesterol;
+        private double householdWeight1;
+        private String householdWeight1Description;
+        private double householdWeight2;
+        private String householdWeight2Description;
+        private double percentRefuse;
 
-        public int getNDB_No() {
-            return NDB_No;
+        public int getId() {
+            return id;
         }
 
-        public void setNDB_No(int NDB_No) {
-            this.NDB_No = NDB_No;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public String getShrt_Desc() {
-            return Shrt_Desc;
+        public String getName() {
+            return name;
         }
 
-        public void setShrt_Desc(String shrt_Desc) {
-            Shrt_Desc = shrt_Desc;
+        public void setName(String name) {
+            this.name = name;
         }
 
         public double getWater() {
-            return Water;
+            return water;
         }
 
         public void setWater(double water) {
-            Water = water;
+            this.water = water;
         }
 
-        public double getEnerg_Kcal() {
-            return Energ_Kcal;
+        public double getCalories() {
+            return calories;
         }
 
-        public void setEnerg_Kcal(double energ_Kcal) {
-            Energ_Kcal = energ_Kcal;
+        public void setCalories(double calories) {
+            this.calories = calories;
         }
 
         public double getProtein() {
-            return Protein;
+            return protein;
         }
 
         public void setProtein(double protein) {
-            Protein = protein;
+            this.protein = protein;
         }
 
-        public double getLipid_Tot() {
-            return Lipid_Tot;
+        public double getLipidTotal() {
+            return lipidTotal;
         }
 
-        public void setLipid_Tot(double lipid_Tot) {
-            Lipid_Tot = lipid_Tot;
+        public void setLipidTotal(double lipidTotal) {
+            this.lipidTotal = lipidTotal;
         }
 
         public double getAsh() {
-            return Ash;
+            return ash;
         }
 
         public void setAsh(double ash) {
-            Ash = ash;
+            this.ash = ash;
         }
 
-        public double getCarbohydrt() {
-            return Carbohydrt;
+        public double getCarbohydrate() {
+            return carbohydrate;
         }
 
-        public void setCarbohydrt(double carbohydrt) {
-            Carbohydrt = carbohydrt;
+        public void setCarbohydrate(double carbohydrate) {
+            this.carbohydrate = carbohydrate;
         }
 
-        public double getFiber_TD() {
-            return Fiber_TD;
+        public double getDietaryFiber() {
+            return dietaryFiber;
         }
 
-        public void setFiber_TD(double fiber_TD) {
-            Fiber_TD = fiber_TD;
+        public void setDietaryFiber(double dietaryFiber) {
+            this.dietaryFiber = dietaryFiber;
         }
 
-        public double getSugar_Tot() {
-            return Sugar_Tot;
+        public double getSugarTotal() {
+            return sugarTotal;
         }
 
-        public void setSugar_Tot(double sugar_Tot) {
-            Sugar_Tot = sugar_Tot;
+        public void setSugarTotal(double sugarTotal) {
+            this.sugarTotal = sugarTotal;
         }
 
         public double getCalcium() {
-            return Calcium;
+            return calcium;
         }
 
         public void setCalcium(double calcium) {
-            Calcium = calcium;
+            this.calcium = calcium;
         }
 
         public double getIron() {
-            return Iron;
+            return iron;
         }
 
         public void setIron(double iron) {
-            Iron = iron;
+            this.iron = iron;
         }
 
         public double getMagnesium() {
-            return Magnesium;
+            return magnesium;
         }
 
         public void setMagnesium(double magnesium) {
-            Magnesium = magnesium;
+            this.magnesium = magnesium;
         }
 
         public double getPhosphorus() {
-            return Phosphorus;
+            return phosphorus;
         }
 
         public void setPhosphorus(double phosphorus) {
-            Phosphorus = phosphorus;
+            this.phosphorus = phosphorus;
         }
 
         public double getPotassium() {
-            return Potassium;
+            return potassium;
         }
 
         public void setPotassium(double potassium) {
-            Potassium = potassium;
+            this.potassium = potassium;
         }
 
         public double getSodium() {
-            return Sodium;
+            return sodium;
         }
 
         public void setSodium(double sodium) {
-            Sodium = sodium;
+            this.sodium = sodium;
         }
 
         public double getZinc() {
-            return Zinc;
+            return zinc;
         }
 
         public void setZinc(double zinc) {
-            Zinc = zinc;
+            this.zinc = zinc;
         }
 
         public double getCopper() {
-            return Copper;
+            return copper;
         }
 
         public void setCopper(double copper) {
-            Copper = copper;
+            this.copper = copper;
         }
 
         public double getManganese() {
-            return Manganese;
+            return manganese;
         }
 
         public void setManganese(double manganese) {
-            Manganese = manganese;
+            this.manganese = manganese;
         }
 
         public double getSelenium() {
-            return Selenium;
+            return selenium;
         }
 
         public void setSelenium(double selenium) {
-            Selenium = selenium;
+            this.selenium = selenium;
         }
 
-        public double getVit_C() {
-            return Vit_C;
+        public double getVitaminC() {
+            return vitaminC;
         }
 
-        public void setVit_C(double vit_C) {
-            Vit_C = vit_C;
+        public void setVitaminC(double vitaminC) {
+            this.vitaminC = vitaminC;
         }
 
         public double getThiamin() {
-            return Thiamin;
+            return thiamin;
         }
 
         public void setThiamin(double thiamin) {
-            Thiamin = thiamin;
+            this.thiamin = thiamin;
         }
 
         public double getRiboflavin() {
-            return Riboflavin;
+            return riboflavin;
         }
 
         public void setRiboflavin(double riboflavin) {
-            Riboflavin = riboflavin;
+            this.riboflavin = riboflavin;
         }
 
         public double getNiacin() {
-            return Niacin;
+            return niacin;
         }
 
         public void setNiacin(double niacin) {
-            Niacin = niacin;
+            this.niacin = niacin;
         }
 
-        public double getPanto_acid() {
-            return Panto_acid;
+        public double getPantothenicAcid() {
+            return pantothenicAcid;
         }
 
-        public void setPanto_acid(double panto_acid) {
-            Panto_acid = panto_acid;
+        public void setPantothenicAcid(double pantothenicAcid) {
+            this.pantothenicAcid = pantothenicAcid;
         }
 
-        public double getVit_B6() {
-            return Vit_B6;
+        public double getVitaminB6() {
+            return vitaminB6;
         }
 
-        public void setVit_B6(double vit_B6) {
-            Vit_B6 = vit_B6;
+        public void setVitaminB6(double vitaminB6) {
+            this.vitaminB6 = vitaminB6;
         }
 
-        public double getFolate_Tot() {
-            return Folate_Tot;
+        public double getFolateTotal() {
+            return folateTotal;
         }
 
-        public void setFolate_Tot(double folate_Tot) {
-            Folate_Tot = folate_Tot;
+        public void setFolateTotal(double folateTotal) {
+            this.folateTotal = folateTotal;
         }
 
-        public double getFolic_acid() {
-            return Folic_acid;
+        public double getFolicAcid() {
+            return folicAcid;
         }
 
-        public void setFolic_acid(double folic_acid) {
-            Folic_acid = folic_acid;
+        public void setFolicAcid(double folicAcid) {
+            this.folicAcid = folicAcid;
         }
 
-        public double getFood_Folate() {
-            return Food_Folate;
+        public double getFoodFolate() {
+            return foodFolate;
         }
 
-        public void setFood_Folate(double food_Folate) {
-            Food_Folate = food_Folate;
+        public void setFoodFolate(double foodFolate) {
+            this.foodFolate = foodFolate;
         }
 
-        public double getFolate_DFE() {
-            return Folate_DFE;
+        public double getFolateDfe() {
+            return folateDfe;
         }
 
-        public void setFolate_DFE(double folate_DFE) {
-            Folate_DFE = folate_DFE;
+        public void setFolateDfe(double folateDfe) {
+            this.folateDfe = folateDfe;
         }
 
-        public double getCholine_Tot() {
-            return Choline_Tot;
+        public double getCholineTotal() {
+            return cholineTotal;
         }
 
-        public void setCholine_Tot(double choline_Tot) {
-            Choline_Tot = choline_Tot;
+        public void setCholineTotal(double cholineTotal) {
+            this.cholineTotal = cholineTotal;
         }
 
-        public double getVit_B12() {
-            return Vit_B12;
+        public double getVitaminB12() {
+            return vitaminB12;
         }
 
-        public void setVit_B12(double vit_B12) {
-            Vit_B12 = vit_B12;
+        public void setVitaminB12(double vitaminB12) {
+            this.vitaminB12 = vitaminB12;
         }
 
-        public double getVit_A_IU() {
-            return Vit_A_IU;
+        public double getVitaminAIu() {
+            return vitaminAIu;
         }
 
-        public void setVit_A_IU(double vit_A_IU) {
-            Vit_A_IU = vit_A_IU;
+        public void setVitaminAIu(double vitaminAIu) {
+            this.vitaminAIu = vitaminAIu;
         }
 
-        public double getVit_A_RAE() {
-            return Vit_A_RAE;
+        public double getVitaminARae() {
+            return vitaminARae;
         }
 
-        public void setVit_A_RAE(double vit_A_RAE) {
-            Vit_A_RAE = vit_A_RAE;
+        public void setVitaminARae(double vitaminARae) {
+            this.vitaminARae = vitaminARae;
         }
 
         public double getRetinol() {
-            return Retinol;
+            return retinol;
         }
 
         public void setRetinol(double retinol) {
-            Retinol = retinol;
+            this.retinol = retinol;
         }
 
-        public double getAlpha_Carot() {
-            return Alpha_Carot;
+        public double getAlphaCarotene() {
+            return alphaCarotene;
         }
 
-        public void setAlpha_Carot(double alpha_Carot) {
-            Alpha_Carot = alpha_Carot;
+        public void setAlphaCarotene(double alphaCarotene) {
+            this.alphaCarotene = alphaCarotene;
         }
 
-        public double getBeta_Carot() {
-            return Beta_Carot;
+        public double getBetaCarotene() {
+            return betaCarotene;
         }
 
-        public void setBeta_Carot(double beta_Carot) {
-            Beta_Carot = beta_Carot;
+        public void setBetaCarotene(double betaCarotene) {
+            this.betaCarotene = betaCarotene;
         }
 
-        public double getBeta_Crypt() {
-            return Beta_Crypt;
+        public double getBetaCryptoxanthin() {
+            return betaCryptoxanthin;
         }
 
-        public void setBeta_Crypt(double beta_Crypt) {
-            Beta_Crypt = beta_Crypt;
+        public void setBetaCryptoxanthin(double betaCryptoxanthin) {
+            this.betaCryptoxanthin = betaCryptoxanthin;
         }
 
         public double getLycopene() {
-            return Lycopene;
+            return lycopene;
         }
 
         public void setLycopene(double lycopene) {
-            Lycopene = lycopene;
+            this.lycopene = lycopene;
         }
 
-        public double getLutZea() {
-            return LutZea;
+        public double getLuteinZeazanthin() {
+            return luteinZeazanthin;
         }
 
-        public void setLutZea(double lutZea) {
-            LutZea = lutZea;
+        public void setLuteinZeazanthin(double luteinZeazanthin) {
+            this.luteinZeazanthin = luteinZeazanthin;
         }
 
-        public double getVit_E() {
-            return Vit_E;
+        public double getVitaminE() {
+            return vitaminE;
         }
 
-        public void setVit_E(double vit_E) {
-            Vit_E = vit_E;
+        public void setVitaminE(double vitaminE) {
+            this.vitaminE = vitaminE;
         }
 
-        public double getVit_D_mcg() {
-            return Vit_D_mcg;
+        public double getVitaminDMcg() {
+            return vitaminDMcg;
         }
 
-        public void setVit_D_mcg(double vit_D_mcg) {
-            Vit_D_mcg = vit_D_mcg;
+        public void setVitaminDMcg(double vitaminDMcg) {
+            this.vitaminDMcg = vitaminDMcg;
         }
 
-        public double getVit_D_IU() {
-            return Vit_D_IU;
+        public double getVitaminDIu() {
+            return vitaminDIu;
         }
 
-        public void setVit_D_IU(double vit_D_IU) {
-            Vit_D_IU = vit_D_IU;
+        public void setVitaminDIu(double vitaminDIu) {
+            this.vitaminDIu = vitaminDIu;
         }
 
-        public double getVit_K() {
-            return Vit_K;
+        public double getVitaminK() {
+            return vitaminK;
         }
 
-        public void setVit_K(double vit_K) {
-            Vit_K = vit_K;
+        public void setVitaminK(double vitaminK) {
+            this.vitaminK = vitaminK;
         }
 
-        public double getFA_Sat() {
-            return FA_Sat;
+        public double getSaturatedFat() {
+            return saturatedFat;
         }
 
-        public void setFA_Sat(double FA_Sat) {
-            this.FA_Sat = FA_Sat;
+        public void setSaturatedFat(double saturatedFat) {
+            this.saturatedFat = saturatedFat;
         }
 
-        public double getFA_Mono() {
-            return FA_Mono;
+        public double getMonounsaturatedFat() {
+            return monounsaturatedFat;
         }
 
-        public void setFA_Mono(double FA_Mono) {
-            this.FA_Mono = FA_Mono;
+        public void setMonounsaturatedFat(double monounsaturatedFat) {
+            this.monounsaturatedFat = monounsaturatedFat;
         }
 
-        public double getFA_Poly() {
-            return FA_Poly;
+        public double getPolyunsaturatedFat() {
+            return polyunsaturatedFat;
         }
 
-        public void setFA_Poly(double FA_Poly) {
-            this.FA_Poly = FA_Poly;
+        public void setPolyunsaturatedFat(double polyunsaturatedFat) {
+            this.polyunsaturatedFat = polyunsaturatedFat;
         }
 
-        public double getCholestrl() {
-            return Cholestrl;
+        public double getCholesterol() {
+            return cholesterol;
         }
 
-        public void setCholestrl(double cholestrl) {
-            Cholestrl = cholestrl;
+        public void setCholesterol(double cholesterol) {
+            this.cholesterol = cholesterol;
         }
 
-        public double getGmWt_1() {
-            return GmWt_1;
+        public double getHouseholdWeight1() {
+            return householdWeight1;
         }
 
-        public void setGmWt_1(double gmWt_1) {
-            GmWt_1 = gmWt_1;
+        public void setHouseholdWeight1(double householdWeight1) {
+            this.householdWeight1 = householdWeight1;
         }
 
-        public String getGmWt_Desc1() {
-            return GmWt_Desc1;
+        public String getHouseholdWeight1Description() {
+            return householdWeight1Description;
         }
 
-        public void setGmWt_Desc1(String gmWt_Desc1) {
-            GmWt_Desc1 = gmWt_Desc1;
+        public void setHouseholdWeight1Description(String householdWeight1Description) {
+            this.householdWeight1Description = householdWeight1Description;
         }
 
-        public double getGmWt_2() {
-            return GmWt_2;
+        public double getHouseholdWeight2() {
+            return householdWeight2;
         }
 
-        public void setGmWt_2(double gmWt_2) {
-            GmWt_2 = gmWt_2;
+        public void setHouseholdWeight2(double householdWeight2) {
+            this.householdWeight2 = householdWeight2;
         }
 
-        public String getGmWt_Desc2() {
-            return GmWt_Desc2;
+        public String getHouseholdWeight2Description() {
+            return householdWeight2Description;
         }
 
-        public void setGmWt_Desc2(String gmWt_Desc2) {
-            GmWt_Desc2 = gmWt_Desc2;
+        public void setHouseholdWeight2Description(String householdWeight2Description) {
+            this.householdWeight2Description = householdWeight2Description;
         }
 
-        public double getRefuse_Pct() {
-            return Refuse_Pct;
+        public double getPercentRefuse() {
+            return percentRefuse;
         }
 
-        public void setRefuse_Pct(double refuse_Pct) {
-            Refuse_Pct = refuse_Pct;
+        public void setPercentRefuse(double percentRefuse) {
+            this.percentRefuse = percentRefuse;
         }
     }
 
@@ -537,16 +539,16 @@ public class DbParser {
                     }
                 }
 
-                databaseFood.setNDB_No(Integer.parseInt(delimited[0]));
-                databaseFood.setShrt_Desc(delimited[1]);
+                databaseFood.setId(Integer.parseInt(delimited[0]));
+                databaseFood.setName(delimited[1]);
                 databaseFood.setWater(Double.parseDouble(delimited[2]));
-                databaseFood.setEnerg_Kcal(Double.parseDouble(delimited[3]));
+                databaseFood.setCalories(Double.parseDouble(delimited[3]));
                 databaseFood.setProtein(Double.parseDouble(delimited[4]));
-                databaseFood.setLipid_Tot(Double.parseDouble(delimited[5]));
+                databaseFood.setLipidTotal(Double.parseDouble(delimited[5]));
                 databaseFood.setAsh(Double.parseDouble(delimited[6]));
-                databaseFood.setCarbohydrt(Double.parseDouble(delimited[7]));
-                databaseFood.setFiber_TD(Double.parseDouble(delimited[8]));
-                databaseFood.setSugar_Tot(Double.parseDouble(delimited[9]));
+                databaseFood.setCarbohydrate(Double.parseDouble(delimited[7]));
+                databaseFood.setDietaryFiber(Double.parseDouble(delimited[8]));
+                databaseFood.setSugarTotal(Double.parseDouble(delimited[9]));
                 databaseFood.setCalcium(Double.parseDouble(delimited[10]));
                 databaseFood.setIron(Double.parseDouble(delimited[11]));
                 databaseFood.setMagnesium(Double.parseDouble(delimited[12]));
@@ -557,39 +559,39 @@ public class DbParser {
                 databaseFood.setCopper(Double.parseDouble(delimited[17]));
                 databaseFood.setManganese(Double.parseDouble(delimited[18]));
                 databaseFood.setSelenium(Double.parseDouble(delimited[19]));
-                databaseFood.setVit_C(Double.parseDouble(delimited[20]));
+                databaseFood.setVitaminC(Double.parseDouble(delimited[20]));
                 databaseFood.setThiamin(Double.parseDouble(delimited[21]));
                 databaseFood.setRiboflavin(Double.parseDouble(delimited[22]));
                 databaseFood.setNiacin(Double.parseDouble(delimited[23]));
-                databaseFood.setPanto_acid(Double.parseDouble(delimited[24]));
-                databaseFood.setVit_B6(Double.parseDouble(delimited[25]));
-                databaseFood.setFolate_Tot(Double.parseDouble(delimited[26]));
-                databaseFood.setFolic_acid(Double.parseDouble(delimited[27]));
-                databaseFood.setFood_Folate(Double.parseDouble(delimited[28]));
-                databaseFood.setFolate_DFE(Double.parseDouble(delimited[29]));
-                databaseFood.setCholine_Tot(Double.parseDouble(delimited[30]));
-                databaseFood.setVit_B12(Double.parseDouble(delimited[31]));
-                databaseFood.setVit_A_IU(Double.parseDouble(delimited[32]));
-                databaseFood.setVit_A_RAE(Double.parseDouble(delimited[33]));
+                databaseFood.setPantothenicAcid(Double.parseDouble(delimited[24]));
+                databaseFood.setVitaminB6(Double.parseDouble(delimited[25]));
+                databaseFood.setFolateTotal(Double.parseDouble(delimited[26]));
+                databaseFood.setFolicAcid(Double.parseDouble(delimited[27]));
+                databaseFood.setFoodFolate(Double.parseDouble(delimited[28]));
+                databaseFood.setFolateDfe(Double.parseDouble(delimited[29]));
+                databaseFood.setCholineTotal(Double.parseDouble(delimited[30]));
+                databaseFood.setVitaminB12(Double.parseDouble(delimited[31]));
+                databaseFood.setVitaminAIu(Double.parseDouble(delimited[32]));
+                databaseFood.setVitaminARae(Double.parseDouble(delimited[33]));
                 databaseFood.setRetinol(Double.parseDouble(delimited[34]));
-                databaseFood.setAlpha_Carot(Double.parseDouble(delimited[35]));
-                databaseFood.setBeta_Carot(Double.parseDouble(delimited[36]));
-                databaseFood.setBeta_Crypt(Double.parseDouble(delimited[37]));
+                databaseFood.setAlphaCarotene(Double.parseDouble(delimited[35]));
+                databaseFood.setBetaCarotene(Double.parseDouble(delimited[36]));
+                databaseFood.setBetaCryptoxanthin(Double.parseDouble(delimited[37]));
                 databaseFood.setLycopene(Double.parseDouble(delimited[38]));
-                databaseFood.setLutZea(Double.parseDouble(delimited[39]));
-                databaseFood.setVit_E(Double.parseDouble(delimited[40]));
-                databaseFood.setVit_D_mcg(Double.parseDouble(delimited[41]));
-                databaseFood.setVit_D_IU(Double.parseDouble(delimited[42]));
-                databaseFood.setVit_K(Double.parseDouble(delimited[43]));
-                databaseFood.setFA_Sat(Double.parseDouble(delimited[44]));
-                databaseFood.setFA_Mono(Double.parseDouble(delimited[45]));
-                databaseFood.setFA_Poly(Double.parseDouble(delimited[46]));
-                databaseFood.setCholestrl(Double.parseDouble(delimited[47]));
-                databaseFood.setGmWt_1(Double.parseDouble(delimited[48]));
-                databaseFood.setGmWt_Desc1(delimited[49]);
-                databaseFood.setGmWt_2(Double.parseDouble(delimited[50]));
-                databaseFood.setGmWt_Desc2(delimited[51]);
-                databaseFood.setRefuse_Pct(Double.parseDouble(delimited[52]));
+                databaseFood.setLuteinZeazanthin(Double.parseDouble(delimited[39]));
+                databaseFood.setVitaminE(Double.parseDouble(delimited[40]));
+                databaseFood.setVitaminDMcg(Double.parseDouble(delimited[41]));
+                databaseFood.setVitaminDIu(Double.parseDouble(delimited[42]));
+                databaseFood.setVitaminK(Double.parseDouble(delimited[43]));
+                databaseFood.setSaturatedFat(Double.parseDouble(delimited[44]));
+                databaseFood.setMonounsaturatedFat(Double.parseDouble(delimited[45]));
+                databaseFood.setPolyunsaturatedFat(Double.parseDouble(delimited[46]));
+                databaseFood.setCholesterol(Double.parseDouble(delimited[47]));
+                databaseFood.setHouseholdWeight1(Double.parseDouble(delimited[48]));
+                databaseFood.setHouseholdWeight1Description(delimited[49]);
+                databaseFood.setHouseholdWeight2(Double.parseDouble(delimited[50]));
+                databaseFood.setHouseholdWeight2Description(delimited[51]);
+                databaseFood.setPercentRefuse(Double.parseDouble(delimited[52]));
 
                 databaseFoodList.add(databaseFood);
             }

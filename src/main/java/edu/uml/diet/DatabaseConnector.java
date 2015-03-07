@@ -12,6 +12,7 @@ import org.hibernate.service.ServiceRegistryBuilder;
  */
 public class DatabaseConnector {
     private static Configuration configuration;
+    private static SessionFactory sessionFactory;
 
     /**
      *
@@ -75,5 +76,22 @@ public class DatabaseConnector {
             throw new DatabaseConnectorException("Could not connect to database." + e.getMessage(), e);
         }
         return connection;
+    }
+
+    /*
+  * @return SessionFactory for use with database transactions
+  */
+    public static SessionFactory getSessionFactory() {
+
+        if (sessionFactory == null) {
+            Configuration configuration = getDatabaseConfiguration();
+
+            ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
+                    .applySettings(configuration.getProperties())
+                    .buildServiceRegistry();
+
+            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+        }
+        return sessionFactory;
     }
 }
