@@ -5,6 +5,8 @@ import javax.servlet.http.*;
 import java.io.*;
 
 /**
+ * Servlet for handling user login attempts
+ *
  * Created by adil on 3/1/15.
  */
 public class LoginServlet extends HttpServlet {

@@ -5,6 +5,8 @@ import javax.servlet.http.*;
 import java.io.*;
 
 /**
+ * Servlet for handling registration (creating a new user)
+ *
  * Created by adil on 3/1/15.
  */
 public class RegistrationServlet extends HttpServlet {
