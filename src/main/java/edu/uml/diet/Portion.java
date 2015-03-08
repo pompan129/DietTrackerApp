@@ -1,5 +1,7 @@
 package edu.uml.diet;
 
+import java.math.BigDecimal;
+
 /**
  * Container class to represent one food item and it's portion size
  */
@@ -18,9 +20,16 @@ public class Portion {
         this.portionSize = portionSize;
     }
 
-    public BasicFood getFood() {
-        return food;
-    }
+    public BasicFood getFood() {return food; }
+
+    public int getCalories(){return (int) (food.getCalories() * portionSize); }
+
+    public Double getProtein(){return  (food.getProtein() * portionSize);}
+
+    public Double getCarbs(){return (food.getCarbs() * portionSize);}
+
+    public Double getFat(){return (food.getFat() * portionSize);}
+
 
     public Double getPortionSize() {
         return portionSize;
