@@ -21,6 +21,17 @@ public class DbFoodService implements PersistanceFoodService {
     public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
     private String tableName = "FOOD";
 
+    public DbFoodService() throws DatabaseConnectorException, IOException, PersistanceFoodServiceException,
+            SQLException, DuplicateFoodException{
+        if (!databaseBuilder.checkIfDbExists()) {
+            databaseBuilder.createDatabase();
+        }
+        if (!databaseBuilder.checkIfTableExists(tableName)) {
+            databaseBuilder.createFoodTable();
+            populateFoodDatabase();
+        }
+    }
+
     /**
      *
      * @param food food item being searched for as String
@@ -31,10 +42,10 @@ public class DbFoodService implements PersistanceFoodService {
         BasicFood foundFood = null;
         try{
             connection = databaseConnector.getDatabaseConnection();
-            if (!databaseBuilder.CheckIfDbExists()) {
+            if (!databaseBuilder.checkIfDbExists()) {
                 return null;
             }
-            if (!databaseBuilder.CheckIfTableExists(tableName)) {
+            if (!databaseBuilder.checkIfTableExists(tableName)) {
                 return null;
             }
             Session session = databaseConnector.getSessionFactory().openSession();
@@ -66,15 +77,15 @@ public class DbFoodService implements PersistanceFoodService {
      * @param food food item being searched for as String
      * @return list of foods like food parameter
      */
-    public List<BasicFood> searchForFoodList(String food) throws PersistanceFoodServiceException, SQLException {
+    public List<BasicFood> searchForFoodList(String food) throws PersistanceFoodServiceException, SQLException{
         Connection connection = null;
         List<BasicFood> foundFood = null;
         try{
             connection = databaseConnector.getDatabaseConnection();
-            if (!databaseBuilder.CheckIfDbExists()) {
+            if (!databaseBuilder.checkIfDbExists()) {
                 return null;
             }
-            if (!databaseBuilder.CheckIfTableExists(tableName)) {
+            if (!databaseBuilder.checkIfTableExists(tableName)) {
                 return null;
             }
             Session session = databaseConnector.getSessionFactory().openSession();
@@ -178,11 +189,11 @@ public class DbFoodService implements PersistanceFoodService {
         Session session = null;
         try {
             connection = databaseConnector.getDatabaseConnection();
-            if (!databaseBuilder.CheckIfDbExists()) {
-                databaseBuilder.CreateDatabase();
+            if (!databaseBuilder.checkIfDbExists()) {
+                databaseBuilder.createDatabase();
             }
-            if (!databaseBuilder.CheckIfTableExists(tableName)) {
-                databaseBuilder.CreateFoodTable();
+            if (!databaseBuilder.checkIfTableExists(tableName)) {
+                databaseBuilder.createFoodTable();
             }
 
             session = databaseConnector.getSessionFactory().openSession();

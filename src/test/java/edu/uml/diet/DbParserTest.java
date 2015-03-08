@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class DbParserTest {
     String filename;
     String foodName;
-    DbParser dbp;
+    DbParser dbParser;
     File file;
     int lengthOfFile;
 
@@ -30,14 +30,14 @@ public class DbParserTest {
         /**get length of file
          *
          */
-        FileReader fr = new FileReader(file);
-        LineNumberReader lnr = new LineNumberReader(fr);
-        while (lnr.readLine() != null) {
+        FileReader fileReader = new FileReader(file);
+        LineNumberReader lineNumberReader = new LineNumberReader(fileReader);
+        while (lineNumberReader.readLine() != null) {
             lengthOfFile++;
         }
 
 
-        dbp = new DbParser();
+        dbParser = new DbParser();
         foodName = "TURTLE,GREEN,RAW";
     }
 
@@ -47,7 +47,7 @@ public class DbParserTest {
      */
     @Test
     public void testImportDatabase() throws IOException{
-        ArrayList<DbParser.dbFood> dbFoodList = dbp.importDatabase(filename);
+        ArrayList<DbParser.dbFood> dbFoodList = dbParser.importDatabase(filename);
 
         //test that all lines imported
         assertEquals(lengthOfFile,dbFoodList.size());

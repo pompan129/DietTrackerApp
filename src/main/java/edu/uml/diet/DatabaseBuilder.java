@@ -69,7 +69,7 @@ public class DatabaseBuilder {
      * @return          returns true if specified database exists
      * @throws DatabaseConnectorException
      */
-    public boolean CheckIfDbExists() throws DatabaseConnectorException {
+    public boolean checkIfDbExists() throws DatabaseConnectorException {
         Statement statement = null;
         Connection connection = databaseConnector.getServerConnection();
         boolean exists = false;
@@ -108,7 +108,7 @@ public class DatabaseBuilder {
      * @return          returns true if specified database exists
      * @throws DatabaseConnectorException
      */
-    public boolean CheckIfTableExists(String tableName) throws DatabaseConnectorException{
+    public boolean checkIfTableExists(String tableName) throws DatabaseConnectorException{
         Statement statement = null;
         Connection connection = databaseConnector.getDatabaseConnection();
         boolean exists = false;
@@ -146,7 +146,7 @@ public class DatabaseBuilder {
      * Method used to create local database
      * @throws DatabaseConnectorException
      */
-    public void CreateDatabase() throws DatabaseConnectorException{
+    public void createDatabase() throws DatabaseConnectorException{
         Statement stmt = null;
         Connection conn = databaseConnector.getServerConnection();
 
@@ -176,7 +176,7 @@ public class DatabaseBuilder {
      *  Method used to create USER database table
      * @throws DatabaseConnectorException
      */
-    public void CreateUserTable() throws DatabaseConnectorException{
+    public void createUserTable() throws DatabaseConnectorException{
         Connection connection = databaseConnector.getDatabaseConnection();
         Statement statement = null;
 
@@ -211,7 +211,7 @@ public class DatabaseBuilder {
      * Method used to create FOOD database table
      * @throws DatabaseConnectorException
      */
-    public void CreateFoodTable() throws DatabaseConnectorException {
+    public void createFoodTable() throws DatabaseConnectorException {
         Connection connection = databaseConnector.getDatabaseConnection();
         Statement statement = null;
 

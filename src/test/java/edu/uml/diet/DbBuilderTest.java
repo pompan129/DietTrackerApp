@@ -41,57 +41,57 @@ public class DbBuilderTest {
     @Test
     public void testCheckIfDbExistsNegative()throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        assertFalse(databaseBuilder.CheckIfDbExists());
+        assertFalse(databaseBuilder.checkIfDbExists());
     }
 
     @Test
     public void testCreateDatabase()throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        assertFalse(databaseBuilder.CheckIfDbExists());
+        assertFalse(databaseBuilder.checkIfDbExists());
 
-        databaseBuilder.CreateDatabase();
-        assertTrue(databaseBuilder.CheckIfDbExists());
+        databaseBuilder.createDatabase();
+        assertTrue(databaseBuilder.checkIfDbExists());
     }
 
     @Test
     public void testCheckIfTableExistsNegative()throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
-        if(!databaseBuilder.CheckIfDbExists()) {
-            databaseBuilder.CreateDatabase();
+        if(!databaseBuilder.checkIfDbExists()) {
+            databaseBuilder.createDatabase();
         }
 
-        assertFalse(databaseBuilder.CheckIfTableExists(userTableName));
+        assertFalse(databaseBuilder.checkIfTableExists(userTableName));
     }
 
     @Test
     public void testCreateUserTable()throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
-        if(!databaseBuilder.CheckIfDbExists()){
-            databaseBuilder.CreateDatabase();
+        if(!databaseBuilder.checkIfDbExists()){
+            databaseBuilder.createDatabase();
         }
 
-        databaseBuilder.CreateUserTable();
-        assertTrue(databaseBuilder.CheckIfTableExists(userTableName));
+        databaseBuilder.createUserTable();
+        assertTrue(databaseBuilder.checkIfTableExists(userTableName));
     }
 
     @Test
     public void testCreateFoodTable()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
-        if(!databaseBuilder.CheckIfDbExists()){
-            databaseBuilder.CreateDatabase();
+        if(!databaseBuilder.checkIfDbExists()){
+            databaseBuilder.createDatabase();
         }
 
-        databaseBuilder.CreateFoodTable();
-        assertTrue(databaseBuilder.CheckIfTableExists(foodTableName));
+        databaseBuilder.createFoodTable();
+        assertTrue(databaseBuilder.checkIfTableExists(foodTableName));
     }
 
     @After
     public void teardown() throws DatabaseConnectorException, SQLException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        if(databaseBuilder.CheckIfDbExists()) {
+        if(databaseBuilder.checkIfDbExists()) {
             Statement statement = databaseConnector.getDatabaseConnection().createStatement();
             String sql = "DROP TABLE IF EXISTS " + foodTableName;
             statement.executeUpdate(sql);
@@ -100,7 +100,7 @@ public class DbBuilderTest {
             sql = "DROP DATABASE IF EXISTS " + databaseName;
             statement.executeUpdate(sql);
         }
-        assertFalse(databaseBuilder.CheckIfDbExists());
+        assertFalse(databaseBuilder.checkIfDbExists());
     }
 
 }
