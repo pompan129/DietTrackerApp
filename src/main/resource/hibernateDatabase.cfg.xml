@@ -20,6 +20,7 @@
             PASSWORD
         </property>
 
-        <mapping class="edu.uml.diet.models.User"/>
+        <mapping class="edu.uml.diet.model.User"/>
+        <mapping class="edu.uml.diet.model.BasicFood"/>
     </session-factory>
 </hibernate-configuration>

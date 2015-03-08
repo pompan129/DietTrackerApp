@@ -25,11 +25,11 @@ public class DbUserServices implements PersistanceUserServices {
      */
     public void createUser(String username, String password)throws PersistanceUserServicesException, DuplicateUserException{
         try(Connection connection = databaseConnector.getDatabaseConnection()){
-            if (!databaseBuilder.CheckIfDbExists()) {
-                databaseBuilder.CreateDatabase();
+            if (!databaseBuilder.checkIfDbExists()) {
+                databaseBuilder.createDatabase();
             }
-            if (!databaseBuilder.CheckIfTableExists(tableName)) {
-                databaseBuilder.CreateUserTable();
+            if (!databaseBuilder.checkIfTableExists(tableName)) {
+                databaseBuilder.createUserTable();
             }
 
             if (!verifyUsername(username)) {
