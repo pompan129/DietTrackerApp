@@ -14,13 +14,13 @@ public class BasicFoodService implements FoodService{
 
 
     public Portion foodSearch(String food) {
-        return new Portion(persistanceFoodService.SearchForFood(food));
+        return new Portion(persistanceFoodService.searchForFood(food));
     }
 
     @Override
     public List<Portion> foodListSearch(String food) {
         ArrayList<Portion> portionList =  new ArrayList<Portion>();
-        List<BasicFood> basicFoodList = persistanceFoodService.SearchForFoodList(food);
+        List<BasicFood> basicFoodList = persistanceFoodService.searchForFoodList(food);
          new BasicFood(food,1,1,1,1);
         for(BasicFood basicFood: basicFoodList){
             portionList.add(new Portion(basicFood));
