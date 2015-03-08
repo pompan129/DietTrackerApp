@@ -10,4 +10,9 @@ public class PersistanceServiceFactory {
     public static PersistanceUserServices getPersistanceUserServicesInstance(){
         return new DbUserServices();
     }
+
+    public static PersistanceFoodService getPersistanceFoodServiceInstance(){
+
+        return new PeristanceFoodService_STUB();
+    }
 }

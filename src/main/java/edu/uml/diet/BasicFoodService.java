@@ -8,19 +8,20 @@ import java.util.List;
  */
 public class BasicFoodService implements FoodService{
 
+   PersistanceFoodService persistanceFoodService = PersistanceServiceFactory.getPersistanceFoodServiceInstance();
 
-    @Override
+
     public Portion foodSearch(String food) {
-        return new Portion(new BasicFood(food, 1,1,1,1));
+        return new Portion(persistanceFoodService.SearchForFood(food));
     }
 
     @Override
     public List<Portion> foodListSearch(String food) {
         ArrayList<Portion> portionList =  new ArrayList<Portion>();
+        List<BasicFood> basicFoodList = persistanceFoodService.SearchForFoodList(food);
          new BasicFood(food,1,1,1,1);
-        for(int i = 0; i<10;i++){
-           Portion portion = new Portion(new BasicFood(food+i, 1,1,1,1));
-            portionList.add(portion);
+        for(BasicFood basicFood: basicFoodList){
+            portionList.add(new Portion(basicFood));
         }
         return portionList;
     }
