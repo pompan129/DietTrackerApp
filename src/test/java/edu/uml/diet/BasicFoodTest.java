@@ -4,6 +4,7 @@ package edu.uml.diet;
  * Created by Kurt Johnson on 2/8/2015.
  */
 
+import edu.uml.diet.model.BasicFood;
 import org.junit.Before;
 import org.junit.Test;
 

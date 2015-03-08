@@ -9,12 +9,12 @@ import java.util.List;
 public class PeristanceFoodService_STUB implements PersistanceFoodService{
 
     @Override
-    public BasicFood SearchForFood(String food) {
+    public BasicFood searchForFood(String food) {
         return new BasicFood(food,100,1,1,1);
     }
 
     @Override
-    public List<BasicFood> SearchForFoodList(String food) {
+    public List<BasicFood> searchForFoodList(String food) {
         ArrayList<BasicFood> basicFoods =  new ArrayList<BasicFood>();
         for(int i = 0; i<10;i++){
 

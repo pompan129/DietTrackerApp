@@ -69,7 +69,7 @@ public class DatabaseBuilder {
      * @return          returns true if specified database exists
      * @throws DatabaseConnectorException
      */
-    public boolean CheckIfDbExists() throws DatabaseConnectorException {
+    public boolean checkIfDbExists() throws DatabaseConnectorException {
         Statement statement = null;
         Connection connection = databaseConnector.getServerConnection();
         boolean exists = false;
@@ -77,8 +77,8 @@ public class DatabaseBuilder {
             ResultSet resultSet = connection.getMetaData().getCatalogs();
 
             while(resultSet.next()){
-                String databaseName = resultSet.getString(1);
-                if (databaseName.equals(this.databaseName)){
+                String databaseName = resultSet.getString(1).toLowerCase();
+                if (databaseName.equals(this.databaseName.toLowerCase())){
                     exists = true;
                 }
             }
@@ -108,7 +108,7 @@ public class DatabaseBuilder {
      * @return          returns true if specified database exists
      * @throws DatabaseConnectorException
      */
-    public boolean CheckIfTableExists(String tableName) throws DatabaseConnectorException{
+    public boolean checkIfTableExists(String tableName) throws DatabaseConnectorException{
         Statement statement = null;
         Connection connection = databaseConnector.getDatabaseConnection();
         boolean exists = false;
@@ -117,8 +117,8 @@ public class DatabaseBuilder {
             ResultSet resultSet = metaData.getTables(null, null, "%", null);
 
             while(resultSet.next()){
-                String tName = resultSet.getString(3);
-                if (tName.equals(tableName)){
+                String tName = resultSet.getString(3).toLowerCase();
+                if (tName.equals(tableName.toLowerCase())){
                     exists =  true;
                 }
             }
@@ -146,7 +146,7 @@ public class DatabaseBuilder {
      * Method used to create local database
      * @throws DatabaseConnectorException
      */
-    public void CreateDatabase() throws DatabaseConnectorException{
+    public void createDatabase() throws DatabaseConnectorException{
         Statement stmt = null;
         Connection conn = databaseConnector.getServerConnection();
 
@@ -173,10 +173,10 @@ public class DatabaseBuilder {
     }
 
     /**
-     *  Method used to create User database table
+     *  Method used to create USER database table
      * @throws DatabaseConnectorException
      */
-    public void CreateUserTable() throws DatabaseConnectorException{
+    public void createUserTable() throws DatabaseConnectorException{
         Connection connection = databaseConnector.getDatabaseConnection();
         Statement statement = null;
 
@@ -202,6 +202,39 @@ public class DatabaseBuilder {
                     connection.close();
             }
             catch(SQLException e){
+                throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
+            }
+        }
+    }
+
+    /**
+     * Method used to create FOOD database table
+     * @throws DatabaseConnectorException
+     */
+    public void createFoodTable() throws DatabaseConnectorException {
+        Connection connection = databaseConnector.getDatabaseConnection();
+        Statement statement = null;
+
+        try {
+            statement = connection.createStatement();
+            String sql = "CREATE TABLE FOOD (" +
+                    "id INTEGER not NULL AUTO_INCREMENT, " +
+                    "name VARCHAR(255)," +
+                    "calories VARCHAR(255)," +
+                    "fat VARCHAR(255)," +
+                    "carbohydrates VARCHAR(255)," +
+                    "protein VARCHAR(255), " +
+                    "PRIMARY KEY(id))";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
+        } finally {
+            try {
+                if (statement != null)
+                    statement.close();
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException e) {
                 throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
             }
         }

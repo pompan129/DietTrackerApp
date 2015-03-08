@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Raymond on 2/22/2015.
  */
-public class TestDatabaseConnector {
+public class DatabaseConnectorTest {
     private DatabaseConnector databaseConnector;
 
     @Before
