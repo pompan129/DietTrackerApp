@@ -1,5 +1,11 @@
 package edu.uml.diet;
 
+import edu.uml.diet.model.BasicFood;
+import org.hibernate.Session;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +14,32 @@ import java.util.List;
  */
 public interface PersistanceFoodService {
 
-    //method to return SINGLE food information to Logic Layer
-    BasicFood SearchForFood(String food);
+    /**
+     *
+     * @param food food item being searched for as String
+     * @return BasicFood object
+     */
+    public BasicFood searchForFood(String food)throws PersistanceFoodServiceException, SQLException;
 
-    //method to return LIST of food information to Logic Layer
-    List<BasicFood> SearchForFoodList(String food);
+    /**
+     *
+     * @param food food item being searched for as String
+     * @return list of BasicFood objects
+     */
+    public List<BasicFood> searchForFoodList(String food)throws PersistanceFoodServiceException, SQLException;
+
+    /**
+     *
+     * @param basicFood adds a new food item to the database
+     */
+    public void createFood(BasicFood basicFood, Connection connection, Session session)
+            throws PersistanceFoodServiceException, DuplicateFoodException, IOException, SQLException;
+
+    /**
+     *  Method used to populate food database with data from FDA database
+     * @throws IOException
+     * @throws PersistanceFoodServiceException
+     */
+    public void populateFoodDatabase() throws IOException, PersistanceFoodServiceException,
+            SQLException, DatabaseConnectorException, DuplicateFoodException;
 }
