@@ -2,11 +2,13 @@ package edu.uml.diet;
 
 
 import edu.uml.diet.model.BasicFood;
+import org.hibernate.Session;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -26,7 +28,8 @@ public class DbFoodServiceTest {
     private BasicFood basicFood4;
     private List<BasicFood> basicFoodList;
     private DatabaseBuilder databaseBuilder;
-    private DbFoodService dbFoodService;
+    private Connection connection;
+    private Session session;
 
     @Before
     public void setup()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
@@ -35,46 +38,47 @@ public class DbFoodServiceTest {
         basicFood1 = new BasicFood("cheese1", 1, 2, 3, 4);
         basicFood2 = new BasicFood("cheese2", 1, 2, 3, 4);
         basicFood3 = new BasicFood("cheese3", 1, 2, 3, 4);
-        dbFoodService = new DbFoodService();
-
         if (!databaseBuilder.CheckIfDbExists()) {
             databaseBuilder.CreateDatabase();
         }
         if (!databaseBuilder.CheckIfTableExists("FOOD")) {
             databaseBuilder.CreateFoodTable();
         }
+        connection = databaseConnector.getDatabaseConnection();
+        session = databaseConnector.getSessionFactory().openSession();
     }
 
     @Test
     public void testCreateFood() throws PersistanceFoodServiceException,IOException, DuplicateFoodException, SQLException{
         DbFoodService dbFoodService = new DbFoodService();
-        dbFoodService.CreateFood(basicFood1);
-        BasicFood basicFood = dbFoodService.SearchForFood("cheese1");
+        dbFoodService.createFood(basicFood1, connection, session);
+        BasicFood basicFood = dbFoodService.searchForFood("cheese1");
         assertTrue(basicFood != null);
     }
 
     @Test
     public void testSearchForFood() throws PersistanceFoodServiceException, IOException, DuplicateFoodException, SQLException{
         DbFoodService dbFoodService = new DbFoodService();
-        dbFoodService.CreateFood(basicFood1);
-        basicFood4 = dbFoodService.SearchForFood("%");
-        assertTrue(basicFood1.equals(basicFood2));
+        dbFoodService.createFood(basicFood1, connection, session);
+        basicFood4 = dbFoodService.searchForFood("%");
+        assertTrue(basicFood1.equals(basicFood4));
     }
 
     @Test
     public void testSearchForFoodList()throws PersistanceFoodServiceException, IOException, DuplicateFoodException, SQLException{
         DbFoodService dbFoodService = new DbFoodService();
-        dbFoodService.CreateFood(basicFood1);
-        dbFoodService.CreateFood(basicFood2);
-        dbFoodService.CreateFood(basicFood3);
-        basicFoodList = dbFoodService.SearchForFoodList("%");
+        dbFoodService.createFood(basicFood1, connection, session);
+        dbFoodService.createFood(basicFood2, connection, session);
+        dbFoodService.createFood(basicFood3, connection, session);
+        basicFoodList = dbFoodService.searchForFoodList("%");
         assertTrue(basicFoodList.size() == 3);
     }
 
     @Test
-    public void testPopulateFoodDatabase()throws PersistanceFoodServiceException, IOException, SQLException{
+    public void testPopulateFoodDatabase()throws PersistanceFoodServiceException, IOException,
+            SQLException, DatabaseConnectorException, DuplicateFoodException{
         DbFoodService dbFoodService = new DbFoodService();
-        dbFoodService.PopulateFoodDatabase();
+        dbFoodService.populateFoodDatabase();
     }
 
 

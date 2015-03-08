@@ -50,6 +50,7 @@ public class BasicFood {
      * @return user ID number as integer
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id", nullable = false)
     public int getId(){
         return id;
