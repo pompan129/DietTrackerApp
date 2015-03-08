@@ -27,6 +27,19 @@ public class BasicUserService implements UserService {
     }
 
     /**
+     * constructor method. for test. USE FACTORY INSTEAD
+     *
+     */
+    public BasicUserService(PersistanceUserServices persistanceUserService){
+        this.persistanceUserService = persistanceUserService;
+        //setup encryption
+        digester = new StandardStringDigester();
+        digester.setAlgorithm(ALGORITHM);
+        digester.setIterations(ITERATIONS);
+
+    }
+
+    /**
      * method to verify password against persistence layer. converts password into encrypted Key and then
      * compares that key with the password key stored in the persistence layer. uses jasypt library
      * @param username
