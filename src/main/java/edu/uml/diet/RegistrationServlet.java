@@ -23,8 +23,8 @@ public class RegistrationServlet extends HttpServlet {
         email = request.getParameter("email");
         password = request.getParameter("password");
 
-        BasicUserService basicUserService = new BasicUserService(new DbUserServices());
-        //TODO: remove
+        UserService userService = ServiceFactory.getUserServiceInstance();
+       /*
         DatabaseBuilder builder = new DatabaseBuilder(new DatabaseConnector(), "DietTracker");
         try {
             if(!builder.CheckIfDbExists()) {
@@ -41,18 +41,15 @@ public class RegistrationServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        //TODO: End remove
-
+         */
         try {
-            basicUserService.createUser(email, password);
-            out.println("successfully created. You will now be directed back to login");
-        } catch (PersistanceUserServicesException e) {
-            e.printStackTrace(out);
-        } catch (DuplicateUserException e) {
-            e.printStackTrace(out);
+            userService.createUser(email, password);
+        } catch (UserServiceException e) {
+            System.err.println("Error creating user");
+            e.printStackTrace();
         }
-
-
+        out.println("successfully created. You will now be directed back to login");
+        response.setHeader("Location", "./login.html");
     }
 
 
