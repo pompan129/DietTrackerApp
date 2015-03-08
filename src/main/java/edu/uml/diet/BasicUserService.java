@@ -3,9 +3,9 @@ package edu.uml.diet;
 import org.jasypt.digest.StandardStringDigester;    //open source library http://jasypt.org/ -for encryption
 
 /**
- * concrete class of UserServices interface. verifies user information. encrypts passwords
+ * concrete class of UserService interface. verifies user information. encrypts passwords
  */
-public class BasicUserService implements UserServices {
+public class BasicUserService implements UserService {
 
     private PersistanceUserServices persistanceUserService;
     private final String ALGORITHM = "SHA-1"; //algorithm used to encrypt passwords
@@ -14,10 +14,10 @@ public class BasicUserService implements UserServices {
 
     /**
      * constructor method
-     * @param persistanceUserService
+     *
      */
-    public BasicUserService(PersistanceUserServices persistanceUserService){
-        this.persistanceUserService = persistanceUserService;
+    public BasicUserService(){
+        this.persistanceUserService = PersistanceServiceFactory.getPersistanceUserServicesInstance();
 
         //setup encryption
         digester = new StandardStringDigester();
@@ -33,15 +33,23 @@ public class BasicUserService implements UserServices {
      * @param password
      * @return
      */
-    public boolean verifyUser(String username, String password){
+    public boolean verifyUser(String username, String password) throws UserServiceException {
         //return false if username is NOT in persistence layer
-        if(!persistanceUserService.verifyUsername(username)){return false;}
+        try {
+            if(!persistanceUserService.verifyUsername(username)){return false;}
+        } catch (PersistanceUserServicesException e) {
+            throw new UserServiceException("Cannot verify user", e);
+        }
 
         //generate passKey from user supplied password
         String passKey = digester.digest(password);
 
         //compare user passkey with passKey in Persistence layer
-        if(digester.matches(password, persistanceUserService.getPassword(username))) {return true;}
+        try {
+            if(digester.matches(password, persistanceUserService.getPassword(username))) {return true;}
+        } catch (PersistanceUserServicesException e) {
+            throw new UserServiceException("password does not verify", e);
+        }
 
         //if test fails return false
         return false;
@@ -53,15 +61,26 @@ public class BasicUserService implements UserServices {
      * @param password
      * @return boolean. true if user creation is successful. false if username already in use.
      */
-    public boolean createUser(String username, String password){
+    public boolean createUser(String username, String password) throws UserServiceException {
         //if username already exists return false
-        if(persistanceUserService.verifyUsername(username)){return false;}
+        try {
+            if(persistanceUserService.verifyUsername(username)){return false;}
+        } catch (PersistanceUserServicesException e) {
+            throw new UserServiceException("Cannot verify user", e);
+        }
+
 
         //create passkey
         String passKey = digester.digest(password);
 
         //create new user account in persistence
-        persistanceUserService.createUser(username, passKey);
+        try {
+            persistanceUserService.createUser(username, passKey);
+        } catch (PersistanceUserServicesException e) {
+            throw new UserServiceException("Cannot create user", e);
+        } catch (DuplicateUserException e) {
+            throw new UserServiceException("UserName already in use", e);
+        }
         return true;
     }
 
