@@ -23,7 +23,7 @@ public class DbParserTest {
 
     @Before
     public void setup() throws IOException{
-        filename = "./USDAdatabase.txt";
+        filename = "src/main/resources/asciiFoodDatabase.txt";
         file = new File(filename);
         lengthOfFile = 0;
 
