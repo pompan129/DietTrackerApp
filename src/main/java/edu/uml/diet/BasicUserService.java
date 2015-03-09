@@ -16,8 +16,12 @@ public class BasicUserService implements UserService {
      * constructor method
      *
      */
-    public BasicUserService(){
-        this.persistanceUserService = PersistanceServiceFactory.getPersistanceUserServicesInstance();
+    public BasicUserService() throws UserServiceException {
+        try {
+            this.persistanceUserService = PersistanceServiceFactory.getPersistanceUserServicesInstance();
+        } catch (PersistanceUserServicesException e) {
+            throw new UserServiceException("cannot connect to User services", e);
+        }
 
         //setup encryption
         digester = new StandardStringDigester();
@@ -49,7 +53,9 @@ public class BasicUserService implements UserService {
     public boolean verifyUser(String username, String password) throws UserServiceException {
         //return false if username is NOT in persistence layer
         try {
-            if(!persistanceUserService.verifyUsername(username)){return false;}
+            if(!persistanceUserService.verifyUsername(username)){
+
+                return false;}
         } catch (PersistanceUserServicesException e) {
             throw new UserServiceException("Cannot verify user", e);
         }

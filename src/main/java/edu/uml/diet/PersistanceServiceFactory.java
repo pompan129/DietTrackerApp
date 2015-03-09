@@ -10,8 +10,9 @@ public class PersistanceServiceFactory {
 
     private PersistanceServiceFactory(){}; //stop instantiation
 
-    public static PersistanceUserServices getPersistanceUserServicesInstance(){
+    public static PersistanceUserServices getPersistanceUserServicesInstance() throws PersistanceUserServicesException {
         return new DbUserServices();
+
     }
 
     public static PersistanceFoodService getPersistanceFoodServiceInstance() throws SQLException, PersistanceFoodServiceException, DatabaseConnectorException, DuplicateFoodException, IOException {

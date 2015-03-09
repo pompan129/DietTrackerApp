@@ -11,6 +11,9 @@ public class ServiceFactory {
         return new BasicFoodService();
     }
 
-    public static  UserService getUserServiceInstance(){return new BasicUserService();}
+    public static  UserService getUserServiceInstance() throws UserServiceException {
+        return new BasicUserService();
+
+    }
 
 }

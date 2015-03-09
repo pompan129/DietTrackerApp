@@ -21,6 +21,16 @@ public class DbFoodService implements PersistanceFoodService {
     public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
     private String tableName = "FOOD";
 
+    /**
+     * Default constructor for DbFoodService class, if FOOD table doesn't exist
+     * constructor will create it
+
+     * @throws DatabaseConnectorException
+     * @throws IOException
+     * @throws PersistanceFoodServiceException
+     * @throws SQLException
+     * @throws DuplicateFoodException
+     */
     public DbFoodService() throws DatabaseConnectorException, IOException, PersistanceFoodServiceException,
             SQLException, DuplicateFoodException{
         if (!databaseBuilder.checkIfDbExists()) {

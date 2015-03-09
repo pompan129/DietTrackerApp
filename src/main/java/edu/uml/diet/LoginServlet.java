@@ -35,7 +35,12 @@ public class LoginServlet extends HttpServlet {
         email = request.getParameter("email");
         password = request.getParameter("password");
 
-        UserService userService = ServiceFactory.getUserServiceInstance();
+        UserService userService = null;
+        try {
+            userService = ServiceFactory.getUserServiceInstance();
+        } catch (UserServiceException e) {
+            e.printStackTrace();
+        }
         boolean authenticated = false;
         try {
             authenticated = userService.verifyUser(email, password);

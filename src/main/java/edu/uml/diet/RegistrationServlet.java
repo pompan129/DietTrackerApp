@@ -23,7 +23,12 @@ public class RegistrationServlet extends HttpServlet {
         email = request.getParameter("email");
         password = request.getParameter("password");
 
-        UserService userService = ServiceFactory.getUserServiceInstance();
+        UserService userService = null;
+        try {
+            userService = ServiceFactory.getUserServiceInstance();
+        } catch (UserServiceException e) {
+            e.printStackTrace();
+        }
        /*
         DatabaseBuilder builder = new DatabaseBuilder(new DatabaseConnector(), "DietTracker");
         try {
