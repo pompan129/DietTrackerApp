@@ -15,12 +15,14 @@ import static org.junit.Assert.*;
 public class DbBuilderTest {
     private DatabaseConnector databaseConnector;
     private String databaseName;
+    private String falseDatabaseName;
     private String userTableName;
     private String foodTableName;
 
     @Before
     public void setup() {
         databaseName = "DietTracker";
+        falseDatabaseName = "DietTracker";
         databaseConnector = new DatabaseConnector();
         userTableName = "USERS";
         foodTableName = "FOOD";
@@ -40,7 +42,7 @@ public class DbBuilderTest {
 
     @Test
     public void testCheckIfDbExistsNegative()throws DatabaseConnectorException{
-        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, falseDatabaseName);
         assertFalse(databaseBuilder.checkIfDbExists());
     }
 
