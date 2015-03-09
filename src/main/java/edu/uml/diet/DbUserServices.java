@@ -2,6 +2,7 @@ package edu.uml.diet;
 
 
 
+import java.io.IOException;
 import java.sql.*;
 
 /**
@@ -14,6 +15,30 @@ public class DbUserServices implements PersistanceUserServices {
     public DatabaseConnector databaseConnector = new DatabaseConnector();
     public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
     private String tableName = "USERS";
+
+    /**
+     * Default constructor for DbUserServices class, if USERS table doesn't exist
+     * constructor will create it
+     *
+     * @throws DatabaseConnectorException
+     * @throws IOException
+     * @throws PersistanceFoodServiceException
+     * @throws SQLException
+     * @throws DuplicateFoodException
+     */
+    public DbUserServices() throws PersistanceUserServicesException{
+        try {
+            if (!databaseBuilder.checkIfDbExists()) {
+                databaseBuilder.createDatabase();
+            }
+            if (!databaseBuilder.checkIfTableExists(tableName)) {
+                databaseBuilder.createFoodTable();
+            }
+        }
+        catch(DatabaseConnectorException e){
+            throw new PersistanceUserServicesException("Could not connect to database." + e.getMessage(), e);
+        }
+    }
 
     /**
      * Method to add new User to database
