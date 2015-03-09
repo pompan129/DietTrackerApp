@@ -1,7 +1,12 @@
 package edu.uml.diet;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import edu.uml.diet.model.BasicFood;
+import org.hibernate.Session;
 
 /**
  * Created by Kurt Johnson on 3/7/2015.
@@ -21,5 +26,20 @@ public class PeristanceFoodService_STUB implements PersistanceFoodService{
             basicFoods.add(new BasicFood(food + "_TEST", 100,1,1,1));
         }
         return basicFoods;
+    }
+
+    /**
+     * @param basicFood  adds a new food item to the database
+     * @param connection
+     * @param session
+     */
+    @Override
+    public void createFood(BasicFood basicFood, Connection connection, Session session) throws PersistanceFoodServiceException, DuplicateFoodException, IOException, SQLException {
+
+    }
+
+    public void populateFoodDatabase() throws IOException, PersistanceFoodServiceException,
+            SQLException, DatabaseConnectorException, DuplicateFoodException{
+
     }
 }
