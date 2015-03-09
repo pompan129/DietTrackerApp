@@ -32,7 +32,7 @@ public class DbUserServices implements PersistanceUserServices {
                 databaseBuilder.createDatabase();
             }
             if (!databaseBuilder.checkIfTableExists(tableName)) {
-                databaseBuilder.createFoodTable();
+                databaseBuilder.createUserTable();
             }
         }
         catch(DatabaseConnectorException e){
