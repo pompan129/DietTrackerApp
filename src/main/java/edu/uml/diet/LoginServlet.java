@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         boolean authenticated = false;
         try {
             authenticated = userService.verifyUser(email, password);
-            session.setAttribute("email", email);
+            session.setAttribute("loggedIn", true);
         } catch (UserServiceException e) {
             System.err.println("User service error occurred");
             e.printStackTrace();
