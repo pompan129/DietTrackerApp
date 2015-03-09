@@ -21,7 +21,7 @@ public class BasicFoodTest {
     int protein;
 
     @Before
-    public void setup() {
+    public void setUp() {
         foodName = "Twinkie";
         calories = 270;
         fat = 9;
