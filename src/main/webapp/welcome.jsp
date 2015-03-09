@@ -6,6 +6,6 @@
 </head>
 <body>
 <h1>Welcome to the Diet Tracker</h1>
-<p> Click <a href="search.jsp"> here </a> to search for a food> </p>
+<p> Click <a href="search"> here </a> to search for a food </p>
 </body>
 </html>

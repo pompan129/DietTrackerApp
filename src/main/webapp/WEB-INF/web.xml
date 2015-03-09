@@ -6,10 +6,7 @@
 
     <display-name>DietTrackerApp</display-name>
 
-    <servlet>
-        <servlet-name>User2</servlet-name>
-        <servlet-class>edu.uml.diet.User2</servlet-class>
-    </servlet>
+    <!-- servlet declaration and mapping -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>edu.uml.diet.LoginServlet</servlet-class>
@@ -20,10 +17,10 @@
         <servlet-class>edu.uml.diet.RegistrationServlet</servlet-class>
     </servlet>
 
-    <servlet-mapping>
-        <servlet-name>User2</servlet-name>
-        <url-pattern>/User2</url-pattern>
-    </servlet-mapping>
+    <servlet>
+        <servlet-name>search</servlet-name>
+        <servlet-class>edu.uml.diet.SearchServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -33,6 +30,11 @@
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
         <url-pattern>/RegistrationServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>search</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
 
 
@@ -58,6 +60,12 @@
         </form-login-config>
     </login-config> -->
 
+    <!-- session timeout -->
+    <session-config>
+        <session-timeout>15</session-timeout>
+    </session-config>
+
+    <!-- make sure I don't use JSP scripting -->
     <jsp-config>
         <jsp-property-group>
             <url-pattern>*.jsp</url-pattern>
