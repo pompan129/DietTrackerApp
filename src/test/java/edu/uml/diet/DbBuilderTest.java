@@ -18,14 +18,31 @@ public class DbBuilderTest {
     private String falseDatabaseName;
     private String userTableName;
     private String foodTableName;
+    private boolean createdDatabase;
+    private boolean createdFoodTable;
+    private boolean createdUserTable;
 
     @Before
-    public void setup() {
+    public void setup() throws DatabaseConnectorException {
         databaseName = "DietTracker";
-        falseDatabaseName = "DietTracker";
+        falseDatabaseName = "DietTrackerFalse";
         databaseConnector = new DatabaseConnector();
         userTableName = "USERS";
         foodTableName = "FOOD";
+
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        if(!databaseBuilder.checkIfDbExists()) {
+            databaseBuilder.createDatabase();
+            createdDatabase = true;
+        }
+        if(!databaseBuilder.checkIfTableExists(foodTableName)){
+            databaseBuilder.createFoodTable();
+            createdFoodTable = true;
+        }
+        if(!databaseBuilder.checkIfTableExists(userTableName)){
+            databaseBuilder.createUserTable();
+            createdUserTable = true;
+        }
     }
 
     @Test
@@ -49,60 +66,48 @@ public class DbBuilderTest {
     @Test
     public void testCreateDatabase()throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        assertFalse(databaseBuilder.checkIfDbExists());
-
-        databaseBuilder.createDatabase();
         assertTrue(databaseBuilder.checkIfDbExists());
     }
 
     @Test
-    public void testCheckIfTableExistsNegative()throws DatabaseConnectorException{
+    public void testCheckIfTableExists()throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-
-        if(!databaseBuilder.checkIfDbExists()) {
-            databaseBuilder.createDatabase();
-        }
-
-        assertFalse(databaseBuilder.checkIfTableExists(userTableName));
+        assertTrue(databaseBuilder.checkIfTableExists(userTableName));
     }
 
     @Test
     public void testCreateUserTable()throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-
-        if(!databaseBuilder.checkIfDbExists()){
-            databaseBuilder.createDatabase();
-        }
-
-        databaseBuilder.createUserTable();
         assertTrue(databaseBuilder.checkIfTableExists(userTableName));
     }
 
     @Test
     public void testCreateFoodTable()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-
-        if(!databaseBuilder.checkIfDbExists()){
-            databaseBuilder.createDatabase();
-        }
-
-        databaseBuilder.createFoodTable();
         assertTrue(databaseBuilder.checkIfTableExists(foodTableName));
     }
 
     @After
     public void teardown() throws DatabaseConnectorException, SQLException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        if(databaseBuilder.checkIfDbExists()) {
-            Statement statement = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP TABLE IF EXISTS " + foodTableName;
-            statement.executeUpdate(sql);
-            sql = "DROP TABLE IF EXISTS " + userTableName;
-            statement.executeUpdate(sql);
-            sql = "DROP DATABASE IF EXISTS " + databaseName;
-            statement.executeUpdate(sql);
+        if(createdUserTable) {
+            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
+            String sql = "DROP TABLE USERS";
+            stmt.executeUpdate(sql);
+            assertFalse(databaseBuilder.checkIfTableExists("USERS"));
         }
-        assertFalse(databaseBuilder.checkIfDbExists());
+        if(createdFoodTable) {
+            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
+            String sql = "DROP TABLE FOOD";
+            stmt.executeUpdate(sql);
+            assertFalse(databaseBuilder.checkIfTableExists("FOOD"));
+        }
+        if(createdDatabase) {
+            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
+            String sql = "DROP DATABASE " + databaseBuilder.getDatabaseName();
+            stmt.executeUpdate(sql);
+            assertFalse(databaseBuilder.checkIfDbExists());
+        }
     }
 
 }
