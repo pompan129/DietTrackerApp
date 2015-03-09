@@ -8,6 +8,7 @@ import org.junit.internal.runners.statements.ExpectException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import static org.junit.Assert.*;
 
@@ -16,24 +17,42 @@ import static org.junit.Assert.*;
  */
 public class DatabaseConnectorTest {
     private DatabaseConnector databaseConnector;
+    private DatabaseBuilder databaseBuilder;
+    private String databaseName;
+    private boolean createdDatabase;
 
     @Before
-    public void setup(){
+    public void setup() throws DatabaseConnectorException{
+        databaseName = "DietTracker";
         databaseConnector = new DatabaseConnector();
+        databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+
+        if(!databaseBuilder.checkIfDbExists()){
+            databaseBuilder.createDatabase();
+            createdDatabase = true;
+        }
     }
+
     @Test
     public void testGetServerConnection() throws  DatabaseConnectorException, SQLException{
         Connection connection = databaseConnector.getServerConnection();
         assertFalse(connection.isClosed());
     }
 
-    @Test(expected = DatabaseConnectorException.class)
+    @Test
     public void testGetDatabaseConnection()throws DatabaseConnectorException, SQLException{
         Connection connection = databaseConnector.getDatabaseConnection();
+        assertTrue(connection != null);
     }
 
     @After
-    public void deleteDatabaseConnector(){
+    public void deleteDatabaseConnector() throws DatabaseConnectorException, SQLException{
         databaseConnector = null;
+        if(createdDatabase) {
+            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
+            String sql = "DROP DATABASE " + databaseBuilder.getDatabaseName();
+            stmt.executeUpdate(sql);
+            assertFalse(databaseBuilder.checkIfDbExists());
+        }
     }
 }
