@@ -1,5 +1,7 @@
 package edu.uml.diet;
 
+import edu.uml.diet.model.BasicFood;
+
 import java.math.BigDecimal;
 
 /**

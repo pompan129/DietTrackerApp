@@ -7,7 +7,7 @@ public class ServiceFactory {
 
     private ServiceFactory(){}; //stop instantiation
 
-    public static FoodService getFoodServiceInstance(){
+    public static FoodService getFoodServiceInstance() throws FoodServiceException {
         return new BasicFoodService();
     }
 

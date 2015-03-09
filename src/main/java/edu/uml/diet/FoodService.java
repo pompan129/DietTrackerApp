@@ -8,8 +8,8 @@ import java.util.List;
 public interface FoodService {
 
     //method to return SINGLE portion information to UI Layer
-    Portion foodSearch(String food);
+    Portion foodSearch(String food) throws FoodServiceException;
 
     //method to return LIST of portions information to UI Layer
-    List<Portion> foodListSearch(String food);
+    List<Portion> foodListSearch(String food) throws FoodServiceException;
 }
