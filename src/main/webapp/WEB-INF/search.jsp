@@ -13,7 +13,7 @@
 
 <p>Please type in a food</p>
 <p>We'll show you a list of close matches!</p>
-<form name="foodSearch" action="SearchServlet" method="POST">
+<form name="foodSearch" action="search" method="POST">
 Food: <input type="text" name="query" />
 <input type ="submit" /><input type="reset" value="clear" />
 </form>

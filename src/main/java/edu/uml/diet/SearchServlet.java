@@ -20,8 +20,20 @@ public class SearchServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //after user has searched, process their request
-        FoodService foodService = ServiceFactory.getFoodServiceInstance();
-        List<Portion> foodList = foodService.foodListSearch("query");
+        FoodService foodService = null;
+        try {
+            foodService = ServiceFactory.getFoodServiceInstance();
+        } catch (FoodServiceException e) {
+            System.err.println(e.getCause() + e.getMessage());
+        }
+        List<Portion> foodList = null;
+        if(foodService != null) {
+            try {
+                foodList = foodService.foodListSearch("query");
+            } catch (FoodServiceException e) {
+                e.printStackTrace();
+            }
+        }
         request.setAttribute("foodList", foodList);
         request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
     }
