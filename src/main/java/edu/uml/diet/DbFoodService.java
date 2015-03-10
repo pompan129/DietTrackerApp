@@ -103,7 +103,7 @@ public class DbFoodService implements PersistanceFoodService {
             try {
                 session.beginTransaction();
                 Query query = session.createQuery("from BasicFood where name like :foodName");// '%" + food + "%'");
-                query.setParameter("foodName", food);
+                query.setParameter("foodName","%" + food + "%");
                 foundFood = query.list();
                 session.getTransaction().commit();
             }
