@@ -2,6 +2,8 @@ package edu.uml.diet;
 
 
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.persistence.DatabaseBuilder;
+import edu.uml.diet.persistence.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

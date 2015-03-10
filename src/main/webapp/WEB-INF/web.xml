@@ -9,17 +9,17 @@
     <!-- servlet declaration and mapping -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>edu.uml.diet.LoginServlet</servlet-class>
+        <servlet-class>edu.uml.diet.gui.LoginServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>RegistrationServlet</servlet-name>
-        <servlet-class>edu.uml.diet.RegistrationServlet</servlet-class>
+        <servlet-class>edu.uml.diet.gui.RegistrationServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>search</servlet-name>
-        <servlet-class>edu.uml.diet.SearchServlet</servlet-class>
+        <servlet-class>edu.uml.diet.gui.SearchServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

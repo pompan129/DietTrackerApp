@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.persistence;
 
 
 
@@ -26,7 +26,7 @@ public class DbUserServices implements PersistanceUserServices {
      * @throws SQLException
      * @throws DuplicateFoodException
      */
-    public DbUserServices() throws PersistanceUserServicesException{
+    public DbUserServices() throws PersistanceUserServicesException {
         try {
             if (!databaseBuilder.checkIfDbExists()) {
                 databaseBuilder.createDatabase();

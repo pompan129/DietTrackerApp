@@ -1,5 +1,9 @@
 package edu.uml.diet;
 
+import edu.uml.diet.persistence.DatabaseConnectorException;
+import edu.uml.diet.persistence.DbUserServices;
+import edu.uml.diet.persistence.DuplicateUserException;
+import edu.uml.diet.persistence.PersistanceUserServicesException;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +27,7 @@ public class DbUserServicesTest {
     private static boolean createdTable;
 
     @Before
-    public void setup() throws DatabaseConnectorException, DuplicateUserException, PersistanceUserServicesException{
+    public void setup() throws DatabaseConnectorException, DuplicateUserException, PersistanceUserServicesException {
         existingUsername = "rgoolishian";
         nonExistingUsername = "test";
         newUsername = "rgoolishian1";

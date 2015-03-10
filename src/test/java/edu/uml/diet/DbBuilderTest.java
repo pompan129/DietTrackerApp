@@ -1,5 +1,9 @@
 package edu.uml.diet;
 
+import edu.uml.diet.persistence.DatabaseBuilder;
+import edu.uml.diet.persistence.DatabaseConnector;
+import edu.uml.diet.persistence.DatabaseConnectorException;
+import edu.uml.diet.persistence.PersistanceFoodServiceException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

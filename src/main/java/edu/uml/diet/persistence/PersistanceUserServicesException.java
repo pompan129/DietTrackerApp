@@ -1,9 +1,9 @@
-package edu.uml.diet;
+package edu.uml.diet.persistence;
 
 /**
  * Used to signal an issue with PersistanceUserServices
  */
-public class DuplicateUserException extends Exception {
+public class PersistanceUserServicesException extends Exception {
 
     /**
      * Creates a new exception with a message passed as String to constructor
@@ -13,7 +13,7 @@ public class DuplicateUserException extends Exception {
      * @param cause cause for the exception, null value indicates cause is unknown
      *              or does not exist
      */
-    public DuplicateUserException(String message, Throwable cause) {
+    public PersistanceUserServicesException(String message, Throwable cause) {
         super(message, cause);
     }
 }

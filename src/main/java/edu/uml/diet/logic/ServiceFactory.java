@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.logic;
 
 /**
  * Factory class for the FoodServiceLogicLayer interface
@@ -11,7 +11,7 @@ public class ServiceFactory {
         return new BasicFoodService();
     }
 
-    public static  UserService getUserServiceInstance() throws UserServiceException {
+    public static UserService getUserServiceInstance() throws UserServiceException {
         return new BasicUserService();
 
     }

@@ -1,6 +1,7 @@
 package edu.uml.diet;
 
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Portion;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;

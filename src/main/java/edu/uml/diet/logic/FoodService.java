@@ -1,4 +1,6 @@
-package edu.uml.diet;
+package edu.uml.diet.logic;
+
+import edu.uml.diet.model.Portion;
 
 import java.util.List;
 

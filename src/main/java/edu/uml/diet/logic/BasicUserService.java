@@ -1,5 +1,9 @@
-package edu.uml.diet;
+package edu.uml.diet.logic;
 
+import edu.uml.diet.persistence.PersistanceServiceFactory;
+import edu.uml.diet.persistence.DuplicateUserException;
+import edu.uml.diet.persistence.PersistanceUserServices;
+import edu.uml.diet.persistence.PersistanceUserServicesException;
 import org.jasypt.digest.StandardStringDigester;    //open source library http://jasypt.org/ -for encryption
 
 /**

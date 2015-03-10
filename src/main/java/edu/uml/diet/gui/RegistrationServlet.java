@@ -1,4 +1,8 @@
-package edu.uml.diet;
+package edu.uml.diet.gui;
+
+import edu.uml.diet.logic.ServiceFactory;
+import edu.uml.diet.logic.UserService;
+import edu.uml.diet.logic.UserServiceException;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

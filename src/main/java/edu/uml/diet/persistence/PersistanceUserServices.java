@@ -1,6 +1,4 @@
-package edu.uml.diet;
-
-import java.sql.SQLException;
+package edu.uml.diet.persistence;
 
 /**
  * Class to provide various User account services between logic and persistence

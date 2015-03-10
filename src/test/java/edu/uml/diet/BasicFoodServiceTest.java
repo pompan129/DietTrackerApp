@@ -1,6 +1,9 @@
 package edu.uml.diet;
 
+import edu.uml.diet.logic.BasicFoodService;
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Portion;
+import edu.uml.diet.persistence.PersistanceFoodService;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;

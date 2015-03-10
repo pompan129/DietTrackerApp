@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.logic;
 
 /**
  * Interface for user verification & creation from Logic layer

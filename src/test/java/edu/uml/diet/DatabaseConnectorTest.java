@@ -1,10 +1,11 @@
 package edu.uml.diet;
 
-import org.hibernate.cfg.Configuration;
+import edu.uml.diet.persistence.DatabaseBuilder;
+import edu.uml.diet.persistence.DatabaseConnector;
+import edu.uml.diet.persistence.DatabaseConnectorException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.ExpectException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +23,7 @@ public class DatabaseConnectorTest {
     private boolean createdDatabase;
 
     @Before
-    public void setup() throws DatabaseConnectorException{
+    public void setup() throws DatabaseConnectorException {
         databaseName = "DietTracker";
         databaseConnector = new DatabaseConnector();
         databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
