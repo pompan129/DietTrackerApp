@@ -15,9 +15,10 @@
 <p>We'll show you a list of close matches!</p>
 <form name="foodSearch" action="search" method="POST">
 Food: <input type="text" name="query" />
-<input type ="submit" /><input type="reset" value="clear" />
+<input type ="submit" /><input type="reset" value="Clear" />
 </form>
 <h1>Results</h1>
+<p>  <span class="error">${error}</span> </p>
 <table>
     <tr>
         <th>Food Name</th>
@@ -26,7 +27,6 @@ Food: <input type="text" name="query" />
     </tr>
     <c:forEach items="${foodList}" var="food">
         <tr>
-            <td>${product.id}</td>
             <td><c:out value="${food.name}" /></td>
             <td><c:out value="${food.calories}" /></td>
             <td><c:out value="${food.portionSize}" /></td>

@@ -49,8 +49,15 @@ public class SearchServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        request.setAttribute("foodList", foodList);
-        request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
+        PrintWriter out = response.getWriter();
+        if(foodList.isEmpty()) {
+            request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
+            request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
+        }
+        else {
+            request.setAttribute("foodList", foodList);
+            request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
+        }
     }
 
 }
