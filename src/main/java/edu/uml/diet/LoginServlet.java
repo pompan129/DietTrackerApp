@@ -22,9 +22,9 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
 
         //if session is not new, skip to welcome page
-        if(!session.isNew()) {
+       /* if(!session.isNew()) {
             response.sendRedirect("./welcome.jsp");
-        }
+        } */
 
         //create doctype string
         String doctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         boolean authenticated = false;
         try {
             authenticated = userService.verifyUser(email, password);
-            session.setAttribute("email", email);
+            session.setAttribute("loggedIn", true);
         } catch (UserServiceException e) {
             System.err.println("User service error occurred");
             e.printStackTrace();
@@ -59,7 +59,8 @@ public class LoginServlet extends HttpServlet {
 
         if (authenticated) {
             out.println("<p>Welcome to the Diet Tracker App</p><p>Redirecting...</p>");
-            response.sendRedirect("./welcome.jsp");
+            //response.sendRedirect("./welcome.jsp");
+            request.getRequestDispatcher("welcome.jsp").forward(request,response);
         } else {
             out.println("<p>Username not found. Do you want to <a href = \"register.html\"> register</a>?</p>");
         }
