@@ -27,7 +27,7 @@ Food: <input type="text" name="query" />
     </tr>
     <c:forEach items="${foodList}" var="food">
         <tr>
-            <td><c:out value="${food.name}" /></td>
+            <td><c:out value="${food.food.name}" /></td>
             <td><c:out value="${food.calories}" /></td>
             <td><c:out value="${food.portionSize}" /></td>
         </tr>
