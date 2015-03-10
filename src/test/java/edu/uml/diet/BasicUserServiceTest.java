@@ -1,17 +1,18 @@
 package edu.uml.diet;
 
 
+        import edu.uml.diet.logic.BasicUserService;
+        import edu.uml.diet.logic.ServiceFactory;
+        import edu.uml.diet.logic.UserService;
+        import edu.uml.diet.logic.UserServiceException;
+        import edu.uml.diet.persistence.DatabaseBuilder;
+        import edu.uml.diet.persistence.*;
         import junit.framework.TestCase;
         import org.junit.Before;
         import org.junit.Test;
         import org.mockito.Mockito;
-        import org.mockito.invocation.InvocationOnMock;
-        import org.mockito.stubbing.Answer;
-
-        import java.sql.Statement;
 
         import static org.mockito.Matchers.any;
-        import static org.mockito.Mockito.doAnswer;
         import static org.mockito.Mockito.when;
         import static org.mockito.Mockito.mock;
 

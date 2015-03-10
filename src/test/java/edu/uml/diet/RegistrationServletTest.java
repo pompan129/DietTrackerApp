@@ -1,5 +1,7 @@
 package edu.uml.diet;
 
+import edu.uml.diet.logic.ServiceFactory;
+import edu.uml.diet.logic.UserService;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
@@ -8,8 +10,6 @@ import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static org.junit.Assert.*;
 
 public class RegistrationServletTest extends TestCase {
 

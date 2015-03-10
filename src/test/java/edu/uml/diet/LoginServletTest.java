@@ -1,11 +1,11 @@
 package edu.uml.diet;
 
+import edu.uml.diet.logic.ServiceFactory;
+import edu.uml.diet.logic.UserService;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class LoginServletTest extends TestCase {
 

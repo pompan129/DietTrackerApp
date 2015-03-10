@@ -1,4 +1,7 @@
-package edu.uml.diet;
+package edu.uml.diet.persistence;
+
+import edu.uml.diet.persistence.DatabaseConnector;
+import edu.uml.diet.persistence.DatabaseConnectorException;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -67,7 +70,7 @@ public class DatabaseBuilder {
      * Method to check whether or not database has already been created locally
      *
      * @return          returns true if specified database exists
-     * @throws DatabaseConnectorException
+     * @throws edu.uml.diet.persistence.DatabaseConnectorException
      */
     public boolean checkIfDbExists() throws DatabaseConnectorException {
         Statement statement = null;

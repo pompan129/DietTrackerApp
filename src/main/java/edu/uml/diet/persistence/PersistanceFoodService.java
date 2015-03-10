@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
 import org.hibernate.Session;
@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

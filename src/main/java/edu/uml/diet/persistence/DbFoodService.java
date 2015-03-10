@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
 import org.hibernate.HibernateException;

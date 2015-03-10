@@ -1,5 +1,6 @@
 package edu.uml.diet;
 
+import edu.uml.diet.persistence.DbParser;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.File;

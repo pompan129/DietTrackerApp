@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.persistence;
 
 import java.io.IOException;
 import java.sql.SQLException;

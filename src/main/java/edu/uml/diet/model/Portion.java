@@ -1,8 +1,4 @@
-package edu.uml.diet;
-
-import edu.uml.diet.model.BasicFood;
-
-import java.math.BigDecimal;
+package edu.uml.diet.model;
 
 /**
  * Container class to represent one food item and it's portion size

@@ -1,6 +1,9 @@
-package edu.uml.diet;
+package edu.uml.diet.logic;
 
+import edu.uml.diet.persistence.PersistanceServiceFactory;
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Portion;
+import edu.uml.diet.persistence.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,12 +13,12 @@ import java.util.List;
 /**
  * Stub of Basic food searching service used by UI
  */
-public class BasicFoodService implements FoodService{
+public class BasicFoodService implements FoodService {
 
    PersistanceFoodService persistanceFoodService;
 
 
-    public BasicFoodService()throws FoodServiceException{
+    public BasicFoodService()throws FoodServiceException {
         try {
             persistanceFoodService = PersistanceServiceFactory.getPersistanceFoodServiceInstance();
         } catch (SQLException e) {

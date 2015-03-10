@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.persistence;
 
 /**
  * Used to signal an issue with initializing database connection
