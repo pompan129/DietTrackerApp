@@ -32,8 +32,8 @@ public class SearchServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO: remove
-        PrintWriter out = response.getWriter();
+        String query = request.getParameter("query");
+
         //after user has searched, process their request
         FoodService foodService = null;
         try {
@@ -44,21 +44,13 @@ public class SearchServlet extends HttpServlet {
         List<Portion> foodList = null;
         if(foodService != null) {
             try {
-                foodList = foodService.foodListSearch(request.getParameter("query"));
+                foodList = foodService.foodListSearch(query);
             } catch (FoodServiceException e) {
                 e.printStackTrace();
             }
         }
-        //request.setAttribute("foodList", foodList);
-        //request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
-        //TODO: remove
-
-        for(int i = 0; i<foodList.size(); i++) {
-            out.println(i);
-            out.println(foodList.get(i).getFood().getName());
-            out.println(foodList.get(i).getFood().getId());
-        }
-        //END TODO
+        request.setAttribute("foodList", foodList);
+        request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
     }
 
 }
