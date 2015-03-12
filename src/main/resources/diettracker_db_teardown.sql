@@ -1,0 +1,4 @@
+/** Drop tables and database */
+DROP TABLE IF EXISTS DietTracker.USERS CASCADE;
+DROP TABLE IF EXISTS DietTracker.FOOD CASCADE;
+DROP DATABASE IF EXISTS DietTracker;

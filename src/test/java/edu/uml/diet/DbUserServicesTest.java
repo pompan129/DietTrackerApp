@@ -19,16 +19,17 @@ import static org.junit.Assert.*;
 public class DbUserServicesTest {
 
     private String existingUsername;
+    private String existingPassword;
     private String nonExistingUsername;
     private String newUsername;
     private String newPassword;
     private static DbUserServices dbUserServices;
     private static boolean createdDatabase;
-    private static boolean createdTable;
 
     @Before
     public void setup() throws DatabaseConnectorException, DuplicateUserException, PersistanceUserServicesException {
-        existingUsername = "rgoolishian";
+        existingUsername = "testuser";
+        existingPassword = "password";
         nonExistingUsername = "test";
         newUsername = "rgoolishian1";
         newPassword = "PASSWORD1";
@@ -36,22 +37,15 @@ public class DbUserServicesTest {
 
         // create database to test
         if(!dbUserServices.databaseBuilder.checkIfDbExists()) {
-            dbUserServices.databaseBuilder.createDatabase();
+            dbUserServices.databaseBuilder.initializeDatabase();
+            dbUserServices.createUser(existingUsername, newPassword);
             createdDatabase = true;
         }
-        if(!dbUserServices.databaseBuilder.checkIfTableExists("users")) {
-            dbUserServices.databaseBuilder.createUserTable();
-            createdTable = true;
-            dbUserServices.createUser(existingUsername, newPassword);
-
-        }
-
     }
-
 
     @Test(expected = DuplicateUserException.class)
     public void testCreateUserNegative() throws PersistanceUserServicesException, DuplicateUserException{
-        dbUserServices.createUser(existingUsername, newPassword);
+        dbUserServices.createUser(existingUsername, existingPassword);
         assertTrue(dbUserServices.verifyUsername(newUsername));
     }
 
@@ -70,21 +64,13 @@ public class DbUserServicesTest {
     @Test
     public void testGetPassword() throws PersistanceUserServicesException{
         DbUserServices dbUserServices = new DbUserServices();
-        assertEquals(newPassword, dbUserServices.getPassword(existingUsername));
+        assertEquals( existingPassword, dbUserServices.getPassword(existingUsername));
     }
 
     @AfterClass
     public static void teardown() throws DatabaseConnectorException, SQLException{
-        if(createdTable) {
-            Statement stmt = dbUserServices.databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP TABLE USERS";
-            stmt.executeUpdate(sql);
-            assertFalse(dbUserServices.databaseBuilder.checkIfTableExists("USERS"));
-        }
         if(createdDatabase) {
-            Statement stmt = dbUserServices.databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP DATABASE " + dbUserServices.databaseBuilder.getDatabaseName();
-            stmt.executeUpdate(sql);
+            dbUserServices.databaseBuilder.tearDownDatabase();
             assertFalse(dbUserServices.databaseBuilder.checkIfDbExists());
         }
     }

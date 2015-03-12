@@ -29,7 +29,7 @@ public class DatabaseConnectorTest {
         databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
         if(!databaseBuilder.checkIfDbExists()){
-            databaseBuilder.createDatabase();
+            databaseBuilder.initializeDatabase();
             createdDatabase = true;
         }
     }
@@ -50,10 +50,7 @@ public class DatabaseConnectorTest {
     public void deleteDatabaseConnector() throws DatabaseConnectorException, SQLException{
         databaseConnector = null;
         if(createdDatabase) {
-            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP DATABASE " + databaseBuilder.getDatabaseName();
-            stmt.executeUpdate(sql);
-            assertFalse(databaseBuilder.checkIfDbExists());
+            databaseBuilder.tearDownDatabase();
         }
     }
 }
