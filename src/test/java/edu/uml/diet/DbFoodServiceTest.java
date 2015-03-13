@@ -44,10 +44,10 @@ public class DbFoodServiceTest {
         databaseName = "DietTracker";
         databaseBuilder = new DatabaseBuilder(databaseConnector,databaseName);
         databaseConnector = new DatabaseConnector();
-        basicFood1 = new BasicFood("testcheese1", 1, 2, 3, 4);
-        basicFood2 = new BasicFood("testcheese2", 1, 2, 3, 4);
-        basicFood3 = new BasicFood("testcheese3", 1, 2, 3, 4);
-        basicFood4 = new BasicFood("testcheese31", 1, 2, 3, 4);
+        basicFood1 = new BasicFood("testcheese1", 1, 2, 3, 4, 5, "test");
+        basicFood2 = new BasicFood("testcheese2", 1, 2, 3, 4, 5, "test");
+        basicFood3 = new BasicFood("testcheese3", 1, 2, 3, 4, 5, "test");
+        basicFood4 = new BasicFood("testcheese31", 1, 2, 3, 4, 5, "test");
         if (!databaseBuilder.checkIfDbExists()) {
             databaseBuilder.initializeDatabase();
             createdDatabase = true;

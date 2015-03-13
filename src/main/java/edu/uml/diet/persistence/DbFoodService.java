@@ -190,7 +190,8 @@ public class DbFoodService implements PersistanceFoodService {
             for (DbParser.dbFood dbFood : dbFoodArrayList) {
                 BasicFood basicFood = new BasicFood(dbFood.getName(), (int) dbFood.getCalories(),
                         (int) (dbFood.getMonounsaturatedFat() + dbFood.getPolyunsaturatedFat() + dbFood.getSaturatedFat()),
-                        (int) dbFood.getCarbohydrate(), (int) dbFood.getProtein());
+                        (int) dbFood.getCarbohydrate(), (int) dbFood.getProtein(), dbFood.getHouseholdWeight2(),
+                        dbFood.getHouseholdWeight2Description());
                 basicFoodArrayList.add(basicFood);
             }
         }
