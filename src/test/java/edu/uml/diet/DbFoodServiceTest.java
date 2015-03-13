@@ -7,6 +7,7 @@ import edu.uml.diet.persistence.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,23 +37,20 @@ public class DbFoodServiceTest {
     private static Connection connection;
     private static Session session;
     private static boolean createdDatabase;
-    private static boolean createdTable;
+    private String databaseName;
 
     @Before
     public void setup()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
-        databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
+        databaseName = "DietTracker";
+        databaseBuilder = new DatabaseBuilder(databaseConnector,databaseName);
         databaseConnector = new DatabaseConnector();
         basicFood1 = new BasicFood("testcheese1", 1, 2, 3, 4);
         basicFood2 = new BasicFood("testcheese2", 1, 2, 3, 4);
         basicFood3 = new BasicFood("testcheese3", 1, 2, 3, 4);
         basicFood4 = new BasicFood("testcheese31", 1, 2, 3, 4);
         if (!databaseBuilder.checkIfDbExists()) {
-            databaseBuilder.createDatabase();
+            databaseBuilder.initializeDatabase();
             createdDatabase = true;
-        }
-        if (!databaseBuilder.checkIfTableExists("FOOD")) {
-            databaseBuilder.createFoodTable();
-            createdTable = true;
         }
         connection = databaseConnector.getDatabaseConnection();
         session = databaseConnector.getSessionFactory().openSession();
@@ -107,18 +105,8 @@ public class DbFoodServiceTest {
         query.setString("name4", basicFood4.getName());
         query.executeUpdate();
         transaction.commit();
-
-        if(createdTable) {
-            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP TABLE FOOD";
-            stmt.executeUpdate(sql);
-            assertFalse(databaseBuilder.checkIfTableExists("FOOD"));
-        }
         if(createdDatabase) {
-            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP DATABASE " + databaseBuilder.getDatabaseName();
-            stmt.executeUpdate(sql);
-            assertFalse(databaseBuilder.checkIfDbExists());
+            databaseBuilder.tearDownDatabase();
         }
     }
 }

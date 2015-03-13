@@ -77,5 +77,10 @@
           <artifactId>hibernate-core</artifactId>
           <version>4.3.8.Final</version>
       </dependency>
+      <dependency>
+          <groupId>org.apache.ibatis</groupId>
+          <artifactId>ibatis-sqlmap</artifactId>
+          <version>2.3.4.726</version>
+      </dependency>
   </dependencies>
 </project>

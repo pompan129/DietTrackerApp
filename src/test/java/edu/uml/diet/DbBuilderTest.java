@@ -23,8 +23,7 @@ public class DbBuilderTest {
     private String userTableName;
     private String foodTableName;
     private boolean createdDatabase;
-    private boolean createdFoodTable;
-    private boolean createdUserTable;
+    private DatabaseBuilder databaseBuilder;
 
     @Before
     public void setup() throws DatabaseConnectorException {
@@ -33,19 +32,11 @@ public class DbBuilderTest {
         databaseConnector = new DatabaseConnector();
         userTableName = "USERS";
         foodTableName = "FOOD";
+        databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
-        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        if(!databaseBuilder.checkIfDbExists()) {
-            databaseBuilder.createDatabase();
+        if(!databaseBuilder.checkIfDbExists()){
+            databaseBuilder.initializeDatabase();
             createdDatabase = true;
-        }
-        if(!databaseBuilder.checkIfTableExists(foodTableName)){
-            databaseBuilder.createFoodTable();
-            createdFoodTable = true;
-        }
-        if(!databaseBuilder.checkIfTableExists(userTableName)){
-            databaseBuilder.createUserTable();
-            createdUserTable = true;
         }
     }
 
@@ -68,49 +59,18 @@ public class DbBuilderTest {
     }
 
     @Test
-    public void testCreateDatabase()throws DatabaseConnectorException{
+     public void testInitializeDatabase() throws DatabaseConnectorException{
         DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
         assertTrue(databaseBuilder.checkIfDbExists());
-    }
-
-    @Test
-    public void testCheckIfTableExists()throws DatabaseConnectorException{
-        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
         assertTrue(databaseBuilder.checkIfTableExists(userTableName));
-    }
-
-    @Test
-    public void testCreateUserTable()throws DatabaseConnectorException{
-        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        assertTrue(databaseBuilder.checkIfTableExists(userTableName));
-    }
-
-    @Test
-    public void testCreateFoodTable()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
-        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
         assertTrue(databaseBuilder.checkIfTableExists(foodTableName));
     }
 
     @After
-    public void teardown() throws DatabaseConnectorException, SQLException{
-        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
-        if(createdUserTable) {
-            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP TABLE USERS";
-            stmt.executeUpdate(sql);
-            assertFalse(databaseBuilder.checkIfTableExists("USERS"));
-        }
-        if(createdFoodTable) {
-            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP TABLE FOOD";
-            stmt.executeUpdate(sql);
-            assertFalse(databaseBuilder.checkIfTableExists("FOOD"));
-        }
+    public void tearDown() throws DatabaseConnectorException{
         if(createdDatabase) {
-            Statement stmt = databaseConnector.getDatabaseConnection().createStatement();
-            String sql = "DROP DATABASE " + databaseBuilder.getDatabaseName();
-            stmt.executeUpdate(sql);
-            assertFalse(databaseBuilder.checkIfDbExists());
+            DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+            databaseBuilder.tearDownDatabase();
         }
     }
 

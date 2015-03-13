@@ -29,10 +29,7 @@ public class DbUserServices implements PersistanceUserServices {
     public DbUserServices() throws PersistanceUserServicesException {
         try {
             if (!databaseBuilder.checkIfDbExists()) {
-                databaseBuilder.createDatabase();
-            }
-            if (!databaseBuilder.checkIfTableExists(tableName)) {
-                databaseBuilder.createUserTable();
+                databaseBuilder.initializeDatabase();
             }
         }
         catch(DatabaseConnectorException e){
@@ -51,10 +48,7 @@ public class DbUserServices implements PersistanceUserServices {
     public void createUser(String username, String password)throws PersistanceUserServicesException, DuplicateUserException{
         try(Connection connection = databaseConnector.getDatabaseConnection()){
             if (!databaseBuilder.checkIfDbExists()) {
-                databaseBuilder.createDatabase();
-            }
-            if (!databaseBuilder.checkIfTableExists(tableName)) {
-                databaseBuilder.createUserTable();
+                databaseBuilder.initializeDatabase();
             }
 
             if (!verifyUsername(username)) {

@@ -8,10 +8,14 @@ package edu.uml.diet;
         import edu.uml.diet.persistence.DatabaseBuilder;
         import edu.uml.diet.persistence.*;
         import junit.framework.TestCase;
+        import org.junit.AfterClass;
         import org.junit.Before;
         import org.junit.Test;
         import org.mockito.Mockito;
 
+        import java.sql.SQLException;
+
+        import static org.junit.Assert.assertFalse;
         import static org.mockito.Matchers.any;
         import static org.mockito.Mockito.when;
         import static org.mockito.Mockito.mock;
@@ -22,6 +26,7 @@ public class BasicUserServiceTest extends TestCase{
     String password;
     String passKey;
     PersistanceUserServices persistanceUserServicesMock;
+    static boolean createdDatabase;
 
     DatabaseBuilder databaseBuilder;
     BasicUserService basicUserService;
@@ -68,10 +73,8 @@ public class BasicUserServiceTest extends TestCase{
 
         DbUserServices dbUserServices = new DbUserServices();
         if(!dbUserServices.databaseBuilder.checkIfDbExists()) {
-            dbUserServices.databaseBuilder.createDatabase();
-        }
-        if(!dbUserServices.databaseBuilder.checkIfTableExists("users")) {
-            dbUserServices.databaseBuilder.createUserTable();
+            dbUserServices.databaseBuilder.initializeDatabase();
+            createdDatabase = true;
         }
         UserService newBasicUserService = ServiceFactory.getUserServiceInstance();
         newBasicUserService.createUser(username, password);
@@ -84,8 +87,16 @@ public class BasicUserServiceTest extends TestCase{
      */
     @Test
     public void testVerifyUserNegative() throws Exception {
-
         assertFalse(basicUserService.verifyUser(username, "anotherPassword"));
+    }
+
+    @AfterClass
+    public static void teardown() throws DatabaseConnectorException, SQLException, PersistanceUserServicesException {
+        if(createdDatabase) {
+            DbUserServices dbUserServices = new DbUserServices();
+            dbUserServices.databaseBuilder.tearDownDatabase();
+            assertFalse(dbUserServices.databaseBuilder.checkIfDbExists());
+        }
     }
 
 

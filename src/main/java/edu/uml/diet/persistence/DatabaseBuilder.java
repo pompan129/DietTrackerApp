@@ -1,8 +1,8 @@
 package edu.uml.diet.persistence;
 
-import edu.uml.diet.persistence.DatabaseConnector;
-import edu.uml.diet.persistence.DatabaseConnectorException;
-
+import com.ibatis.common.jdbc.ScriptRunner;
+import com.ibatis.common.jdbc.*;
+import java.io.*;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -146,100 +146,50 @@ public class DatabaseBuilder {
     }
 
     /**
-     * Method used to create local database
+     *
      * @throws DatabaseConnectorException
      */
-    public void createDatabase() throws DatabaseConnectorException{
-        Statement stmt = null;
-        Connection conn = databaseConnector.getServerConnection();
+    public void initializeDatabase() throws DatabaseConnectorException{
+        String dbInitializationScript = "./src/main/resources/diettracker_db_init.sql";
 
+        Connection connection = databaseConnector.getServerConnection();
         try{
-            stmt = conn.createStatement();
-            String sql = "CREATE DATABASE " + databaseName;
-            stmt.executeUpdate(sql);
-            conn.close();
+            connection.setAutoCommit(false);
+            ScriptRunner runner = new ScriptRunner(connection, false, false);
+            InputStream inputStream = new FileInputStream(dbInitializationScript);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+            runner.runScript(inputStreamReader);
+            inputStreamReader.close();
+            connection.commit();
+            connection.close();
         }
-        catch(SQLException e){
-            throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
-        }
-        finally{
-            try {
-                if (stmt != null)
-                    stmt.close();
-                if (conn != null)
-                    conn.close();
-            }
-            catch(SQLException e){
-                throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
-            }
+        catch(IOException | SQLException e){
+            throw new DatabaseConnectorException("Could not build database " + e.getMessage(), e);
         }
     }
 
     /**
-     *  Method used to create USER database table
+     *
      * @throws DatabaseConnectorException
      */
-    public void createUserTable() throws DatabaseConnectorException{
-        Connection connection = databaseConnector.getDatabaseConnection();
-        Statement statement = null;
+    public void tearDownDatabase() throws DatabaseConnectorException{
+        String dbTearDownScript = "./src/main/resources/diettracker_db_teardown.sql";
 
-        try {
-            statement = connection.createStatement();
-            String sql = "CREATE TABLE USERS (" +
-                    "id INTEGER not NULL AUTO_INCREMENT, " +
-                    "first_name VARCHAR(255)," +
-                    "last_name VARCHAR(255)," +
-                    "username VARCHAR(255)," +
-                    "password VARCHAR(255), "+
-                    "PRIMARY KEY(id))";
-            statement.executeUpdate(sql);
-        }
-        catch(SQLException e){
-            throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
-        }
-        finally{
-            try {
-                if (statement != null)
-                    statement.close();
-                if (connection != null)
-                    connection.close();
-            }
-            catch(SQLException e){
-                throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
-            }
-        }
-    }
+        Connection connection = databaseConnector.getServerConnection();
+        try{
+            connection.setAutoCommit(false);
+            ScriptRunner runner = new ScriptRunner(connection, false, false);
+            InputStream inputStream = new FileInputStream(dbTearDownScript);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-    /**
-     * Method used to create FOOD database table
-     * @throws DatabaseConnectorException
-     */
-    public void createFoodTable() throws DatabaseConnectorException {
-        Connection connection = databaseConnector.getDatabaseConnection();
-        Statement statement = null;
-
-        try {
-            statement = connection.createStatement();
-            String sql = "CREATE TABLE FOOD (" +
-                    "id INTEGER not NULL AUTO_INCREMENT, " +
-                    "name VARCHAR(255)," +
-                    "calories VARCHAR(255)," +
-                    "fat VARCHAR(255)," +
-                    "carbohydrates VARCHAR(255)," +
-                    "protein VARCHAR(255), " +
-                    "PRIMARY KEY(id))";
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
-        } finally {
-            try {
-                if (statement != null)
-                    statement.close();
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                throw new DatabaseConnectorException("Could not create database." + e.getMessage(), e);
-            }
+            runner.runScript(inputStreamReader);
+            inputStreamReader.close();
+            connection.commit();
+            connection.close();
+        }
+        catch(IOException | SQLException e){
+            throw new DatabaseConnectorException("Could not build database " + e.getMessage(), e);
         }
     }
 }

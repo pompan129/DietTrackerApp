@@ -24,22 +24,19 @@ public class DbFoodService implements PersistanceFoodService {
     /**
      * Default constructor for DbFoodService class, if FOOD table doesn't exist
      * constructor will create it
-
-     * @throws DatabaseConnectorException
-     * @throws IOException
+     *
      * @throws PersistanceFoodServiceException
-     * @throws SQLException
-     * @throws DuplicateFoodException
      */
-    public DbFoodService() throws DatabaseConnectorException, IOException, PersistanceFoodServiceException,
-            SQLException, DuplicateFoodException{
-        if (!databaseBuilder.checkIfDbExists()) {
-            databaseBuilder.createDatabase();
+    public DbFoodService() throws PersistanceFoodServiceException{
+        try {
+            if (!databaseBuilder.checkIfDbExists()) {
+                databaseBuilder.initializeDatabase();
+            }
         }
-        if (!databaseBuilder.checkIfTableExists(tableName)) {
-            databaseBuilder.createFoodTable();
-            populateFoodDatabase();
+        catch (DatabaseConnectorException e){
+            throw new PersistanceFoodServiceException("Could not connect to database." + e.getMessage(), e);
         }
+
     }
 
     /**
@@ -47,7 +44,7 @@ public class DbFoodService implements PersistanceFoodService {
      * @param food food item being searched for as String
      * @return
      */
-    public BasicFood searchForFood(String food) throws PersistanceFoodServiceException, SQLException{
+    public BasicFood searchForFood(String food) throws PersistanceFoodServiceException{
         Connection connection = null;
         BasicFood foundFood = null;
         try{
@@ -76,7 +73,7 @@ public class DbFoodService implements PersistanceFoodService {
                 }
             }
         }
-        catch(DatabaseConnectorException e){
+        catch(DatabaseConnectorException | SQLException e){
             throw new PersistanceFoodServiceException("Could not connect to database." + e.getMessage(), e);
         }
         return foundFood;
@@ -86,8 +83,9 @@ public class DbFoodService implements PersistanceFoodService {
      *
      * @param food food item being searched for as String
      * @return list of foods like food parameter
+     * @throws PersistanceFoodServiceException
      */
-    public List<BasicFood> searchForFoodList(String food) throws PersistanceFoodServiceException, SQLException{
+    public List<BasicFood> searchForFoodList(String food) throws PersistanceFoodServiceException{
         Connection connection = null;
         List<BasicFood> foundFood = null;
         try{
@@ -116,7 +114,7 @@ public class DbFoodService implements PersistanceFoodService {
                 }
             }
         }
-        catch(DatabaseConnectorException e){
+        catch(DatabaseConnectorException | SQLException e){
             throw new PersistanceFoodServiceException("Could not connect to database." + e.getMessage(), e);
         }
         return foundFood;
@@ -124,10 +122,10 @@ public class DbFoodService implements PersistanceFoodService {
 
     /**
      * Method to query database for duplicate record prior to creating a new food record
-     * @param basicFood BasicFood object being searched for
-     * @param connection open connection
-     * @param session open session
-     * @return true if a duplicate was found, false otherwise
+     * @param basicFood
+     * @param connection
+     * @param session
+     * @return true if duplicate food is found, else return false
      */
     private boolean checkForDuplicateFood(BasicFood basicFood, Connection connection, Session session){
         boolean isDuplicate = false;
@@ -142,16 +140,15 @@ public class DbFoodService implements PersistanceFoodService {
     }
 
     /**
-     *
+     * Method used to create food
      * @param basicFood adds a new food item to the database
-     * @param connection open connection
-     * @param session open session
+     * @param connection
+     * @param session
      * @throws PersistanceFoodServiceException
      * @throws DuplicateFoodException
-     * @throws SQLException
      */
     public void createFood(BasicFood basicFood, Connection connection, Session session)
-            throws PersistanceFoodServiceException, DuplicateFoodException, SQLException {
+            throws PersistanceFoodServiceException, DuplicateFoodException {
 
         if(checkForDuplicateFood(basicFood,connection,session)){
             throw new DuplicateFoodException("Could not create new food, food already exists ", null);
@@ -177,22 +174,28 @@ public class DbFoodService implements PersistanceFoodService {
 
     /**
      * Method user to populate food database table
-     * @throws IOException
+     *
      * @throws PersistanceFoodServiceException
+     * @throws DuplicateFoodException
      */
-    public void populateFoodDatabase() throws IOException, PersistanceFoodServiceException,
-            SQLException, DatabaseConnectorException, DuplicateFoodException{
+    public void populateFoodDatabase() throws PersistanceFoodServiceException, DuplicateFoodException{
         DbParser dbParser = new DbParser();
-        DbFoodService dbFoodService = new DbFoodService();
-
-        File file = new File(getClass().getClassLoader().getResource("asciiFoodDatabase.txt").getFile());
-        ArrayList<DbParser.dbFood> dbFoodArrayList = dbParser.importDatabase(file.getPath());
         ArrayList<BasicFood> basicFoodArrayList = new ArrayList<>();
-        for(DbParser.dbFood dbFood : dbFoodArrayList ){
-            BasicFood basicFood = new BasicFood(dbFood.getName(), (int)dbFood.getCalories(),
-                    (int)(dbFood.getMonounsaturatedFat() + dbFood.getPolyunsaturatedFat() + dbFood.getSaturatedFat()),
-                    (int)dbFood.getCarbohydrate(), (int)dbFood.getProtein());
-            basicFoodArrayList.add(basicFood);
+        DbFoodService dbFoodService = null;
+        try {
+            dbFoodService = new DbFoodService();
+            File file = new File(getClass().getClassLoader().getResource("asciiFoodDatabase.txt").getFile());
+            ArrayList<DbParser.dbFood> dbFoodArrayList = dbParser.importDatabase(file.getPath());
+
+            for (DbParser.dbFood dbFood : dbFoodArrayList) {
+                BasicFood basicFood = new BasicFood(dbFood.getName(), (int) dbFood.getCalories(),
+                        (int) (dbFood.getMonounsaturatedFat() + dbFood.getPolyunsaturatedFat() + dbFood.getSaturatedFat()),
+                        (int) dbFood.getCarbohydrate(), (int) dbFood.getProtein());
+                basicFoodArrayList.add(basicFood);
+            }
+        }
+        catch(IOException e){
+            throw new PersistanceFoodServiceException("Could not populate database database." + e.getMessage(), e);
         }
 
         Connection connection = null;
@@ -200,10 +203,7 @@ public class DbFoodService implements PersistanceFoodService {
         try {
             connection = databaseConnector.getDatabaseConnection();
             if (!databaseBuilder.checkIfDbExists()) {
-                databaseBuilder.createDatabase();
-            }
-            if (!databaseBuilder.checkIfTableExists(tableName)) {
-                databaseBuilder.createFoodTable();
+                databaseBuilder.initializeDatabase();
             }
 
             session = databaseConnector.getSessionFactory().openSession();
@@ -214,17 +214,25 @@ public class DbFoodService implements PersistanceFoodService {
                 }
                 catch(DuplicateFoodException e){
                 }
-                catch (PersistanceFoodServiceException | SQLException e) {
+                catch (PersistanceFoodServiceException e) {
                     throw new PersistanceFoodServiceException("Could not create new food " + e.getMessage(), null);
                 }
             }
         }
+        catch(DatabaseConnectorException e){
+            throw new PersistanceFoodServiceException("Could not populate database database." + e.getMessage(), e);
+        }
         finally {
-            if(!connection.isClosed()){
-                connection.close();
+            try {
+                if (!connection.isClosed()) {
+                    connection.close();
+                }
+                if (session.isConnected()) {
+                    session.disconnect();
+                }
             }
-            if(session.isConnected()){
-                session.disconnect();
+            catch (SQLException e){
+                throw new PersistanceFoodServiceException("Could not close session " + e.getMessage(), null);
             }
         }
     }
