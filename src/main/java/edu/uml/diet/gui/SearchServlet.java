@@ -4,14 +4,12 @@ import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.FoodService;
 import edu.uml.diet.logic.FoodServiceException;
 import edu.uml.diet.model.Portion;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -40,21 +38,20 @@ public class SearchServlet extends HttpServlet {
         String query = request.getParameter("query");
 
         //after user has searched, process their request
-        FoodService foodService = null;
+        FoodService foodService;
         try {
             foodService = ServiceFactory.getFoodServiceInstance();
         } catch (FoodServiceException e) {
-            System.err.println(e.getCause() + e.getMessage());
+            throw new ServletException("SearchServlet Error when creating foodService: ", e);
         }
         List<Portion> foodList = null;
         if(foodService != null) {
             try {
                 foodList = foodService.foodListSearch(query);
             } catch (FoodServiceException e) {
-                e.printStackTrace();
+                throw new ServletException("SearchServlet Error when creating foodList: ", e);
             }
         }
-        PrintWriter out = response.getWriter();
         if(foodList.isEmpty()) {
             request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
