@@ -1,5 +1,15 @@
-/** Create dietTracker database */
+/** Create dietTracker database  ALTERNATE INIT FILE*/
 CREATE DATABASE IF NOT EXISTS DietTracker;
+
+
+
+DROP TABLE IF EXISTS DietTracker.FOOD CASCADE;
+DROP TABLE IF EXISTS DietTracker.PORTIONS CASCADE;
+DROP TABLE IF EXISTS DietTracker.MEALS CASCADE;
+DROP TABLE IF EXISTS DietTracker.DAYS CASCADE;
+DROP TABLE IF EXISTS DietTracker.USERS CASCADE;
+
+
 
 /** Create users table */
 CREATE TABLE DietTracker.USERS(
@@ -11,6 +21,7 @@ CREATE TABLE DietTracker.USERS(
   weight_lbs DOUBLE,
   goal_weight_lbs DOUBLE,
   height_ft DOUBLE
+
 );
 
 /** Create food table */
@@ -21,29 +32,35 @@ CREATE TABLE DietTracker.FOOD(
   fat VARCHAR(255),
   carbohydrates VARCHAR(255),
   protein VARCHAR(255)
+
 );
 
 /** Create days table */
 CREATE TABLE DietTracker.DAYS(
   id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
   user_id INTEGER,
-  meal_id INTEGER,
-  date DATE
+  date DATE,
+  FOREIGN KEY (user_id) REFERENCES USERS (ID)
 );
 
 /** Create meals table */
 CREATE TABLE DietTracker.MEALS(
   id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255),
+  day_id INTEGER,
   user_id INTEGER,
-  portion_id INTEGER,
-  name VARCHAR(255)
+  FOREIGN KEY (day_id) REFERENCES DAYS (ID),
+  FOREIGN KEY (user_id) REFERENCES USERS (ID)
+  
 );
 
 /** Create portions table */
 CREATE TABLE DietTracker.PORTIONS(
   id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
   food_id INTEGER,
-  portion_size DOUBLE
+  portion_size DOUBLE,
+  meal_id INTEGER,
+  FOREIGN KEY (meal_id) REFERENCES MEALS (ID)
 );
 
 

@@ -2,6 +2,7 @@ package edu.uml.diet;
 
 
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Portion;
 import edu.uml.diet.persistence.DatabaseBuilder;
 import edu.uml.diet.persistence.*;
 import org.hibernate.Query;
@@ -39,7 +40,7 @@ public class DbFoodServiceTest {
     private static boolean createdDatabase;
     private String databaseName;
 
-    @Before
+   @Before
     public void setup()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
         databaseName = "DietTracker";
         databaseBuilder = new DatabaseBuilder(databaseConnector,databaseName);
@@ -84,15 +85,28 @@ public class DbFoodServiceTest {
         assertTrue(basicFoodList.size() == 2);
     }
 
-    @Test
+   /* @Test
     public void testPopulateFoodDatabase()throws PersistanceFoodServiceException, IOException,
             SQLException, DatabaseConnectorException, DuplicateFoodException{
         DbFoodService dbFoodService = new DbFoodService();
         dbFoodService.populateFoodDatabase();
+    }*/
+
+    @Test
+    public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
+        DbFoodService dbFoodService = new DbFoodService();
+        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4);
+        dbFoodService.createFood(portionTestFood, connection, session);
+        portionTestFood = dbFoodService.searchForFood("PORTION_TEST_FOOD");
+        Portion portion = new Portion();
+        portion.setFood(portionTestFood);
+        portion.setPortionSize(5.0);
+        dbFoodService.addOrUpdatePortion(portion);
+
     }
 
 
-    @AfterClass
+    /*@AfterClass
     public static void teardown() throws DatabaseConnectorException, SQLException{
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("delete from BasicFood where name= :name1 " +
@@ -108,5 +122,7 @@ public class DbFoodServiceTest {
         if(createdDatabase) {
             databaseBuilder.tearDownDatabase();
         }
-    }
+    }*/
+
+
 }

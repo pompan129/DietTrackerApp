@@ -34,7 +34,8 @@ public class PortionTest extends TestCase {
      */
     @Test
     public void testGetPortionSize(){
-        portion = new Portion(food, portionSize);
+        portion = new Portion(food);
+        portion.setPortionSize(portionSize);
         assertEquals("testGetPortionSize: Positive", portionSize, portion.getPortionSize());
     }
     /**
@@ -42,7 +43,8 @@ public class PortionTest extends TestCase {
      */
     @Test
     public void testSetPortionSizeNegative() {
-        portion = new Portion(food, portionSize);
+        portion = new Portion(food);
+        portion.setPortionSize(portionSize);
         assertFalse("testGetPortionSize: Negative", (portionSize +1.0) == portion.getPortionSize());
 
     }

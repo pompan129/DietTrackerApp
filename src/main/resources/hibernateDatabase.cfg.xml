@@ -6,12 +6,8 @@
         <property name="hibernate.dialect">
             org.hibernate.dialect.MySQLDialect
         </property>
-        <property name="hibernate.connection.driver_class">
-            com.mysql.jdbc.Driver
-        </property>
-        <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/diettracker
-        </property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/diettracker</property>
 
         <property name="hibernate.connection.username">
             monty
@@ -20,7 +16,12 @@
             some_pass
         </property>
 
+
         <mapping class="edu.uml.diet.model.User"/>
         <mapping class="edu.uml.diet.model.BasicFood"/>
+        <mapping class="edu.uml.diet.model.Day"/>
+        <mapping class="edu.uml.diet.model.Meal"/>
+        <mapping class="edu.uml.diet.model.Portion"/>
+
     </session-factory>
 </hibernate-configuration>

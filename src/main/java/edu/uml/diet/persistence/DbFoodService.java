@@ -1,6 +1,7 @@
 package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Portion;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -235,5 +236,26 @@ public class DbFoodService implements PersistanceFoodService {
                 throw new PersistanceFoodServiceException("Could not close session " + e.getMessage(), null);
             }
         }
+    }
+
+    public void addOrUpdatePortion(Portion portion){
+
+        Session session = DatabaseConnector.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(portion);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+        } finally {
+            if (transaction != null && transaction.isActive()) {
+                transaction.commit();
+            }
+        }
+
     }
 }

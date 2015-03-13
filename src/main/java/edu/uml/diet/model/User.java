@@ -1,10 +1,8 @@
 package edu.uml.diet.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
+
 /**
  * Maps object properties to database fields
  * for User object
@@ -17,6 +15,8 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    @OneToMany(mappedBy = "user" )
+    private Collection<Day> days;
 
     /**
      * ID number for each user in the USER table - primary key
@@ -111,6 +111,16 @@ public class User {
      */
     public void setLastName(String lastName){
         this.lastName = lastName;
+    }
+
+
+    @OneToMany(mappedBy = "user" )
+    public Collection<Day> getDays() {
+        return days;
+    }
+
+    public void setDays(Collection<Day> days) {
+        this.days = days;
     }
 
     /**

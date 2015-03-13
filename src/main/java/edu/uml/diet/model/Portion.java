@@ -1,34 +1,48 @@
 package edu.uml.diet.model;
 
+import javax.persistence.*;
+
 /**
- * Container class to represent one food item and it's portion size
+ * Created by Kurt Johnson on 3/13/2015.
  */
+@Entity
+@Table(name = "portions", schema = "", catalog = "diettracker")
 public class Portion {
-
-    private BasicFood food;
+    private Integer id;
     private Double portionSize;
+    private BasicFood food;
+    @ManyToOne
+    @JoinColumn(name = "meal_id")
+    private Meal meal;
 
-    public Portion(BasicFood food) {
+    public Portion(){}; //for persistence mapping
+
+    public Portion(BasicFood food){
         this.food = food;
-        this.portionSize = 1.0;
+    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    public Integer getId() {
+        return id;
     }
 
-    public Portion(BasicFood food, Double portionSize) {
-        this.food = food;
-        this.portionSize = portionSize;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public BasicFood getFood() {return food; }
+    @ManyToOne
+    @JoinColumn(name = "food_id", referencedColumnName = "id", nullable = true)
+    public BasicFood getFood(){
+        return food;
+    }
 
-    public int getCalories(){return (int) (food.getCalories() * portionSize); }
+    public void setFood(BasicFood food){
+        this.food = food;
+    }
 
-    public Double getProtein(){return  (food.getProtein() * portionSize);}
-
-    public Double getCarbs(){return (food.getCarbs() * portionSize);}
-
-    public Double getFat(){return (food.getFat() * portionSize);}
-
-
+    @Basic
+    @Column(name = "portion_size")
     public Double getPortionSize() {
         return portionSize;
     }
@@ -37,6 +51,24 @@ public class Portion {
         this.portionSize = portionSize;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "meal_id")
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+    }
+
+
+
+    /*public int getCalories(){
+        return (int) (food.getCalories() * portionSize);
+    }*/
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,16 +76,18 @@ public class Portion {
 
         Portion portion = (Portion) o;
 
-        if (!food.equals(portion.food)) return false;
-        if (!portionSize.equals(portion.portionSize)) return false;
+        if (id != null ? !id.equals(portion.id) : portion.id != null) return false;
+        if (meal != null ? !meal.equals(portion.meal) : portion.meal != null) return false;
+        if (portionSize != null ? !portionSize.equals(portion.portionSize) : portion.portionSize != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = food.hashCode();
-        result = 31 * result + portionSize.hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (portionSize != null ? portionSize.hashCode() : 0);
+        result = 31 * result + (meal != null ? meal.hashCode() : 0);
         return result;
     }
 }
