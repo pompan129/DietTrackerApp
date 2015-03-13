@@ -14,10 +14,10 @@
         </property>
 
         <property name="hibernate.connection.username">
-            root
+            monty
         </property>
         <property name="hibernate.connection.password">
-            PASSWORD
+            some_pass
         </property>
 
         <mapping class="edu.uml.diet.model.User"/>
