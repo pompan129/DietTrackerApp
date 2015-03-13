@@ -20,7 +20,7 @@ import java.util.List;
 public class SearchServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //login check
         boolean loggedIn = false;
         HttpSession session = request.getSession(false);
@@ -36,7 +36,7 @@ public class SearchServlet extends HttpServlet {
             response.sendRedirect("login.html");
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String query = request.getParameter("query");
 
         //after user has searched, process their request
