@@ -15,9 +15,6 @@ import java.io.*;
  */
 public class LoginServlet extends HttpServlet {
 
-    private String email = "";
-    private String password = "";
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,8 +33,8 @@ public class LoginServlet extends HttpServlet {
         //title string
         String title = "<head><title>Login Page</title></head><body>";
 
-        email = request.getParameter("email");
-        password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         UserService userService = null;
         try {
