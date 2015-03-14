@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.model;
 
 /**
  * Created by Kurt Johnson on 2/8/2015.

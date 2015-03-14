@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.model;
 
 import edu.uml.diet.model.BasicFood;
 import edu.uml.diet.model.Portion;
@@ -48,4 +48,7 @@ public class PortionTest extends TestCase {
         assertFalse("testGetPortionSize: Negative", (portionSize +1.0) == portion.getPortionSize());
 
     }
+
+
+
 }

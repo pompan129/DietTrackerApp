@@ -15,11 +15,15 @@ public class Portion {
     @JoinColumn(name = "meal_id")
     private Meal meal;
 
-    public Portion(){}; //for persistence mapping
+    public Portion(){ this.portionSize = 1.0;}; //for persistence mapping
 
     public Portion(BasicFood food){
         this.food = food;
+        this.portionSize = 1.0;
     }
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -62,10 +66,10 @@ public class Portion {
     }
 
 
-
-    /*public int getCalories(){
+    @Transient
+   public int getCalories(){
         return (int) (food.getCalories() * portionSize);
-    }*/
+    }
 
 
 
