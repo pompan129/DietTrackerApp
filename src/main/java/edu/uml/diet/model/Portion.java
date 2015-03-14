@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by Kurt Johnson on 3/13/2015.
  */
 @Entity
-@Table(name = "portions", schema = "", catalog = "diettracker")
+@Table(name = "PORTIONS", schema = "", catalog = "DietTracker")
 public class Portion {
     private Integer id;
     private Double portionSize;

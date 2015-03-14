@@ -29,6 +29,13 @@ public class PortionTest extends TestCase {
         assertEquals("testGetFood: Positive", food, portion.getFood());
 
     }
+
+
+    public void testSetFood() throws Exception {
+
+    }
+
+
     /**
      * test to verify that correct  portionSize  is returned by getPortionSize()
      */
@@ -50,5 +57,32 @@ public class PortionTest extends TestCase {
     }
 
 
+    public void testGetId() throws Exception {
 
+    }
+
+    public void testSetId() throws Exception {
+
+    }
+
+
+    public void testGetPortionSize1() throws Exception {
+
+    }
+
+    public void testSetPortionSize() throws Exception {
+
+    }
+
+    public void testGetMeal() throws Exception {
+
+    }
+
+    public void testSetMeal() throws Exception {
+
+    }
+
+    public void testGetCalories() throws Exception {
+
+    }
 }
