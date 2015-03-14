@@ -15,7 +15,7 @@ public class PeristanceFoodService_STUB implements PersistanceFoodService{
 
     @Override
     public BasicFood searchForFood(String food) {
-        return new BasicFood(food,100,1,1,1);
+        return new BasicFood(food,100,1,1,1,1,"test");
     }
 
     @Override
@@ -23,7 +23,7 @@ public class PeristanceFoodService_STUB implements PersistanceFoodService{
         ArrayList<BasicFood> basicFoods =  new ArrayList<BasicFood>();
         for(int i = 0; i<10;i++){
 
-            basicFoods.add(new BasicFood(food + "_TEST", 100,1,1,1));
+            basicFoods.add(new BasicFood(food + "_TEST", 100,1,1,1,1,"Test"));
         }
         return basicFoods;
     }

@@ -34,7 +34,7 @@ public class BasicFoodServiceTest extends TestCase {
      */
     @Test
     public void testFoodSearch() throws Exception{
-        when(persistanceFoodService_MOCK.searchForFood(any(String.class))).thenReturn(new BasicFood(foodName,1,1,1,1));
+        when(persistanceFoodService_MOCK.searchForFood(any(String.class))).thenReturn(new BasicFood(foodName,1,1,1,1,1,foodName));
         BasicFoodService basicFoodService = new BasicFoodService(persistanceFoodService_MOCK);
         Portion portion = basicFoodService.foodSearch(foodName);
         assertEquals("testFoodSearch: Positive", portion.getFood().getName(), foodName);
@@ -48,7 +48,7 @@ public class BasicFoodServiceTest extends TestCase {
     public void testFoodListSearch()throws Exception{
         BasicFoodService basicFoodService = new BasicFoodService(persistanceFoodService_MOCK);
         List<BasicFood> basicFoodList= new ArrayList<>();
-        basicFoodList.add(new BasicFood(foodName, 1, 1, 1, 1));
+        basicFoodList.add(new BasicFood(foodName, 1, 1, 1, 1, 1, foodName));
         when(persistanceFoodService_MOCK.searchForFoodList(any(String.class))).thenReturn(basicFoodList);
         List<Portion> portionList = basicFoodService.foodListSearch(foodName);
         assertFalse("testFoodListSearch: positive",portionList.isEmpty());
