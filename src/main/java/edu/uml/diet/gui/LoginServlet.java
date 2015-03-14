@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
         //nothing else to do, send user to login page
         request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
+
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //get session
