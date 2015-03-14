@@ -10,16 +10,8 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
 
 public class SearchServletTest extends TestCase {
     String query; //search query
@@ -28,7 +20,6 @@ public class SearchServletTest extends TestCase {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private MockHttpSession session;
-    private FoodService foodService;
 
     @Before
     public void setUp() throws Exception {
