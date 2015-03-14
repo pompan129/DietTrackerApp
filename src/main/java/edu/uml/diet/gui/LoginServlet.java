@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("welcome.jsp").forward(request,response);
         } else {
             request.setAttribute("error", "Username not found. Do you want to <a href = \"register.html\"> register</a>?");
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }
     }
 }
