@@ -19,6 +19,7 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //create session
         HttpSession session = request.getSession(true);
+        session.setAttribute("loggedIn", false);
 
         //nothing else to do, send user to login page
         request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
