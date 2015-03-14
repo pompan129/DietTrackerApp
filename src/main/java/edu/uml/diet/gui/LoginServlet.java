@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //get session
         //if no session exists, create one
         HttpSession session = request.getSession(true);
@@ -43,7 +43,7 @@ public class LoginServlet extends HttpServlet {
         boolean authenticated = false;
         try {
             authenticated = userService.verifyUser(email, password);
-            session.setAttribute("loggedIn", true);
+            session.setAttribute("loggedIn", authenticated);
         } catch (UserServiceException e) {
             System.err.println("User service error occurred");
             e.printStackTrace();
