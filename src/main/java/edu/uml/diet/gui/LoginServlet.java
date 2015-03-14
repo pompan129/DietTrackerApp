@@ -38,15 +38,14 @@ public class LoginServlet extends HttpServlet {
         try {
             userService = ServiceFactory.getUserServiceInstance();
         } catch (UserServiceException e) {
-            e.printStackTrace();
+            throw new ServletException("Error creating userService", e);
         }
         boolean authenticated = false;
         try {
             authenticated = userService.verifyUser(email, password);
             session.setAttribute("loggedIn", authenticated);
         } catch (UserServiceException e) {
-            System.err.println("User service error occurred");
-            e.printStackTrace();
+            throw new ServletException("Error authenticating", e);
         }
 
         if (authenticated) {
