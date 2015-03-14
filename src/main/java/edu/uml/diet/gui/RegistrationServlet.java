@@ -38,6 +38,6 @@ public class RegistrationServlet extends HttpServlet {
             e.printStackTrace();
         }
         out.println("successfully created. You will now be directed back to login");
-        response.sendRedirect("./login.html");
+        response.sendRedirect("login");
     }
 }

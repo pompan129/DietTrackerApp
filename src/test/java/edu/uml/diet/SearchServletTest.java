@@ -62,7 +62,7 @@ public class SearchServletTest extends TestCase {
         request.setSession(session);
         searchServlet.doGet(request, response);
         //if not logged in, user gets kicked to login page
-        assertEquals(response.getRedirectedUrl(), "login.html");
+        assertEquals(response.getRedirectedUrl(), "login");
     }
 
     @Test

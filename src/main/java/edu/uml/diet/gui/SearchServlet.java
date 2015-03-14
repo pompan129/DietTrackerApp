@@ -31,7 +31,7 @@ public class SearchServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         //if not logged in, go to login page
         else
-            response.sendRedirect("login.html");
+            response.sendRedirect("login");
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -7,7 +7,7 @@
 <body>
     <h1>Diet Tracker App</h1>
     <p>Welcome to the Diet Tracker. Please log in or register if you do not have an account</p>
-    <a href = "login.html">Login</a> <br/>
+    <a href = "login">Login</a> <br/>
     <a href = "register.html">Register</a>
 
 </body>
