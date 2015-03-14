@@ -15,17 +15,14 @@ import java.io.*;
  */
 public class RegistrationServlet extends HttpServlet {
 
-    private String email = "";
-    private String password = "";
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
                 "        \"http://www.w3.org/TR/html4/loose.dtd\">");
-        email = request.getParameter("email");
-        password = request.getParameter("password");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         UserService userService = null;
         try {
@@ -33,24 +30,7 @@ public class RegistrationServlet extends HttpServlet {
         } catch (UserServiceException e) {
             e.printStackTrace();
         }
-       /*
-        DatabaseBuilder builder = new DatabaseBuilder(new DatabaseConnector(), "DietTracker");
-        try {
-            if(!builder.CheckIfDbExists()) {
-                builder.CreateDatabase();
-            }
-        } catch (DatabaseConnectorException e) {
-            e.printStackTrace();
-        }
-        try {
-            if(!builder.CheckIfTableExists("USERS")) {
-                builder.CreateUserTable();
-            }
-        } catch (DatabaseConnectorException e) {
-            e.printStackTrace();
-        }
 
-         */
         try {
             userService.createUser(email, password);
         } catch (UserServiceException e) {
