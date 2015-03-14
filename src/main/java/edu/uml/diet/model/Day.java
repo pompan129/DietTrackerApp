@@ -8,7 +8,7 @@ import java.util.Collection;
  * Created by Kurt Johnson on 3/13/2015.
  */
 @Entity
-@Table(name = "days", schema = "", catalog = "diettracker")
+@Table(name = "DAYS", schema = "", catalog = "DietTracker")
 public class Day {
     private Integer id;
     private Date date;

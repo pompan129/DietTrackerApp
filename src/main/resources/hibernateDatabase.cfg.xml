@@ -7,7 +7,7 @@
             org.hibernate.dialect.MySQLDialect
         </property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/diettracker</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/DietTracker</property>
 
         <property name="hibernate.connection.username">
             monty

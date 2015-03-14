@@ -1,6 +1,7 @@
 package edu.uml.diet;
 
 
+import com.ibatis.common.jdbc.ScriptRunner;
 import edu.uml.diet.model.BasicFood;
 import edu.uml.diet.model.Portion;
 import edu.uml.diet.persistence.DatabaseBuilder;
@@ -13,7 +14,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -53,9 +57,12 @@ public class DbFoodServiceTest {
             databaseBuilder.initializeDatabase();
             createdDatabase = true;
         }
+
+
         connection = databaseConnector.getDatabaseConnection();
         session = databaseConnector.getSessionFactory().openSession();
     }
+
 
     @Test
     public void testCreateFood() throws PersistanceFoodServiceException,IOException, DuplicateFoodException,
@@ -85,14 +92,14 @@ public class DbFoodServiceTest {
         assertTrue(basicFoodList.size() == 2);
     }
 
-   /* @Test
+    @Test
     public void testPopulateFoodDatabase()throws PersistanceFoodServiceException, IOException,
             SQLException, DatabaseConnectorException, DuplicateFoodException{
         DbFoodService dbFoodService = new DbFoodService();
         dbFoodService.populateFoodDatabase();
-    }*/
+    }
 
-    @Test
+   @Test
     public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
         DbFoodService dbFoodService = new DbFoodService();
         BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4);
@@ -106,23 +113,24 @@ public class DbFoodServiceTest {
     }
 
 
-    /*@AfterClass
-    public static void teardown() throws DatabaseConnectorException, SQLException{
+   /* @After
+    public static void tearDown() throws DatabaseConnectorException, SQLException {
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("delete from BasicFood where name= :name1 " +
+        Query query = session.createQuery("delete from food where name= :name1 " +
                 "OR name= :name2 " +
                 "OR name= :name3 " +
-                "OR name= :name4 ") ;
+                "OR name= :name4 ");
         query.setString("name1", basicFood1.getName());
         query.setString("name2", basicFood2.getName());
         query.setString("name3", basicFood3.getName());
         query.setString("name4", basicFood4.getName());
         query.executeUpdate();
         transaction.commit();
-        if(createdDatabase) {
+        if (createdDatabase) {
             databaseBuilder.tearDownDatabase();
         }
     }*/
+
 
 
 }
