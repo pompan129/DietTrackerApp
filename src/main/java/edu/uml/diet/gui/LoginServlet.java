@@ -15,24 +15,23 @@ import java.io.*;
  */
 public class LoginServlet extends HttpServlet {
 
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //create session
+        HttpSession session = request.getSession(true);
+        session.setAttribute("loggedIn", false);
+
+        //nothing else to do, send user to login page
+        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+    }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //create session
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //get session
         //if no session exists, create one
         HttpSession session = request.getSession(true);
 
-        //if session is not new, skip to welcome page
-       /* if(!session.isNew()) {
-            response.sendRedirect("./welcome.jsp");
-        } */
-
-        //create doctype string
-        String doctype = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
-                "        \"http://www.w3.org/TR/html4/loose.dtd\">";
-        //title string
-        String title = "<head><title>Login Page</title></head><body>";
-
+        //get user inputted info
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -40,31 +39,21 @@ public class LoginServlet extends HttpServlet {
         try {
             userService = ServiceFactory.getUserServiceInstance();
         } catch (UserServiceException e) {
-            e.printStackTrace();
+            throw new ServletException("Error creating userService", e);
         }
         boolean authenticated = false;
         try {
             authenticated = userService.verifyUser(email, password);
-            session.setAttribute("loggedIn", true);
+            session.setAttribute("loggedIn", authenticated);
         } catch (UserServiceException e) {
-            System.err.println("User service error occurred");
-            e.printStackTrace();
+            throw new ServletException("Error authenticating", e);
         }
-
-        //create printwriter for output
-        PrintWriter out = response.getWriter();
-        //output header information/doctype information to page
-        response.setContentType("text/html");
-        out.println(doctype);
-        out.println(title);
 
         if (authenticated) {
-            out.println("<p>Welcome to the Diet Tracker App</p><p>Redirecting...</p>");
-            //response.sendRedirect("./welcome.jsp");
             request.getRequestDispatcher("welcome.jsp").forward(request,response);
         } else {
-            out.println("<p>Username not found. Do you want to <a href = \"register.html\"> register</a>?</p>");
+            request.setAttribute("error", "Username not found. Do you want to <a href = \"register.html\"> register</a>?");
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }
-        out.println("</body></html>");
     }
 }
