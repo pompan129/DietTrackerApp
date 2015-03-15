@@ -21,8 +21,8 @@ public class LoginServletTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        email = "test";
-        password = "test";
+        email = "testuser";
+        password = "password";
         wrongEmail = "THISWILLNEVERBEANEMAIL@NOTAURL.NOTAURL";
         wrongPassword = "DEFINITELYNOTMYPASSWORD";
         errorMessage = "Username not found. Do you want to <a href = \"register.html\"> register</a>?";
