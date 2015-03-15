@@ -67,9 +67,12 @@ public class Portion {
 
 
     @Transient
-   public int getCalories(){
+    public int getCalories(){
         return (int) (food.getCalories() * portionSize);
     }
+
+    @Transient
+    public String getHouseholdWeightDescription(){return "100 grams(for now)";}
 
 
 
