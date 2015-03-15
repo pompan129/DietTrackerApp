@@ -20,6 +20,7 @@ public class BasicFoodTest {
     int carbs;
     int protein;
 
+
     @Before
     public void setUp() {
         foodName = "Twinkie";
@@ -34,7 +35,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetName(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertEquals("testGetName: positive", foodName, basicfood.getName());
     }
 
@@ -43,7 +44,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetNameNegative(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertFalse("testGetName: negative", "HoHo".equals(basicfood.getName()));
     }
 
@@ -52,7 +53,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetCalories(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertEquals("testGetCalories: positive", calories, basicfood.getCalories());
     }
 
@@ -61,7 +62,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetCaloriesNegative(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertFalse("testGetCalories: negative", (calories+10) == basicfood.getCalories());
     }
 
@@ -70,7 +71,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetFat(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertEquals("testGetFat: positive", fat, basicfood.getFat());
     }
 
@@ -79,7 +80,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetFatNegative(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertFalse("testGetFat: negative", (fat+10) == basicfood.getFat());
     }
 
@@ -88,7 +89,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetCarbs(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertEquals("testGetCalories: positive", carbs, basicfood.getCarbs());
     }
 
@@ -97,7 +98,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetCarbsNegative(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertFalse("testGetCalories: negative", (carbs + 10) == basicfood.getCarbs());
     }
 
@@ -106,7 +107,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetProtein(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertEquals("testGetCalories: positive", protein, basicfood.getProtein());
     }
 
@@ -115,7 +116,7 @@ public class BasicFoodTest {
      */
     @Test
     public void testGetProteinNegative(){
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         assertFalse("testGetCalories: negative", (protein + 10) == basicfood.getProtein());
     }
 
@@ -123,9 +124,10 @@ public class BasicFoodTest {
      * test to verify equals() method in BasicFood Class
      */
     public void testEquals() {
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         BasicFood basicfood2 = new BasicFood(basicfood.getName(), basicfood.getCalories(),
-                basicfood.getFat(), basicfood.getCarbs(), basicfood.getProtein());
+                basicfood.getFat(), basicfood.getCarbs(), basicfood.getProtein(), basicfood.getHouseholdWeight(),
+                basicfood.getHouseholdWeightDescription());
 
         assertTrue("testEquals:Positive ", basicfood.equals(basicfood2));
 
@@ -135,10 +137,11 @@ public class BasicFoodTest {
      * Negative test to verify equals() method in BasicFood Class
      */
     public void testEqualsNegative() {
-        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein);
+        BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, calories, foodName);
         //add one to protein for mismatch on basicfood2
         BasicFood basicfood2 = new BasicFood(basicfood.getName(), basicfood.getCalories(),
-                basicfood.getFat(), basicfood.getCarbs(), basicfood.getProtein()+1);//add one to protein for mismatch
+                basicfood.getFat(), basicfood.getCarbs(), basicfood.getProtein()+1, basicfood.getHouseholdWeight(),
+                basicfood.getHouseholdWeightDescription());//add one to protein for mismatch
 
         assertFalse("testEquals:Negative ", basicfood.equals(basicfood2));
 
