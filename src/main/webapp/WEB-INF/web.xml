@@ -26,6 +26,10 @@
         <servlet-name>error</servlet-name>
         <servlet-class>edu.uml.diet.gui.Error</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>select</servlet-name>
+        <servlet-class>edu.uml.diet.gui.SelectServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>login</servlet-name>
@@ -47,8 +51,13 @@
         <url-pattern>/error</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>select</servlet-name>
+        <url-pattern>/select</url-pattern>
+    </servlet-mapping>
 
-    <!-- SEcurity stuff -->
+
+    <!-- Security stuff -->
     <!-- TODO: configure -->
     <!--
     <security-constraint>
@@ -82,7 +91,7 @@
             <scripting-invalid>true</scripting-invalid>
         </jsp-property-group>
     </jsp-config>
-
+<!--
     <error-page>
         <error-code>404</error-code>
         <location>/error</location>
@@ -91,6 +100,6 @@
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/error</location>
-    </error-page>
+    </error-page> -->
 
 </web-app>

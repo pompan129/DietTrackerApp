@@ -44,22 +44,21 @@ public class SearchServlet extends HttpServlet {
         } catch (FoodServiceException e) {
             throw new ServletException("SearchServlet Error when creating foodService: ", e);
         }
-        List<Portion> foodList = null;
+        List<Portion> portionList = null;
         if(foodService != null) {
             try {
-                foodList = foodService.foodListSearch(query);
+                portionList = foodService.foodListSearch(query);
             } catch (FoodServiceException e) {
                 throw new ServletException("SearchServlet Error when creating foodList: ", e);
             }
         }
-        if(foodList.isEmpty()) {
+        if(portionList.isEmpty()) {
             request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         }
         else {
-            request.setAttribute("foodList", foodList);
+            request.setAttribute("portionList", portionList);
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         }
     }
-
 }
