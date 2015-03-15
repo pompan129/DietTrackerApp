@@ -16,11 +16,17 @@ import java.io.*;
 public class RegistrationServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"\n" +
-                "        \"http://www.w3.org/TR/html4/loose.dtd\">");
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //create session if one does not exist
+        HttpSession session = request.getSession(true);
+        session.setAttribute("loggedIn", false);
+
+        //nothing else to do, send user to registration page
+        request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
@@ -28,16 +34,14 @@ public class RegistrationServlet extends HttpServlet {
         try {
             userService = ServiceFactory.getUserServiceInstance();
         } catch (UserServiceException e) {
-            e.printStackTrace();
+            throw new ServletException("Error creating userService: ", e);
         }
 
         try {
             userService.createUser(email, password);
         } catch (UserServiceException e) {
-            System.err.println("Error creating user");
-            e.printStackTrace();
+            throw new ServletException("Error creating user: ", e);
         }
-        out.println("successfully created. You will now be directed back to login");
         response.sendRedirect("login");
     }
 }
