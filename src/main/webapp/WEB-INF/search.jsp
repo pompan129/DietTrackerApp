@@ -29,11 +29,10 @@ Food: <input type="text" name="query" />
     <form name="foodSelect" action="select" method="POST">
     <c:forEach items="${portionList}" var="portion">
         <tr>
-            <td><input type = "checkbox" name="selected" /> </td>
+            <td><input type = "checkbox" name="portionID" value=<c:out value="${portion.getFood().getName()}" /> </td>
             <td><c:out value="${portion.getFood().getName()}" /></td>
             <td><c:out value="${portion.getFood().getCalories()}" /></td>
             <td><input type = "text" name="portionSize" size="2"/></td>
-            <td><input type = "hidden" name="portionID" value=<c:out value="${portion.getFood().getName()}" /> /> </td>
         </tr>
     </c:forEach>
     <input type = "submit" />
