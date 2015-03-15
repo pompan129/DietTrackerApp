@@ -13,7 +13,7 @@
     </servlet>
 
     <servlet>
-        <servlet-name>RegistrationServlet</servlet-name>
+        <servlet-name>register</servlet-name>
         <servlet-class>edu.uml.diet.gui.RegistrationServlet</servlet-class>
     </servlet>
 
@@ -33,8 +33,8 @@
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>RegistrationServlet</servlet-name>
-        <url-pattern>/RegistrationServlet</url-pattern>
+        <servlet-name>register</servlet-name>
+        <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
