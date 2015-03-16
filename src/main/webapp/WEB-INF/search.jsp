@@ -18,6 +18,9 @@ Food: <input type="text" name="query" />
 <input type ="submit" /><input type="reset" value="Clear" />
 </form>
 <h1>Results</h1>
+<p>Check the boxes next to the foods you ate for the meal</p>
+<p>Enter the number of portions you ate of each food</p>
+<p>On the next page, you'll be able to pick which meal these foods were for.</p>
 <p>  <span class="error">${error}</span> </p>
 <table>
     <tr>

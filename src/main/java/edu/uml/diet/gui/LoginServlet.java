@@ -3,6 +3,7 @@ package edu.uml.diet.gui;
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.UserService;
 import edu.uml.diet.logic.UserServiceException;
+import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Portion;
 
 import javax.servlet.*;
@@ -27,6 +28,8 @@ public class LoginServlet extends HttpServlet {
         //TODO may take this out
         ArrayList<Portion> userPortionList =  new ArrayList<>();
         session.setAttribute("userPortionList", userPortionList);
+        Day day = new Day(); //day holds meals
+        session.setAttribute("day", day);
 
         //nothing else to do, send user to login page
         request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
@@ -57,7 +60,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (authenticated) {
-            request.getRequestDispatcher("/WEB-INF/welcome.jsp").forward(request,response);
+            response.sendRedirect("welcome");
         } else {
             request.setAttribute("error", "Username not found. Do you want to <a href = \"register.html\"> register</a>?");
             request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);

@@ -30,6 +30,10 @@
         <servlet-name>select</servlet-name>
         <servlet-class>edu.uml.diet.gui.SelectServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>welcome</servlet-name>
+        <servlet-class>edu.uml.diet.gui.WelcomeServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>login</servlet-name>
@@ -50,10 +54,14 @@
         <servlet-name>error</servlet-name>
         <url-pattern>/error</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>select</servlet-name>
         <url-pattern>/select</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>welcome</servlet-name>
+        <url-pattern>/welcome</url-pattern>
     </servlet-mapping>
 
 
