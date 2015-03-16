@@ -29,5 +29,23 @@
 </table>
 
 <p>Please select the correct meal in which to store these foods</p>
+    <form name = "mealSelect" action = "select" method="POST">
+<table>
+    <tr>
+        <th>Meals</th>
+    </tr>
+    <c:forEach items="${meals}" var="meal">
+        <tr>
+            <td><input type="radio" name = "mealID" value=<c:out value="${meal.getName()}" /> </td>
+            <td><c:out value="${meal.getName()}" /> </td>
+        </tr>
+    </c:forEach>
+    </table>
+    <input type = "submit" />
+    </form>
+
+
+
+
 </body>
 </html>

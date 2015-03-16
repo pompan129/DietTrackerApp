@@ -29,13 +29,14 @@ Food: <input type="text" name="query" />
         <th>Calories</th>
         <th>Quantity Consumed</th>
     </tr>
-    <form name="foodSelect" action="select" method="POST">
+    <form name="foodSelect" action="select" method="GET">
     <c:forEach items="${portionList}" var="portion">
         <tr>
             <td><input type = "checkbox" name="portionID" value=<c:out value="${portion.getFood().getName()}" /> </td>
             <td><c:out value="${portion.getFood().getName()}" /></td>
             <td><c:out value="${portion.getFood().getCalories()}" /></td>
-            <td><input type = "text" name="portionSize" size="2"/></td>
+            <!-- <td><input type = "text" name="portionSize" size="2"/></td> -->
+            <td><select name="portionSize"><option></option><option value="1">1</option><option value"2">2</option></select></td>
         </tr>
     </c:forEach>
     <input type = "submit" />

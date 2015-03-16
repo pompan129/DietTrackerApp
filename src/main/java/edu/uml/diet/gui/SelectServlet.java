@@ -4,6 +4,7 @@ import edu.uml.diet.logic.FoodService;
 import edu.uml.diet.logic.FoodServiceException;
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Portion;
 
 import javax.servlet.ServletException;
@@ -26,9 +27,10 @@ public class SelectServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession(false);
         String[] portionIDs = request.getParameterValues("portionID");
+        String[] portionSizes = request.getParameterValues("portionSize");
 
-        double portionSize = 1.0;
-        String portionID = "testFood";
+        double portionSize;
+        String portionID;
         FoodService foodService;
         Portion portion;
         ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
@@ -40,7 +42,9 @@ public class SelectServlet extends HttpServlet {
         }
 
         if(portionIDs != null) {
-            for (String selected : portionIDs) {
+            for (int i = 0; i<portionSizes.length; i++) {
+                out.println(i);
+                out.println(portionSizes[i]); /*
                 portionSize = Integer.parseInt(request.getParameter("portionSize"));
                 portionID = selected;
                 try {
@@ -53,8 +57,10 @@ public class SelectServlet extends HttpServlet {
             }
             session.setAttribute("userPortionList", userPortionList);
             request.setAttribute("userPortionList", userPortionList);
-            request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
-        }
+            Day day = (Day) session.getAttribute("day");
+            request.setAttribute("meals", day.getMeals());
+            request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response); */
+        }}
         else {
             out.println("error: nothing selected");
         }
