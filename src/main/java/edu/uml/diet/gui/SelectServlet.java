@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -29,6 +31,10 @@ public class SelectServlet extends HttpServlet {
         String[] portionIDs = request.getParameterValues("portionID");
         String[] portionSizes = request.getParameterValues("portionSize");
 
+        //parse portionSizes to remove empties
+        List<String> portionSizesParsed = new ArrayList<String>(Arrays.asList(portionSizes));
+        portionSizesParsed.removeAll(Arrays.asList("", null));
+
         double portionSize;
         String portionID;
         FoodService foodService;
@@ -42,11 +48,11 @@ public class SelectServlet extends HttpServlet {
         }
 
         if(portionIDs != null) {
-            for (int i = 0; i<portionSizes.length; i++) {
-                out.println(i);
-                out.println(portionSizes[i]); /*
-                portionSize = Integer.parseInt(request.getParameter("portionSize"));
-                portionID = selected;
+            for (int i = 0; i<portionSizesParsed.size(); i++) {
+                //out.println(i);
+                //out.println(portionSizesParsed.get(i));
+                portionSize = Integer.parseInt(portionSizesParsed.get(i));
+                portionID = portionIDs[i];
                 try {
                     portion = foodService.foodSearch(portionID);
                 } catch (FoodServiceException e) {
@@ -59,8 +65,8 @@ public class SelectServlet extends HttpServlet {
             request.setAttribute("userPortionList", userPortionList);
             Day day = (Day) session.getAttribute("day");
             request.setAttribute("meals", day.getMeals());
-            request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response); */
-        }}
+            request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
+        }
         else {
             out.println("error: nothing selected");
         }
