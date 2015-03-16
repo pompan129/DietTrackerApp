@@ -34,9 +34,9 @@
     <tr>
         <th>Meals</th>
     </tr>
-    <c:forEach items="${meals}" var="meal">
+    <c:forEach items="${meals}" var="meal" varStatus="mealCount">
         <tr>
-            <td><input type="radio" name = "mealID" value=<c:out value="${meal.getName()}" /> </td>
+            <td><input type="radio" name = "mealID" value=<c:out value="${mealCount.count}" /> /> </td>
             <td><c:out value="${meal.getName()}" /> </td>
         </tr>
     </c:forEach>
