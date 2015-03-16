@@ -16,6 +16,8 @@ public class BasicFood {
     private int fat;
     private int carbs;
     private int protein;
+    private double householdWeight;
+    private String householdWeightDescription;
 
     /**
      * default constructor
@@ -26,6 +28,8 @@ public class BasicFood {
         this.fat = 0;
         this.carbs = 0;
         this.protein = 0;
+        this.householdWeight = 0;
+        this.householdWeightDescription = null;
     }
 
     /**
@@ -36,12 +40,14 @@ public class BasicFood {
      * @param carbs
      * @param protein
      */
-    public BasicFood(String name, int calories, int fat, int carbs, int protein){
+    public BasicFood(String name, int calories, int fat, int carbs, int protein, double householdWeight, String householdWeightDescription){
         this.name = name;
         this.calories = calories;
         this.fat = fat;
         this.carbs = carbs;
         this.protein = protein;
+        this.householdWeight = householdWeight;
+        this.householdWeightDescription = householdWeightDescription;
     }
 
     /**
@@ -147,6 +153,42 @@ public class BasicFood {
         this.protein = protein;
     }
 
+    /**
+     *
+     * @return typical household weight of BasicFood
+     */
+    @Basic
+    @Column(name="household_weight")
+    public double getHouseholdWeight() {
+        return householdWeight;
+    }
+
+    /**
+     *
+     * @param householdWeight typical household weight of BasicFood
+     */
+    public void setHouseholdWeight(double householdWeight) {
+        this.householdWeight = householdWeight;
+    }
+
+    /**
+     *
+     * @return typical household weight description of BasicFood
+     */
+    @Basic
+    @Column(name="household_weight_description")
+    public String getHouseholdWeightDescription() {
+        return householdWeightDescription;
+    }
+
+    /**
+     *
+     * @param householdWeightDescription typical household weight description of BasicFood
+     */
+    public void setHouseholdWeightDescription(String householdWeightDescription) {
+        this.householdWeightDescription = householdWeightDescription;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -160,6 +202,8 @@ public class BasicFood {
         if (fat != basicFood.fat) return false;
         if (protein != basicFood.protein) return false;
         if (!name.equals(basicFood.name)) return false;
+        if (householdWeight != basicFood.householdWeight) return false;
+        if (!householdWeightDescription.equals(basicFood.householdWeightDescription)) return false;
 
         return true;
     }
@@ -171,6 +215,7 @@ public class BasicFood {
         result = 31 * result + fat;
         result = 31 * result + carbs;
         result = 31 * result + protein;
+        result = 31 * result + (int)householdWeight;
         return result;
     }
 }
