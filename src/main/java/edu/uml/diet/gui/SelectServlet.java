@@ -82,6 +82,7 @@ public class SelectServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println(Integer.parseInt((String)request.getParameter("mealID")));
         int mealID = Integer.parseInt((String) request.getParameter("mealID"));
+        mealID--;
         HttpSession session = request.getSession(false);
         ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
         Day day = (Day) session.getAttribute("day");
