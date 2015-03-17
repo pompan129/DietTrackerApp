@@ -102,7 +102,7 @@ public class DbFoodServiceTest {
    @Test
     public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
         DbFoodService dbFoodService = new DbFoodService();
-        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4);
+        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4, 5, "1 oz" );
         dbFoodService.createFood(portionTestFood, connection, session);
         portionTestFood = dbFoodService.searchForFood("PORTION_TEST_FOOD");
         Portion portion = new Portion();
