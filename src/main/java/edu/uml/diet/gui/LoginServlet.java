@@ -10,6 +10,7 @@ import edu.uml.diet.model.Portion;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,6 +39,12 @@ public class LoginServlet extends HttpServlet {
         Meal lunch = new Meal();
         Meal dinner = new Meal();
         Meal snack = new Meal();
+
+        //set empty portions
+        breakfast.setPortions(new ArrayList<Portion>());
+        lunch.setPortions(new ArrayList<Portion>());
+        dinner.setPortions(new ArrayList<Portion>());
+        snack.setPortions(new ArrayList<Portion>());
 
         //set names
         breakfast.setName("breakfast");

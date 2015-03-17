@@ -80,7 +80,6 @@ public class SelectServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        out.println(Integer.parseInt((String)request.getParameter("mealID")));
         int mealID = Integer.parseInt((String) request.getParameter("mealID"));
         mealID--;
         HttpSession session = request.getSession(false);
@@ -93,15 +92,17 @@ public class SelectServlet extends HttpServlet {
         day.setMeals(meals);
         session.setAttribute("day", day);
         session.setAttribute("userPortionList", new ArrayList<Portion>());
-        //meals.get(mealID).setPortions(userPortionList);
 
         //testing
         Day day2 = (Day) session.getAttribute("day");
         ArrayList<Meal> meals2 = new ArrayList<>(day2.getMeals());
-        ArrayList<Portion> newPortion = new ArrayList<Portion>(meals2.get(mealID).getPortions());
-        for(int i = 0; i<newPortion.size(); i++) {
-            out.println(newPortion.get(i).getFood().getName());
-            out.println(newPortion.get(i).getCalories());
+        for (int j = 0; j < meals2.size(); j++) {
+            ArrayList<Portion> newPortion = new ArrayList<>(meals2.get(j).getPortions());
+            out.println(meals2.get(j).getName());
+            for (int i = 0; i < newPortion.size(); i++) {
+                out.println(newPortion.get(i).getFood().getName());
+                out.println(newPortion.get(i).getCalories());
+            }
         }
     }
 }
