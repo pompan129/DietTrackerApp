@@ -13,10 +13,11 @@
 <tr>
     <td><c:out value="${meal.getName()}" /></td>
     <c:forEach items="${meal.getPortions()}" var="portions" >
-        <td><c:out value="${portions.getFood().getName()}" /> </td>
+    <td><c:out value="${portions.getFood().getName()}" /> </td>
     </c:forEach>
 </tr>
 </c:forEach>
+</table>
 <p> Click <a href="search"> here </a> to search for a food </p>
 </body>
 </html>

@@ -44,6 +44,8 @@
     <input type = "submit" />
     </form>
 
+<p>  <span class="submitted">${submitted}</span> </p>
+
 
 
 

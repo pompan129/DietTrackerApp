@@ -36,7 +36,6 @@ Food: <input type="text" name="query" />
             <td><c:out value="${portion.getFood().getName()}" /></td>
             <td><c:out value="${portion.getFood().getCalories()}" /></td>
             <td><input type = "text" name="portionSize" size="2"/></td>
-            <!-- <td><select name="portionSize"><option></option><option value="1">1</option><option value"2">2</option></select></td> -->
         </tr>
     </c:forEach>
     <input type = "submit" />
