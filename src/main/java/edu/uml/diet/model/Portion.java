@@ -68,11 +68,11 @@ public class Portion {
 
     @Transient
     public int getCalories(){
-        return (int) (food.getCalories() * portionSize);
+        return (int) ((food.getCalories()/100 )*food.getHouseholdWeight()* portionSize);
     }
 
     @Transient
-    public String getHouseholdWeightDescription(){return "100 grams(for now)";}
+    public String getHouseholdWeightDescription(){return food.getHouseholdWeightDescription();}
 
 
 

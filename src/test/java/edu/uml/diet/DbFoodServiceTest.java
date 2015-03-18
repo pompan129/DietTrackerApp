@@ -102,7 +102,7 @@ public class DbFoodServiceTest {
    @Test
     public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
         DbFoodService dbFoodService = new DbFoodService();
-        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4);
+        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4, 2.0, "some_weight");
         dbFoodService.createFood(portionTestFood, connection, session);
         portionTestFood = dbFoodService.searchForFood("PORTION_TEST_FOOD");
         Portion portion = new Portion();
@@ -113,10 +113,10 @@ public class DbFoodServiceTest {
     }
 
 
-   /* @After
-    public static void tearDown() throws DatabaseConnectorException, SQLException {
+   @After
+    public void tearDown() throws DatabaseConnectorException, SQLException {
         Transaction transaction = session.beginTransaction();
-        Query query = session.createQuery("delete from food where name= :name1 " +
+        Query query = session.createQuery("delete from BasicFood where name= :name1 " +
                 "OR name= :name2 " +
                 "OR name= :name3 " +
                 "OR name= :name4 ");
@@ -129,7 +129,7 @@ public class DbFoodServiceTest {
         if (createdDatabase) {
             databaseBuilder.tearDownDatabase();
         }
-    }*/
+    }
 
 
 

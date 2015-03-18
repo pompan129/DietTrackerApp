@@ -11,12 +11,21 @@ public class PortionTest extends TestCase {
     BasicFood food;
     Double portionSize;
     Portion portion;
+    String householdWeightDescription;
+    int calories;
+    int id;
+    double householdWeight;
+
 
 
     @Before
     public void setUp() {
-        food = new BasicFood("Twinkie", 270, 9, 2, 46, 1, "test");
+        householdWeightDescription = "1 package";
+        calories = 270;
+        householdWeight = 5.0;
+        food = new BasicFood("Twinkie", calories, 9, 2, 46, householdWeight, householdWeightDescription);
         portionSize = 3.0;
+        id = 10;
 
     }
 
@@ -32,6 +41,11 @@ public class PortionTest extends TestCase {
 
 
     public void testSetFood() throws Exception {
+        BasicFood newBasicFood = new BasicFood("newFood", calories +1, 9, 2, 46, householdWeight +1,
+                householdWeightDescription + "test");
+        Portion newPortion = new Portion(food);
+        newPortion.setFood(newBasicFood);
+        assertEquals("foods are equal after setFood()",newBasicFood,newPortion.getFood());
 
     }
 
@@ -49,40 +63,76 @@ public class PortionTest extends TestCase {
      * Negative test for getPortionSize()
      */
     @Test
-    public void testSetPortionSizeNegative() {
+    public void testGetPortionSizeNegative() {
         portion = new Portion(food);
         portion.setPortionSize(portionSize);
         assertFalse("testGetPortionSize: Negative", (portionSize +1.0) == portion.getPortionSize());
 
     }
 
+    public void testSetPortionSize() throws Exception {
+        portion = new Portion(food);
+        portion.setPortionSize(portionSize);
+        assertEquals("testGetPortionSize: Positive", portionSize, portion.getPortionSize());
+
+    }
+
 
     public void testGetId() throws Exception {
+        portion = new Portion(food);
+        portion.setId(id);
+        assertTrue("ids equal after testGetId()", id == portion.getId());
 
     }
 
     public void testSetId() throws Exception {
-
+        portion = new Portion(food);
+        portion.setId(id);
+        assertTrue("ids equal after testGetId()", id == portion.getId());
     }
 
 
-    public void testGetPortionSize1() throws Exception {
 
-    }
-
-    public void testSetPortionSize() throws Exception {
-
-    }
 
     public void testGetMeal() throws Exception {
+        Meal meal = new Meal();
+        meal.setId(id);
+        portion = new Portion();
+        portion.setMeal(meal);
+        assertTrue("meals have same ID", meal.getId()== portion.getMeal().getId());
 
     }
 
     public void testSetMeal() throws Exception {
-
+        Meal meal = new Meal();
+        meal.setId(id);
+        portion = new Portion();
+        portion.setMeal(meal);
+        assertTrue("meals have same ID", meal.getId()== portion.getMeal().getId());
     }
 
     public void testGetCalories() throws Exception {
+
+    }
+
+    public void tearDown() throws Exception {
+
+    }
+
+
+    public void testGetMeal1() throws Exception {
+
+    }
+
+    public void testSetMeal1() throws Exception {
+
+    }
+
+    public void testGetCalories1() throws Exception {
+
+    }
+
+    public void testGetHouseholdWeightDescription() throws Exception {
 
     }
 }
