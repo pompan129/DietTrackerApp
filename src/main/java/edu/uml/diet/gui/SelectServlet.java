@@ -68,17 +68,26 @@ public class SelectServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
         }
         else {
-            out.println("error: nothing selected");
-            Enumeration<String> sessionStuff = session.getAttributeNames();
-            while(sessionStuff.hasMoreElements()) {
+            //out.println("error: nothing selected");
+            //Enumeration<String> sessionStuff = session.getAttributeNames();
+            request.setAttribute("error", "Error: nothing selected.");
+           /* while(sessionStuff.hasMoreElements()) {
                 String sessionVar = sessionStuff.nextElement();
                 out.println(sessionVar);
-            }
+            } */
         }
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //so we can check if the post has happened yet
+        boolean posted = true;
+        request.setAttribute("posted", posted);
+
+        //variable messages to JSP
+        Map<String, String> messages = new HashMap<String, String>();
+        request.setAttribute("messages", messages);
+
         PrintWriter out = response.getWriter();
         int mealID = Integer.parseInt((String) request.getParameter("mealID"));
         mealID--;
@@ -90,19 +99,22 @@ public class SelectServlet extends HttpServlet {
         userMeal.setPortions(userPortionList);
         meals.set(mealID, userMeal);
         day.setMeals(meals);
+        request.setAttribute("userMeal", userMeal);
+        request.setAttribute("userPortionList", userPortionList);
         session.setAttribute("day", day);
         session.setAttribute("userPortionList", new ArrayList<Portion>());
 
         //testing
-        Day day2 = (Day) session.getAttribute("day");
-        ArrayList<Meal> meals2 = new ArrayList<>(day2.getMeals());
-        for (int j = 0; j < meals2.size(); j++) {
-            ArrayList<Portion> newPortion = new ArrayList<>(meals2.get(j).getPortions());
-            out.println(meals2.get(j).getName());
+        /* day = (Day) session.getAttribute("day");
+        meals = new ArrayList<>(day.getMeals());
+         for (int j = 0; j < meals.size(); j++) {
+            ArrayList<Portion> newPortion = new ArrayList<>(meals.get(j).getPortions());
+            out.println(meals.get(j).getName());
             for (int i = 0; i < newPortion.size(); i++) {
                 out.println(newPortion.get(i).getFood().getName());
                 out.println(newPortion.get(i).getCalories());
             }
-        }
+        } */
+        request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
     }
 }

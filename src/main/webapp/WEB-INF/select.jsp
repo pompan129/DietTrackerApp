@@ -44,7 +44,21 @@
     <input type = "submit" />
     </form>
 
+<p> <span class ="error">${error}</span></p>
 <p>  <span class="submitted">${submitted}</span> </p>
+
+
+<c:choose>
+    <c:when test="${posted}">
+        <p>Here what you chose for <c:out value="${userMeal.getName()}" /></p>
+        <c:forEach items="${userPortionList}" var="portion">
+            <p><c:out value="${portion.getFood().getName()}"/>, <c:out value="${portion.getCalories()}" /> calories</p>
+        </c:forEach>
+        <p>Click <a href = "search"> here </a> to search for food for another meal.</p>
+        <p>Click <a href = "welcome"> here </a> to go back to the welcome page.</p>
+    </c:when>
+</c:choose>
+
 
 
 
