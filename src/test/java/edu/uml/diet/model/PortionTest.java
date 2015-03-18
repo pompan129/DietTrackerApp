@@ -20,10 +20,14 @@ public class PortionTest extends TestCase {
 
     @Before
     public void setUp() {
+<<<<<<< HEAD
         householdWeightDescription = "1 package";
         calories = 270;
         householdWeight = 5.0;
         food = new BasicFood("Twinkie", calories, 9, 2, 46, householdWeight, householdWeightDescription);
+=======
+        food = new BasicFood("Twinkie", 270, 9, 2, 46, 1, "test");
+>>>>>>> b09011316cf3f85bed2a208b1fde6bcc80efa789
         portionSize = 3.0;
         id = 10;
 
