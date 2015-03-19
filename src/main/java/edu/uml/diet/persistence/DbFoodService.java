@@ -1,11 +1,10 @@
 package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.Query;
+import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
 
 import java.io.File;
 import java.io.IOException;
@@ -191,13 +190,9 @@ public class DbFoodService implements PersistanceFoodService {
             for (DbParser.dbFood dbFood : dbFoodArrayList) {
                 BasicFood basicFood = new BasicFood(dbFood.getName(), (int) dbFood.getCalories(),
                         (int) (dbFood.getMonounsaturatedFat() + dbFood.getPolyunsaturatedFat() + dbFood.getSaturatedFat()),
-<<<<<<< HEAD
-                        (int) dbFood.getCarbohydrate(), (int) dbFood.getProtein(), dbFood.getHouseholdWeight2(),
-                        dbFood.getHouseholdWeight2Description());
-=======
+
                         (int) dbFood.getCarbohydrate(), (int) dbFood.getProtein(), dbFood.getHouseholdWeight1(),
                         dbFood.getHouseholdWeight1Description());
->>>>>>> b09011316cf3f85bed2a208b1fde6bcc80efa789
                 basicFoodArrayList.add(basicFood);
             }
         }
@@ -248,12 +243,12 @@ public class DbFoodService implements PersistanceFoodService {
 
         Session session = DatabaseConnector.getSessionFactory().openSession();
         Transaction transaction = null;
-
         try {
             transaction = session.beginTransaction();
             session.saveOrUpdate(portion);
             transaction.commit();
         } catch (HibernateException e) {
+            e.printStackTrace();
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
@@ -264,4 +259,39 @@ public class DbFoodService implements PersistanceFoodService {
         }
 
     }
+
+    /**
+     * Get a list of portions in a meal
+     *
+     * @param meal the Meal
+     * @return a list of Portion instances
+     */
+
+    @SuppressWarnings("unchecked")
+    public List<Portion> getPortions(Meal meal) {
+        Session session =  DatabaseConnector.getSessionFactory().openSession();
+        Transaction transaction = null;
+        List<Portion> portions = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Portion.class);
+            //criteria.add(Restrictions.eq("meal", meal));
+            // NOTE criteria.list(); generates unchecked warning so SuppressWarnings
+            portions = criteria.list();
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();  // close transaction
+            }
+        } finally {
+            if (transaction != null && transaction.isActive()) {
+                transaction.commit();
+            }
+        }
+        return portions;
+
+    }
+
+
+
 }

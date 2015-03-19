@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.logic;
 
 
         import edu.uml.diet.logic.BasicUserService;

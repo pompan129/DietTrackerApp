@@ -3,6 +3,7 @@ package edu.uml.diet;
 
 import com.ibatis.common.jdbc.ScriptRunner;
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
 import edu.uml.diet.persistence.DatabaseBuilder;
 import edu.uml.diet.persistence.*;
@@ -102,17 +103,21 @@ public class DbFoodServiceTest {
    @Test
     public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
         DbFoodService dbFoodService = new DbFoodService();
-<<<<<<< HEAD
+        //Meal meal = new Meal();
+       //meal.setId(99);
         BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4, 2.0, "some_weight");
-=======
-        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4, 5, "1 oz" );
->>>>>>> b09011316cf3f85bed2a208b1fde6bcc80efa789
         dbFoodService.createFood(portionTestFood, connection, session);
         portionTestFood = dbFoodService.searchForFood("PORTION_TEST_FOOD");
         Portion portion = new Portion();
         portion.setFood(portionTestFood);
         portion.setPortionSize(5.0);
-        dbFoodService.addOrUpdatePortion(portion);
+       portion.getFood().setCarbs(1000);
+       //portion.setMeal(meal);
+
+       dbFoodService.addOrUpdatePortion(portion);
+
+       // List<Portion> portionList =  dbFoodService.getPortions(meal);
+       //assertTrue("List is not empty", portionList.size() > 0);
 
     }
 

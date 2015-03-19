@@ -2,34 +2,39 @@ package edu.uml.diet.model;
 
 import edu.uml.diet.model.BasicFood;
 import edu.uml.diet.model.Portion;
+import edu.uml.diet.persistence.*;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PortionTest extends TestCase {
 
-    BasicFood food;
-    Double portionSize;
-    Portion portion;
-    String householdWeightDescription;
-    int calories;
-    int id;
-    double householdWeight;
-
+    private static DatabaseConnector databaseConnector;
+    private DatabaseBuilder databaseBuilder;
+    private String databaseName;
+    private BasicFood food;
+    private Double portionSize;
+    private Portion portion;
+    private String householdWeightDescription;
+    private int calories;
+    private int id;
+    private double householdWeight;
 
 
     @Before
-    public void setUp() {
-<<<<<<< HEAD
+    public void setUp() throws DatabaseConnectorException {
         householdWeightDescription = "1 package";
+        householdWeight = 15.0;
         calories = 270;
         householdWeight = 5.0;
-        food = new BasicFood("Twinkie", calories, 9, 2, 46, householdWeight, householdWeightDescription);
-=======
-        food = new BasicFood("Twinkie", 270, 9, 2, 46, 1, "test");
->>>>>>> b09011316cf3f85bed2a208b1fde6bcc80efa789
         portionSize = 3.0;
         id = 10;
+        food = new BasicFood("Fake_Food",calories,1,1,1,householdWeight,householdWeightDescription);
+
+        databaseName = "DietTracker";
+        databaseConnector = new DatabaseConnector();
+        databaseBuilder = new DatabaseBuilder(databaseConnector,databaseName);
+        databaseBuilder.initializeDatabase();
 
     }
 
@@ -58,7 +63,7 @@ public class PortionTest extends TestCase {
      * test to verify that correct  portionSize  is returned by getPortionSize()
      */
     @Test
-    public void testGetPortionSize(){
+    public void testGetPortionSize() throws PersistanceFoodServiceException {
         portion = new Portion(food);
         portion.setPortionSize(portionSize);
         assertEquals("testGetPortionSize: Positive", portionSize, portion.getPortionSize());
@@ -74,6 +79,11 @@ public class PortionTest extends TestCase {
 
     }
 
+    /**
+     * test of the setPortionSize() method
+     * @throws Exception
+     */
+    @Test
     public void testSetPortionSize() throws Exception {
         portion = new Portion(food);
         portion.setPortionSize(portionSize);
@@ -82,6 +92,11 @@ public class PortionTest extends TestCase {
     }
 
 
+    /**
+     * Test of the getID() method
+     * @throws Exception
+     */
+    @Test
     public void testGetId() throws Exception {
         portion = new Portion(food);
         portion.setId(id);
@@ -89,6 +104,12 @@ public class PortionTest extends TestCase {
 
     }
 
+
+    /**
+     * test of the setId(() method
+     * @throws Exception
+     */
+    @Test
     public void testSetId() throws Exception {
         portion = new Portion(food);
         portion.setId(id);
@@ -96,8 +117,11 @@ public class PortionTest extends TestCase {
     }
 
 
-
-
+    /**
+     * test of the getMeal() method
+     * @throws Exception
+     */
+    @Test
     public void testGetMeal() throws Exception {
         Meal meal = new Meal();
         meal.setId(id);
@@ -107,6 +131,11 @@ public class PortionTest extends TestCase {
 
     }
 
+    /**
+     * test of the setMeal() method
+     * @throws Exception
+     */
+    @Test
     public void testSetMeal() throws Exception {
         Meal meal = new Meal();
         meal.setId(id);
@@ -115,28 +144,63 @@ public class PortionTest extends TestCase {
         assertTrue("meals have same ID", meal.getId()== portion.getMeal().getId());
     }
 
+    /**
+     * test of the get calories method.
+     * @throws Exception
+     */
+    @Test
     public void testGetCalories() throws Exception {
+        portion = new Portion(food);
+        portion.setPortionSize(3.0);
+        assertEquals("calories calculated correctly", portion.getCalories(),
+                (int) (3.0 * (food.getCalories() / 100.0 * householdWeight)));
+    }
+
+    /**
+     * test of the getCalories() method. when BasicFood has a householdweight of 0
+     * @throws Exception
+     */
+    @Test
+    public void testGetCaloriesWithZeroWeight() throws Exception {
+        BasicFood testFood = new BasicFood("testFood", calories, 9, 2, 46, 0, "0");
+        portion = new Portion(testFood);
+        assertEquals("calories calculated correctly with 0 householdweight", calories, portion.getCalories());
 
     }
+
+    /**
+     * test of the getHouseholdWeightDescription() method
+     * @throws Exception
+     */
+    @Test
+    public void testGetHouseholdWeightDescription() throws Exception {
+        portion = new Portion(food);
+        assertEquals("household descriptions match", householdWeightDescription, portion.getHouseholdWeightDescription());
+
+    }
+
+    /**
+     * test of the getHouseholdWeightDescription() method when the description in DB  is empty
+     * @throws Exception
+     */
+    @Test
+    public void testGetHouseholdWeightDescriptionWithZero() throws Exception {
+        BasicFood testFood = new BasicFood("testFood", calories, 9, 2, 46, 0, "0");
+        portion = new Portion(testFood);
+        assertEquals("household descriptions match", "100 grams", portion.getHouseholdWeightDescription());
+
+    }
+
+
 
     public void tearDown() throws Exception {
+        databaseBuilder.initializeDatabase();
 
     }
 
 
-    public void testGetMeal1() throws Exception {
 
-    }
 
-    public void testSetMeal1() throws Exception {
 
-    }
 
-    public void testGetCalories1() throws Exception {
-
-    }
-
-    public void testGetHouseholdWeightDescription() throws Exception {
-
-    }
 }

@@ -66,13 +66,32 @@ public class Portion {
     }
 
 
+    /**
+     * method to return calories present in this portion size or this food.
+     *based on common household wieght. If no household weight present in DB, then calories
+     * based on 100 grams.
+     * @return int number of calories in portion size
+     */
     @Transient
     public int getCalories(){
-        return (int) ((food.getCalories()/100 )*food.getHouseholdWeight()* portionSize);
+        double householdWeight = food.getHouseholdWeight();
+
+        if(householdWeight == 0){householdWeight = 100.0;}
+        return (int) ((food.getCalories()/100.0 )*householdWeight* portionSize);
     }
 
+    /**
+     * Method to return the common household weight of a food (ie. 1 cup, 1 tablespoon)
+     * if there is no common wieht in the DB the method will return the standard 100 grams
+     * @return String representing household weight description
+     */
     @Transient
-    public String getHouseholdWeightDescription(){return food.getHouseholdWeightDescription();}
+    public String getHouseholdWeightDescription(){
+        String description = food.getHouseholdWeightDescription();
+        if(description.equals("0")){description = "100 grams";}
+
+        return description;
+    }
 
 
 
