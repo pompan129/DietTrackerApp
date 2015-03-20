@@ -1,15 +1,21 @@
 package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Portion;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
-
+import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.io.File;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -257,6 +263,79 @@ public class DbFoodService implements PersistanceFoodService {
                 transaction.commit();
             }
         }
+    }
 
+    /**
+     *
+     * @param username
+     * @param date
+     * @return
+     * @throws PersistanceFoodServiceException
+     */
+    public Day getDay(String username, DateTime date) throws PersistanceFoodServiceException{
+        Day day = null;
+        Connection connection = null;
+
+        try{
+            DbUserServices dbUserServices = new DbUserServices();
+
+            connection = databaseConnector.getDatabaseConnection();
+            Session session = databaseConnector.getSessionFactory().openSession();
+
+            try {
+                session.beginTransaction();
+                Query query = session.createQuery("from Day where date = :date AND user_id = :user_id");// '%" + food + "%'");
+                query.setParameter("date", date) ;
+                query.setParameter("user_id", dbUserServices.getUser(username).getId());
+                if(query.list().size() > 0) {
+                    day = (Day) query.list().get(0);
+                }
+                session.getTransaction().commit();
+            }
+            finally {
+                if(!connection.isClosed()){
+                    connection.close();
+                }
+                if(session.isConnected()){
+                    session.disconnect();
+                }
+            }
+
+            if(day == null){
+                day = new Day();
+                day.setUser(dbUserServices.getUser(username));
+                day.setDate(date);
+                addOrUpdateDay(day);
+            }
+        }
+        catch(DatabaseConnectorException | SQLException | PersistanceUserServicesException e){
+            throw new PersistanceFoodServiceException("Could not connect to database." + e.getMessage(), e);
+        }
+        return day;
+    }
+
+    /**
+     *
+     * @param day Day object to be added or updated
+     * @return
+     */
+    public void addOrUpdateDay(Day day){
+
+        Session session = DatabaseConnector.getSessionFactory().openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(day);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
+        } finally {
+            if (transaction != null && transaction.isActive()) {
+                transaction.commit();
+            }
+        }
     }
 }
