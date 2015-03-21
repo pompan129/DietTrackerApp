@@ -1,37 +1,26 @@
 package edu.uml.diet;
 
 
-import com.ibatis.common.jdbc.ScriptRunner;
 import edu.uml.diet.model.BasicFood;
-<<<<<<< HEAD
-=======
 import edu.uml.diet.model.Day;
->>>>>>> e6890cbe9851d15989bb90881021f8d79754ca9d
 import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
-import edu.uml.diet.persistence.DatabaseBuilder;
 import edu.uml.diet.persistence.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.joda.time.DateTime;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
@@ -106,7 +95,7 @@ public class DbFoodServiceTest {
         dbFoodService.populateFoodDatabase();
     }
 
-   @Test
+   /*@Test
     public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
         DbFoodService dbFoodService = new DbFoodService();
         //Meal meal = new Meal();
@@ -125,7 +114,7 @@ public class DbFoodServiceTest {
        // List<Portion> portionList =  dbFoodService.getPortions(meal);
        //assertTrue("List is not empty", portionList.size() > 0);
 
-    }
+    }*/
 
     @Test
     public void testGetDay() throws PersistanceFoodServiceException{

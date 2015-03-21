@@ -1,13 +1,11 @@
 package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
-<<<<<<< HEAD
+
 import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
-
-=======
 import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Portion;
 import org.hibernate.HibernateException;
@@ -20,7 +18,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import java.sql.Date;
 import java.sql.SQLException;
->>>>>>> e6890cbe9851d15989bb90881021f8d79754ca9d
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -254,7 +251,7 @@ public class DbFoodService implements PersistanceFoodService {
         }
     }
 
-    public void addOrUpdatePortion(Portion portion){
+   /* public void addOrUpdatePortion(Portion portion){
 
         Session session = DatabaseConnector.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -272,7 +269,7 @@ public class DbFoodService implements PersistanceFoodService {
                 transaction.commit();
             }
         }
-    }
+    }*/
 
     /**
      *
@@ -355,7 +352,7 @@ public class DbFoodService implements PersistanceFoodService {
      * @return a list of Portion instances
      */
 
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked")
     public List<Portion> getPortions(Meal meal) {
         Session session =  DatabaseConnector.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -378,7 +375,7 @@ public class DbFoodService implements PersistanceFoodService {
         }
         return portions;
 
-    }
+    }*/
 
 
 

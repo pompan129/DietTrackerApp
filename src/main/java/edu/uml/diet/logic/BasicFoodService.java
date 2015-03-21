@@ -1,9 +1,11 @@
 package edu.uml.diet.logic;
 
+import edu.uml.diet.model.Day;
 import edu.uml.diet.persistence.PersistanceServiceFactory;
 import edu.uml.diet.model.BasicFood;
 import edu.uml.diet.model.Portion;
 import edu.uml.diet.persistence.*;
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -52,5 +54,41 @@ public class BasicFoodService implements FoodService {
             portionList.add(new Portion(basicFood));
         }
         return portionList;
+    }
+
+    /**
+     * Mthod to retrieve Day object from Persistance
+     *
+     * @param username
+     * @param date
+     * @return Day object specified by Date & username
+     * @throws edu.uml.diet.logic.FoodServiceException
+     */
+    @Override
+    public Day getDay(String username, DateTime date) throws FoodServiceException {
+
+        Day day = null;
+        try {
+            day = persistanceFoodService.getDay(username,date);
+        } catch (PersistanceFoodServiceException e) {
+            throw new FoodServiceException("Problem retrieveing 'Day' information", e);
+        }
+
+        return day;
+    }
+
+    /**
+     * method to save Day object to Persistence
+     *
+     * @param day
+     */
+    @Override
+    public void addOrUpdateDay(Day day) throws FoodServiceException{
+        try {
+            persistanceFoodService.addOrUpdateDay(day);
+        } catch (PersistanceUserServicesException e) {
+            throw new FoodServiceException("Service Error: Cannot update 'Day' at this time. ", e);
+        }
+
     }
 }
