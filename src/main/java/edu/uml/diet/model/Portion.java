@@ -10,6 +10,8 @@ import javax.persistence.*;
 public class Portion {
     private Integer id;
     private Double portionSize;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "food_id")
     private BasicFood food;
     @ManyToOne
     @JoinColumn(name = "meal_id")
@@ -26,7 +28,7 @@ public class Portion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -35,8 +37,10 @@ public class Portion {
         this.id = id;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "food_id", referencedColumnName = "id", nullable = true)
+    //@ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "food_id")
+    //@JoinColumn(name = "food_id", referencedColumnName = "id", nullable = true)
     public BasicFood getFood(){
         return food;
     }

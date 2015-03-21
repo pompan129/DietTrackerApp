@@ -3,6 +3,10 @@ package edu.uml.diet;
 
 import com.ibatis.common.jdbc.ScriptRunner;
 import edu.uml.diet.model.BasicFood;
+<<<<<<< HEAD
+=======
+import edu.uml.diet.model.Day;
+>>>>>>> e6890cbe9851d15989bb90881021f8d79754ca9d
 import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
 import edu.uml.diet.persistence.DatabaseBuilder;
@@ -10,6 +14,7 @@ import edu.uml.diet.persistence.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -22,6 +27,8 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
@@ -44,6 +51,8 @@ public class DbFoodServiceTest {
     private static Session session;
     private static boolean createdDatabase;
     private String databaseName;
+    private String userName;
+    private DateTime dateTime;
 
    @Before
     public void setup()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
@@ -54,14 +63,11 @@ public class DbFoodServiceTest {
         basicFood2 = new BasicFood("testcheese2", 1, 2, 3, 4, 5, "test");
         basicFood3 = new BasicFood("testcheese3", 1, 2, 3, 4, 5, "test");
         basicFood4 = new BasicFood("testcheese31", 1, 2, 3, 4, 5, "test");
-        if (!databaseBuilder.checkIfDbExists()) {
-            databaseBuilder.initializeDatabase();
-            createdDatabase = true;
-        }
-
-
+        databaseBuilder.initializeDatabase();
         connection = databaseConnector.getDatabaseConnection();
         session = databaseConnector.getSessionFactory().openSession();
+        dateTime = DateTime.now();
+        userName = "testuser";
     }
 
 
@@ -119,6 +125,61 @@ public class DbFoodServiceTest {
        // List<Portion> portionList =  dbFoodService.getPortions(meal);
        //assertTrue("List is not empty", portionList.size() > 0);
 
+    }
+
+    @Test
+    public void testGetDay() throws PersistanceFoodServiceException{
+        DbFoodService dbFoodService = new DbFoodService();
+        Day day = dbFoodService.getDay(userName, dateTime);
+        assertTrue(day.getDate().equals(dateTime));
+    }
+
+    @Test
+    public void testAddOrUpdateDay() throws PersistanceFoodServiceException, PersistanceUserServicesException{
+        DbFoodService dbFoodService = new DbFoodService();
+        Day day = dbFoodService.getDay(userName, dateTime);
+        BasicFood testFood = new BasicFood("TEST_FOOD", 1, 2, 3, 4, 5, "1 oz" );
+
+        Meal meal1 = new Meal();
+
+        meal1.setDay(day);
+        meal1.setName("Breakfast");
+
+        Meal meal2 = new Meal();
+        meal2.setDay(day);
+        meal2.setName("Lunch");
+
+        Meal meal3 = new Meal();
+        meal3.setDay(day);
+        meal3.setName("Dinner");
+
+        Meal meal4 = new Meal();
+        meal4.setDay(day);
+        meal4.setName("Snack");
+
+        Collection<Meal> meals = new ArrayList<>();
+        meals.add(meal1);
+        meals.add(meal2);
+        meals.add(meal3);
+        meals.add(meal4);
+
+        Portion portion1 = new Portion();
+        portion1.setFood(testFood);
+        portion1.setPortionSize(12.0);
+        portion1.setMeal(meal1);
+
+        Collection<Portion> portions = new ArrayList<>();
+        portions.add(portion1);
+        meal1.setPortions(portions);
+
+        day.setMeals(meals);
+
+
+        dbFoodService.addOrUpdateDay(day);
+
+
+        Day newDay = dbFoodService.getDay(userName, dateTime);
+        assertTrue(newDay.equals(day));
     }
 
 

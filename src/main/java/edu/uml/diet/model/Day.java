@@ -1,7 +1,8 @@
 package edu.uml.diet.model;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 import javax.persistence.*;
-import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Collection;
 @Table(name = "DAYS", schema = "", catalog = "DietTracker")
 public class Day {
     private Integer id;
-    private Date date;
+    private DateTime date;
     @OneToMany(mappedBy = "day" )
     private Collection<Meal> meals;
     @ManyToOne
@@ -19,7 +20,8 @@ public class Day {
     private User user;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -30,15 +32,16 @@ public class Day {
 
     @Basic
     @Column(name = "date")
-    public Date getDate() {
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 
-    @OneToMany(mappedBy = "day" )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "day")
     public Collection<Meal> getMeals() {
         return meals;
     }
