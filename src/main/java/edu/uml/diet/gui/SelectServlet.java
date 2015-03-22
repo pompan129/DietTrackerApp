@@ -36,16 +36,9 @@ public class SelectServlet extends HttpServlet {
 
         double portionSize;
         String portionID;
-        FoodService foodService;
+        FoodService foodService = (FoodService) session.getAttribute("foodService");
         Portion portion;
         ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
-        //ArrayList<Portion> userPortionList = new ArrayList<Portion>();
-
-        try {
-            foodService = ServiceFactory.getFoodServiceInstance();
-        } catch (FoodServiceException e) {
-            throw new ServletException("SearchServlet Error when creating foodService: ", e);
-        }
 
         if(portionIDs != null) {
             for (int i = 0; i<portionSizesParsed.size(); i++) {
@@ -101,6 +94,13 @@ public class SelectServlet extends HttpServlet {
         day.setMeals(meals);
         request.setAttribute("userMeal", userMeal);
         request.setAttribute("userPortionList", userPortionList);
+
+        FoodService foodService = (FoodService) session.getAttribute("foodService");
+        try {
+            foodService.addOrUpdateDay(day);
+        } catch (FoodServiceException e) {
+            throw new ServletException("Could not add or update day", e);
+        }
         session.setAttribute("day", day);
         session.setAttribute("userPortionList", new ArrayList<Portion>());
 
