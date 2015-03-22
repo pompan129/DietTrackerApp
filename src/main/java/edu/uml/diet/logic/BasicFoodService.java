@@ -1,6 +1,7 @@
 package edu.uml.diet.logic;
 
 import edu.uml.diet.model.Day;
+import edu.uml.diet.model.Meal;
 import edu.uml.diet.persistence.PersistanceServiceFactory;
 import edu.uml.diet.model.BasicFood;
 import edu.uml.diet.model.Portion;
@@ -72,6 +73,13 @@ public class BasicFoodService implements FoodService {
             day = persistanceFoodService.getDay(username,date);
         } catch (PersistanceFoodServiceException e) {
             throw new FoodServiceException("Problem retrieveing 'Day' information", e);
+        }
+
+        for(Meal meal:day.getMeals()){
+            if(meal.getPortions() == null){
+                System.out.println(">>>>>>>>>>>>>>>>>>> new P list");//todo
+                meal.setPortions(new ArrayList<Portion>());
+            }
         }
 
         return day;
