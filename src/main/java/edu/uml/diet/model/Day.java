@@ -1,5 +1,9 @@
 package edu.uml.diet.model;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -19,7 +23,8 @@ public class Day {
     private User user;
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -38,7 +43,7 @@ public class Day {
         this.date = date;
     }
 
-    @OneToMany(mappedBy = "day" )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "day")
     public Collection<Meal> getMeals() {
         return meals;
     }
@@ -63,6 +68,7 @@ public class Day {
         if (o == null || getClass() != o.getClass()) return false;
 
         Day day = (Day) o;
+
 
         if (date != null ? !date.equals(day.date) : day.date != null) return false;
         if (id != null ? !id.equals(day.id) : day.id != null) return false;

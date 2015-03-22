@@ -87,5 +87,15 @@
           <artifactId>ibatis-sqlmap</artifactId>
           <version>2.3.4.726</version>
       </dependency>
-  </dependencies>
+      <dependency>
+          <groupId>joda-time</groupId>
+          <artifactId>joda-time</artifactId>
+          <version>2.7</version>
+      </dependency>
+      <dependency>
+          <groupId>org.jadira.usertype</groupId>
+          <artifactId>usertype.core</artifactId>
+          <version>3.2.0.GA</version>
+      </dependency>
+    </dependencies>
 </project>

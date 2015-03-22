@@ -43,7 +43,6 @@ CREATE TABLE DietTracker.DAYS(
 /** Create meals table */
 CREATE TABLE DietTracker.MEALS(
   id INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  user_id INTEGER,
   day_id INTEGER,
   name VARCHAR(255)
 );
