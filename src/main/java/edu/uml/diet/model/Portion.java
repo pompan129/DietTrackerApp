@@ -24,8 +24,6 @@ public class Portion {
         this.portionSize = 1.0;
     }
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -37,10 +35,8 @@ public class Portion {
         this.id = id;
     }
 
-    //@ManyToOne
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "food_id")
-    //@JoinColumn(name = "food_id", referencedColumnName = "id", nullable = true)
     public BasicFood getFood(){
         return food;
     }

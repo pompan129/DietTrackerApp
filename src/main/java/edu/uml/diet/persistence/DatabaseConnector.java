@@ -3,6 +3,7 @@ package edu.uml.diet.persistence;
 import java.sql.*;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
@@ -88,7 +89,7 @@ public class DatabaseConnector {
 
             ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
                     .applySettings(configuration.getProperties())
-                    .buildServiceRegistry();
+                    .build();
 
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         }

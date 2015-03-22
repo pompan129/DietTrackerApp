@@ -127,45 +127,14 @@ public class DbFoodServiceTest {
     public void testAddOrUpdateDay() throws PersistanceFoodServiceException, PersistanceUserServicesException{
         DbFoodService dbFoodService = new DbFoodService();
         Day day = dbFoodService.getDay(userName, dateTime);
-        BasicFood testFood = new BasicFood("TEST_FOOD", 1, 2, 3, 4, 5, "1 oz" );
 
-        Meal meal1 = new Meal();
+        Portion portion = new Portion();
+        List<Portion> portions = new ArrayList<>();
+        portions.add(portion);
+        ArrayList<Meal> dayMeals = new ArrayList<Meal>(day.getMeals());
 
-        meal1.setDay(day);
-        meal1.setName("Breakfast");
-
-        Meal meal2 = new Meal();
-        meal2.setDay(day);
-        meal2.setName("Lunch");
-
-        Meal meal3 = new Meal();
-        meal3.setDay(day);
-        meal3.setName("Dinner");
-
-        Meal meal4 = new Meal();
-        meal4.setDay(day);
-        meal4.setName("Snack");
-
-        Collection<Meal> meals = new ArrayList<>();
-        meals.add(meal1);
-        meals.add(meal2);
-        meals.add(meal3);
-        meals.add(meal4);
-
-        Portion portion1 = new Portion();
-        portion1.setFood(testFood);
-        portion1.setPortionSize(12.0);
-        portion1.setMeal(meal1);
-
-        Collection<Portion> portions = new ArrayList<>();
-        portions.add(portion1);
-        meal1.setPortions(portions);
-
-        day.setMeals(meals);
-
-
+        dayMeals.get(0).setPortions(portions);
         dbFoodService.addOrUpdateDay(day);
-
 
         Day newDay = dbFoodService.getDay(userName, dateTime);
         assertTrue(newDay.equals(day));
