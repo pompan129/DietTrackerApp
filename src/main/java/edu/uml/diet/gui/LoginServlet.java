@@ -93,7 +93,7 @@ public class LoginServlet extends HttpServlet {
         if (authenticated) {
             response.sendRedirect("welcome");
         } else {
-            request.setAttribute("error", "Username not found. Do you want to <a href = \"register.html\"> register</a>?");
+            request.setAttribute("error", "Username not found. Do you want to <a href = \"register\"> register</a>?");
             request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }
     }
