@@ -7,15 +7,14 @@ import edu.uml.diet.model.Portion;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import edu.uml.diet.model.Day;
+import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
-import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+
 import java.sql.Date;
 import java.sql.SQLException;
 import java.io.File;
@@ -291,7 +290,7 @@ public class DbFoodService implements PersistanceFoodService {
             try {
                 session.beginTransaction();
                 Query query = session.createQuery("from Day where date = :date AND user_id = :user_id");// '%" + food + "%'");
-                query.setParameter("date", date) ;
+                query.setParameter("date", new Date(date.toDate().getTime())) ;
                 query.setParameter("user_id", dbUserServices.getUser(username).getId());
                 if(query.list().size() > 0) {
                     day = (Day) query.list().get(0);
@@ -310,7 +309,34 @@ public class DbFoodService implements PersistanceFoodService {
             if(day == null){
                 day = new Day();
                 day.setUser(dbUserServices.getUser(username));
-                day.setDate(date);
+                day.setDate(new Date(date.toDateMidnight().toDate().getTime()));
+
+                // create empty meals
+                Meal breakfast = new Meal();
+                breakfast.setName("Breakfast");
+                breakfast.setDay(day);
+
+                Meal lunch = new Meal();
+                lunch.setName("Lunch");
+                lunch.setDay(day);
+
+                Meal dinner = new Meal();
+                dinner.setName("Dinner");
+                dinner.setDay(day);
+
+                Meal snack = new Meal();
+                snack.setName("Snack");
+                snack.setDay(day);
+
+                List<Meal> meals = new ArrayList<Meal>();
+                meals.add(breakfast);
+                meals.add(lunch);
+                meals.add(dinner);
+                meals.add(snack);
+
+                // add meals to newly created day
+                day.setMeals(meals);
+
                 addOrUpdateDay(day);
             }
         }
@@ -341,6 +367,9 @@ public class DbFoodService implements PersistanceFoodService {
         } finally {
             if (transaction != null && transaction.isActive()) {
                 transaction.commit();
+            }
+            if (session.isOpen()){
+                session.close();
             }
         }
     }

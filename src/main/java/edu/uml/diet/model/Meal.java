@@ -57,6 +57,9 @@ public class Meal {
     }
 
     public void setPortions(Collection<Portion> portions) {
+        for(Portion portion : portions){
+            portion.setMeal(this);
+        }
         this.portions = portions;
     }
 
