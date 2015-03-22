@@ -20,7 +20,7 @@ public class BasicUserService implements UserService {
      * constructor method
      *
      */
-    public BasicUserService() throws UserServiceException {
+    /*public BasicUserService() throws UserServiceException {
         try {
             this.persistanceUserService = PersistanceServiceFactory.getPersistanceUserServicesInstance();
         } catch (PersistanceUserServicesException e) {
@@ -32,7 +32,7 @@ public class BasicUserService implements UserService {
         digester.setAlgorithm(ALGORITHM);
         digester.setIterations(ITERATIONS);
 
-    }
+    }*/
 
     /**
      * constructor method. for test. USE FACTORY INSTEAD

@@ -1,7 +1,9 @@
 package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
+import edu.uml.diet.model.Day;
 import org.hibernate.Session;
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -41,4 +43,22 @@ public interface PersistanceFoodService {
      */
     public void populateFoodDatabase() throws IOException, PersistanceFoodServiceException,
             SQLException, DatabaseConnectorException, DuplicateFoodException;
+
+    /**
+     *
+     * @param username
+     * @param dateTime
+     * @return
+     */
+    public Day getDay(String username, DateTime dateTime) throws PersistanceFoodServiceException;
+
+    /**
+     *
+     * @param day
+     * @return
+     * @throws PersistanceUserServicesException
+     */
+    public void addOrUpdateDay(Day day) throws PersistanceUserServicesException;
+
+
 }

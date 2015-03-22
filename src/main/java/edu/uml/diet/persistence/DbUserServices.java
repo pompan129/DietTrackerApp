@@ -2,6 +2,10 @@ package edu.uml.diet.persistence;
 
 
 
+import edu.uml.diet.model.User;
+import org.hibernate.Query;
+import org.hibernate.Session;
+
 import java.io.IOException;
 import java.sql.*;
 
@@ -124,5 +128,37 @@ public class DbUserServices implements PersistanceUserServices {
             throw new PersistanceUserServicesException("Could not connect to database." + e.getMessage(), e);
         }
         return password;
+    }
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    public User getUser(String username) throws PersistanceUserServicesException{
+        User user = new User();
+
+        try {
+            Session session = databaseConnector.getSessionFactory().openSession();
+            Connection connection = null;
+            try {
+                connection = databaseConnector.getDatabaseConnection();
+                session.beginTransaction();
+                Query query = session.createQuery("from User where username = :userName");// '%" + food + "%'");
+                query.setParameter("userName", username);
+                user = (User) query.list().get(0);
+                session.getTransaction().commit();
+            }  finally {
+                if (!connection.isClosed()) {
+                    connection.close();
+                }
+                if (session.isConnected()) {
+                    session.disconnect();
+                }
+            }
+        }catch (SQLException | DatabaseConnectorException e) {
+            throw new PersistanceUserServicesException("Could not connect to database." + e.getMessage(), e);
+        }
+        return user;
     }
 }

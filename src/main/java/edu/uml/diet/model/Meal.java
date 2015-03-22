@@ -11,7 +11,8 @@ import java.util.Collection;
 public class Meal {
     private Integer id;
     private String name;
-    @ManyToOne    @JoinColumn(name = "day_id")
+    @ManyToOne
+    @JoinColumn(name = "day_id")
     private Day day;
     @OneToMany(mappedBy = "meal" )
     private Collection<Portion> portions;
@@ -20,7 +21,8 @@ public class Meal {
 
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -39,7 +41,8 @@ public class Meal {
         this.name = name;
     }
 
-    @ManyToOne    @JoinColumn(name = "day_id")
+    @ManyToOne
+    @JoinColumn(name = "day_id")
     public Day getDay() {
         return day;
     }
@@ -48,7 +51,7 @@ public class Meal {
         this.day = day;
     }
 
-    @OneToMany(mappedBy = "meal" )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "meal" )
     public Collection<Portion> getPortions() {
         return portions;
     }
