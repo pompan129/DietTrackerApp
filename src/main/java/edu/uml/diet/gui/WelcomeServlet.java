@@ -7,6 +7,7 @@ import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
 import org.joda.time.DateTime;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +62,14 @@ public class WelcomeServlet extends HttpServlet {
                 } catch (FoodServiceException e) {
                     throw new ServletException("Could not go to next day", e);
                 }
+            }
+            if (daySelect.equals("today")) {
+                try {
+                    day = foodService.getDay(email, DateTime.now());
+                } catch (FoodServiceException e) {
+                    throw new ServletException("Could not get day ", e);
+                }
+                session.setAttribute("day", day);
             }
         }
 

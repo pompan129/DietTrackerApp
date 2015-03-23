@@ -20,14 +20,15 @@ Here's the day:
     <td>Total Calories (meal): <c:out value="${meal.getCalories()}" /> </td>
 </tr>
 </c:forEach>
-<!-- <tr><td>Total Calories (Day): <%-- <c:out value="${day.getCalories()}" /> </td></tr> --%> -->
+<tr><td>Total Calories (Day): <c:out value="${day.getCalories()}" /> </td></tr>
 </table>
 
 <form name = "daySelect" action = "welcome" method = "GET">
 <input type = "submit" name="newDay" value = "previous" />
 <input type = "submit" name="newDay" value="next" />
+<input type = "submit" name="newDay" value="today" />
 </form>
 
-<p> Click <a href="search"> here </a> to search for a food </p>
+<p> Click <a href="search"> here</a> to search for a food </p>
 </body>
 </html>

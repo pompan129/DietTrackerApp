@@ -67,7 +67,7 @@ public class Day {
      * @return int = total calories consumed this day
      */
     @Transient
-    int getCalories(){
+    public int getCalories(){
         int totalCalories = 0;
         for(Meal meal:meals){
             totalCalories += meal.getCalories();
