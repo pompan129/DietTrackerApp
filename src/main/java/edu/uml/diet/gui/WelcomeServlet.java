@@ -38,12 +38,6 @@ public class WelcomeServlet extends HttpServlet {
         String daySelect;
         daySelect = request.getParameter("newDay");
 
-        //on first launch, proceed directly to page
-        /*if(daySelect == null) {
-            ArrayList<Meal> mealList = new ArrayList<>(day.getMeals());
-            request.setAttribute("mealList", mealList);
-            request.getRequestDispatcher("/WEB-INF/welcome.jsp").forward(request, response);
-        }*/
         if(daySelect != null) {
             if (daySelect.equals("next")) {
                 dateTime = dateTime.plusDays(1);
