@@ -9,6 +9,7 @@ import edu.uml.diet.persistence.PersistanceFoodService;
 import edu.uml.diet.persistence.PersistanceServiceFactory;
 import junit.framework.TestCase;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.Before;
@@ -68,12 +69,13 @@ public class BasicFoodServiceTest extends TestCase {
     @Test
     public void testGetDay() throws Exception {
         String userName = "testName1";
-        DateTime dateTime = new DateTime();
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("MM/dd/yyyy");
+        DateTime dateTime = fmt.parseDateTime("12/1/2014");
         BasicFoodService basicFoodService = new BasicFoodService(PersistanceServiceFactory.getPersistanceFoodServiceInstance());
         BasicUserService basicUserService = new BasicUserService(PersistanceServiceFactory.getPersistanceUserServicesInstance());
         basicUserService.createUser(userName, "password");
         Day day = basicFoodService.getDay(userName, dateTime);
-        assertTrue(day.getDate().equals(dateTime));
+        assertTrue(DateTimeComparator.getDateOnlyInstance().compare(dateTime, day.getDate()) == 0);
     }
 
     @Test
@@ -81,15 +83,12 @@ public class BasicFoodServiceTest extends TestCase {
 
         String userName = "testName2";
         DateTimeFormatter fmt = DateTimeFormat.forPattern("MM/dd/yyyy");
-        DateTime dt = fmt.parseDateTime("12/1/2014");
-        //DateTime dateTime = new DateTime().withDate(12,1,1);
+        DateTime dateTime = fmt.parseDateTime("12/1/2014");
         BasicFoodService basicFoodService = new BasicFoodService(PersistanceServiceFactory.getPersistanceFoodServiceInstance());
         BasicUserService basicUserService = new BasicUserService(PersistanceServiceFactory.getPersistanceUserServicesInstance());
         basicUserService.createUser(userName, "password");
-        Day day = basicFoodService.getDay(userName, dt);
+        Day day = basicFoodService.getDay(userName, dateTime);
         BasicFood testFood = new BasicFood("TEST_FOOD", 1, 2, 3, 4, 5, "1 oz" );
-
-
 
         Meal meal1 = new Meal();
 
@@ -125,16 +124,11 @@ public class BasicFoodServiceTest extends TestCase {
 
         day.setMeals(meals);
 
-
         basicFoodService.addOrUpdateDay(day);
 
-
-        Day newDay1 = basicFoodService.getDay(userName, dt);
-        Day newDay2 = basicFoodService.getDay(userName, dt);
-        Day newDay3 = basicFoodService.getDay(userName, dt);
-        Day newDay4 = basicFoodService.getDay(userName, dt);
+        Day newDay1 = basicFoodService.getDay(userName, dateTime);
         assertTrue(newDay1.getDate().equals(day.getDate()));
-        //assertTrue(newDay.equals(day));
+        assertTrue(newDay1.equals(day));
         assertEquals(newDay1.getId(), day.getId());
     }
 

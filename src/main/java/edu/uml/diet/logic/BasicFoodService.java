@@ -77,7 +77,6 @@ public class BasicFoodService implements FoodService {
 
         for(Meal meal:day.getMeals()){
             if(meal.getPortions() == null){
-                System.out.println(">>>>>>>>>>>>>>>>>>> new P list");//todo
                 meal.setPortions(new ArrayList<Portion>());
             }
         }
