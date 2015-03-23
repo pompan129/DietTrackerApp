@@ -7,6 +7,9 @@ import edu.uml.diet.logic.UserService;
 import edu.uml.diet.logic.UserServiceException;
 import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Portion;
+import edu.uml.diet.persistence.DbFoodService;
+import edu.uml.diet.persistence.DuplicateFoodException;
+import edu.uml.diet.persistence.PersistanceFoodServiceException;
 import org.joda.time.DateTime;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,10 +30,23 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //create session
         HttpSession session = request.getSession(true);
-        session.setAttribute("loggedIn", false);
+        //TODO REMOVE THIS
+        /* DbFoodService dbFoodService = null;
+        try {
+            dbFoodService = new DbFoodService();
+        } catch (PersistanceFoodServiceException e) {
+            e.printStackTrace();
+        }
+        try {
+            dbFoodService.populateFoodDatabase();
+        } catch (PersistanceFoodServiceException e) {
+            e.printStackTrace();
+        } catch (DuplicateFoodException e) {
+            e.printStackTrace();
+        } */
 
-        //TODO may take this out
         //SESSION INITIALIZATION
+        session.setAttribute("loggedIn", false);
         ArrayList<Portion> userPortionList =  new ArrayList<>();
         session.setAttribute("userPortionList", userPortionList);
 

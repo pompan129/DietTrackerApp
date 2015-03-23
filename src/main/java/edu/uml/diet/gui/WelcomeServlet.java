@@ -65,6 +65,7 @@ public class WelcomeServlet extends HttpServlet {
         }
 
         ArrayList<Meal> mealList = new ArrayList<>(day.getMeals());
+        request.setAttribute("day", day);
         request.setAttribute("mealList", mealList);
 
         request.getRequestDispatcher("/WEB-INF/welcome.jsp").forward(request, response);
