@@ -1,6 +1,7 @@
 package edu.uml.diet.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -61,6 +62,25 @@ public class Meal {
             portion.setMeal(this);
         }
         this.portions = portions;
+    }
+
+    @Transient public void setPortion(Portion portion){  //todo MAKE TEST FOR THIS
+        if(portions == null){portions = new ArrayList<Portion>();}
+        this.portions.add(portion);
+    }
+
+    /**
+     * method to return the  sum total of all calories portions for this meal
+     * @return int = total calories in meal.
+     */
+    @Transient
+    public int getCalories(){
+        int totalCalories = 0;
+        for(Portion portion: portions){
+            totalCalories += portion.getCalories();
+        }
+
+        return totalCalories;
     }
 
     @Override

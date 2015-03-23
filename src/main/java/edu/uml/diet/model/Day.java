@@ -62,6 +62,19 @@ public class Day {
         this.user = user;
     }
 
+    /**
+     * method to return sum total calories for all meals in the day
+     * @return int = total calories consumed this day
+     */
+    @Transient
+    int getCalories(){
+        int totalCalories = 0;
+        for(Meal meal:meals){
+            totalCalories += meal.getCalories();
+        }
+        return totalCalories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
