@@ -2,7 +2,10 @@ package edu.uml.diet.model;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
+
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Collection;
 
 /**
@@ -12,7 +15,7 @@ import java.util.Collection;
 @Table(name = "DAYS", schema = "", catalog = "DietTracker")
 public class Day {
     private Integer id;
-    private DateTime date;
+    private Date date;
     @OneToMany(mappedBy = "day" )
     private Collection<Meal> meals;
     @ManyToOne
@@ -32,12 +35,11 @@ public class Day {
 
     @Basic
     @Column(name = "date")
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -66,6 +68,7 @@ public class Day {
         if (o == null || getClass() != o.getClass()) return false;
 
         Day day = (Day) o;
+
 
         if (date != null ? !date.equals(day.date) : day.date != null) return false;
         if (id != null ? !id.equals(day.id) : day.id != null) return false;
