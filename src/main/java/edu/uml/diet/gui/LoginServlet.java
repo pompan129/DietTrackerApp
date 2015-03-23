@@ -1,11 +1,13 @@
 package edu.uml.diet.gui;
 
-import edu.uml.diet.logic.*;
+import edu.uml.diet.logic.FoodService;
+import edu.uml.diet.logic.FoodServiceException;
+import edu.uml.diet.logic.ServiceFactory;
+import edu.uml.diet.logic.UserService;
+import edu.uml.diet.logic.UserServiceException;
 import edu.uml.diet.model.Day;
-import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
 import org.joda.time.DateTime;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,35 +33,6 @@ public class LoginServlet extends HttpServlet {
         //SESSION INITIALIZATION
         ArrayList<Portion> userPortionList =  new ArrayList<>();
         session.setAttribute("userPortionList", userPortionList);
-        /*Day day = new Day(); //day holds meals
-        ArrayList<Meal>  meals = new ArrayList<>();
-        //create meals
-        Meal breakfast = new Meal();
-        Meal lunch = new Meal();
-        Meal dinner = new Meal();
-        Meal snack = new Meal();
-
-        //set empty portions
-        breakfast.setPortions(new ArrayList<Portion>());
-        lunch.setPortions(new ArrayList<Portion>());
-        dinner.setPortions(new ArrayList<Portion>());
-        snack.setPortions(new ArrayList<Portion>());
-
-        //set names
-        breakfast.setName("breakfast");
-        lunch.setName("lunch");
-        dinner.setName("dinner");
-        snack.setName("snack");
-
-        //add them to days
-        meals.add(breakfast);
-        meals.add(lunch);
-        meals.add(dinner);
-        meals.add(snack);
-        day.setMeals(meals);
-
-        //store them in the session
-        session.setAttribute("day", day); */
 
         //nothing else to do, send user to login page
         request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
@@ -75,6 +48,7 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        //create service to authenticate user
         UserService userService;
         try {
             userService = ServiceFactory.getUserServiceInstance();
@@ -82,6 +56,7 @@ public class LoginServlet extends HttpServlet {
             throw new ServletException("Error creating userService", e);
         }
         boolean authenticated;
+        //attempt to authenticate user
         try {
             authenticated = userService.verifyUser(email, password);
             session.setAttribute("loggedIn", authenticated);
@@ -89,6 +64,9 @@ public class LoginServlet extends HttpServlet {
             throw new ServletException("Error authenticating", e);
         }
 
+        //if user authenticates
+        //get today and store in session
+        //also stores user email in session
         if (authenticated) {
             FoodService foodService;
             try {
@@ -96,12 +74,15 @@ public class LoginServlet extends HttpServlet {
             } catch (FoodServiceException e) {
                 throw new ServletException("Could not create foodService ", e);
             }
+            //getting day here
             Day day;
             try {
                 day = foodService.getDay(email, DateTime.now());
             } catch (FoodServiceException e) {
                 throw new ServletException("Could not get day ", e);
             }
+
+            //store info we'll need later in session
             session.setAttribute("email", email);
             session.setAttribute("foodService", foodService);
             session.setAttribute("day", day);

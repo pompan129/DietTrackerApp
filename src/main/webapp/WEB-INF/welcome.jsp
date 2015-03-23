@@ -14,10 +14,17 @@
     <td><c:out value="${meal.getName()}" /></td>
     <c:forEach items="${meal.getPortions()}" var="portions" >
     <td><c:out value="${portions.getFood().getName()}" /> </td>
+    <td><c:out value="${portions.getCalories()}" /> </td>
     </c:forEach>
 </tr>
 </c:forEach>
 </table>
+
+<form name = "daySelect" action = "welcome" method = "GET">
+<input type = "submit" name="newDay" value = "previous" />
+<input type = "submit" name="newDay" value="next" />
+</form>
+
 <p> Click <a href="search"> here </a> to search for a food </p>
 </body>
 </html>
