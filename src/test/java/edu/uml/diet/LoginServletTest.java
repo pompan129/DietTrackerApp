@@ -25,7 +25,7 @@ public class LoginServletTest extends TestCase {
         password = "password";
         wrongEmail = "THISWILLNEVERBEANEMAIL@NOTAURL.NOTAURL";
         wrongPassword = "DEFINITELYNOTMYPASSWORD";
-        errorMessage = "Username not found. Do you want to <a href = \"register.html\"> register</a>?";
+        errorMessage = "Username not found. Do you want to <a href = \"register\"> register</a>?";
         loginServlet = new LoginServlet();
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();

@@ -36,16 +36,9 @@ public class SelectServlet extends HttpServlet {
 
         double portionSize;
         String portionID;
-        FoodService foodService;
+        FoodService foodService = (FoodService) session.getAttribute("foodService");
         Portion portion;
         ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
-        //ArrayList<Portion> userPortionList = new ArrayList<Portion>();
-
-        try {
-            foodService = ServiceFactory.getFoodServiceInstance();
-        } catch (FoodServiceException e) {
-            throw new ServletException("SearchServlet Error when creating foodService: ", e);
-        }
 
         if(portionIDs != null) {
             for (int i = 0; i<portionSizesParsed.size(); i++) {
@@ -93,6 +86,8 @@ public class SelectServlet extends HttpServlet {
         mealID--;
         HttpSession session = request.getSession(false);
         ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
+
+        //get the right day
         Day day = (Day) session.getAttribute("day");
         ArrayList<Meal> meals = new ArrayList<Meal>(day.getMeals());
         Meal userMeal = meals.get(mealID);
@@ -101,20 +96,16 @@ public class SelectServlet extends HttpServlet {
         day.setMeals(meals);
         request.setAttribute("userMeal", userMeal);
         request.setAttribute("userPortionList", userPortionList);
+
+        FoodService foodService = (FoodService) session.getAttribute("foodService");
+        try {
+            foodService.addOrUpdateDay(day);
+        } catch (FoodServiceException e) {
+            throw new ServletException("Could not add or update day", e);
+        }
         session.setAttribute("day", day);
         session.setAttribute("userPortionList", new ArrayList<Portion>());
-
-        //testing
-        /* day = (Day) session.getAttribute("day");
-        meals = new ArrayList<>(day.getMeals());
-         for (int j = 0; j < meals.size(); j++) {
-            ArrayList<Portion> newPortion = new ArrayList<>(meals.get(j).getPortions());
-            out.println(meals.get(j).getName());
-            for (int i = 0; i < newPortion.size(); i++) {
-                out.println(newPortion.get(i).getFood().getName());
-                out.println(newPortion.get(i).getCalories());
-            }
-        } */
+        
         request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
     }
 }

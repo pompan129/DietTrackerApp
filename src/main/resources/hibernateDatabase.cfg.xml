@@ -15,6 +15,9 @@
         <property name="hibernate.connection.password">
             some_pass
         </property>
+        <property name="hibernate.current_session_context_class">
+            thread
+        </property>
 
 
         <mapping class="edu.uml.diet.model.User"/>

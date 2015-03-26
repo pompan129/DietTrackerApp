@@ -7,17 +7,28 @@
 </head>
 <body>
 <h1>Welcome to the Diet Tracker</h1>
-<p>Here's your day so far:<p>
+You're looking at: <c:out value = "${day.getDate().toString()}" /> </br>
+Here's the day:
 <table>
 <c:forEach items="${mealList}" var="meal">
 <tr>
     <td><c:out value="${meal.getName()}" /></td>
     <c:forEach items="${meal.getPortions()}" var="portions" >
     <td><c:out value="${portions.getFood().getName()}" /> </td>
+    <td><c:out value="${portions.getCalories()}" /> </td>
     </c:forEach>
+    <td>Total Calories (meal): <c:out value="${meal.getCalories()}" /> </td>
 </tr>
 </c:forEach>
+<tr><td>Total Calories (Day): <c:out value="${day.getCalories()}" /> </td></tr>
 </table>
-<p> Click <a href="search"> here </a> to search for a food </p>
+
+<form name = "daySelect" action = "welcome" method = "GET">
+<input type = "submit" name="newDay" value = "previous" />
+<input type = "submit" name="newDay" value="next" />
+<input type = "submit" name="newDay" value="today" />
+</form>
+
+<p> Click <a href="search"> here</a> to search for a food </p>
 </body>
 </html>

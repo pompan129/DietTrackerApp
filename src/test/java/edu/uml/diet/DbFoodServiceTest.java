@@ -126,18 +126,40 @@ public class DbFoodServiceTest {
     @Test
     public void testAddOrUpdateDay() throws PersistanceFoodServiceException, PersistanceUserServicesException{
         DbFoodService dbFoodService = new DbFoodService();
-        Day day = dbFoodService.getDay(userName, dateTime);
 
+        // create first day, add meals and portions... save to db
+        Day day = dbFoodService.getDay(userName, dateTime);
         Portion portion = new Portion();
         List<Portion> portions = new ArrayList<>();
         portions.add(portion);
         ArrayList<Meal> dayMeals = new ArrayList<Meal>(day.getMeals());
-
         dayMeals.get(0).setPortions(portions);
         dbFoodService.addOrUpdateDay(day);
 
-        Day newDay = dbFoodService.getDay(userName, dateTime);
-        assertTrue(newDay.equals(day));
+        // create second day, add meals and portions... save to db
+        Day day2 = dbFoodService.getDay(userName, dateTime.plusDays(1));
+        Portion portion2 = new Portion();
+        List<Portion> portions2 = new ArrayList<>();
+        portions2.add(portion2);
+        ArrayList<Meal> dayMeals2 = new ArrayList<Meal>(day2.getMeals());
+        dayMeals2.get(0).setPortions(portions2);
+        dbFoodService.addOrUpdateDay(day2);
+
+        // modify first day and save updates
+        Day day3 = dbFoodService.getDay(userName, dateTime);
+        Portion portion3 = new Portion();
+        List<Portion> portions3 = new ArrayList<>();
+        portions3.add(portion3);
+        ArrayList<Meal> dayMeals3 = new ArrayList<Meal>(day3.getMeals());
+        dayMeals3.get(1).setPortions(portions3);
+        dbFoodService.addOrUpdateDay(day3);
+
+        // get all portions from first day
+        Day testDay = dbFoodService.getDay(userName, dateTime);
+        ArrayList<Meal> testMeals = new ArrayList<Meal>(testDay.getMeals());
+        int portionCount = testMeals.get(0).getPortions().size() + testMeals.get(1).getPortions().size();
+
+        assertTrue(portionCount == 2);
     }
 
 

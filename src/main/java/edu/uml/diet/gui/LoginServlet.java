@@ -1,19 +1,23 @@
 package edu.uml.diet.gui;
 
+import edu.uml.diet.logic.FoodService;
+import edu.uml.diet.logic.FoodServiceException;
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.UserService;
 import edu.uml.diet.logic.UserServiceException;
 import edu.uml.diet.model.Day;
-import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
-import java.util.ArrayDeque;
+import edu.uml.diet.persistence.DbFoodService;
+import edu.uml.diet.persistence.DuplicateFoodException;
+import edu.uml.diet.persistence.PersistanceFoodServiceException;
+import org.joda.time.DateTime;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Servlet for handling user login attempts
@@ -26,41 +30,25 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //create session
         HttpSession session = request.getSession(true);
-        session.setAttribute("loggedIn", false);
+        //TODO REMOVE THIS
+        /* DbFoodService dbFoodService = null;
+        try {
+            dbFoodService = new DbFoodService();
+        } catch (PersistanceFoodServiceException e) {
+            e.printStackTrace();
+        }
+        try {
+            dbFoodService.populateFoodDatabase();
+        } catch (PersistanceFoodServiceException e) {
+            e.printStackTrace();
+        } catch (DuplicateFoodException e) {
+            e.printStackTrace();
+        } */
 
-        //TODO may take this out
         //SESSION INITIALIZATION
+        session.setAttribute("loggedIn", false);
         ArrayList<Portion> userPortionList =  new ArrayList<>();
         session.setAttribute("userPortionList", userPortionList);
-        Day day = new Day(); //day holds meals
-        ArrayList<Meal>  meals = new ArrayList<>();
-        //create meals
-        Meal breakfast = new Meal();
-        Meal lunch = new Meal();
-        Meal dinner = new Meal();
-        Meal snack = new Meal();
-
-        //set empty portions
-        breakfast.setPortions(new ArrayList<Portion>());
-        lunch.setPortions(new ArrayList<Portion>());
-        dinner.setPortions(new ArrayList<Portion>());
-        snack.setPortions(new ArrayList<Portion>());
-
-        //set names
-        breakfast.setName("breakfast");
-        lunch.setName("lunch");
-        dinner.setName("dinner");
-        snack.setName("snack");
-
-        //add them to days
-        meals.add(breakfast);
-        meals.add(lunch);
-        meals.add(dinner);
-        meals.add(snack);
-        day.setMeals(meals);
-
-        //store them in the session
-        session.setAttribute("day", day);
 
         //nothing else to do, send user to login page
         request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
@@ -76,13 +64,15 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        UserService userService = null;
+        //create service to authenticate user
+        UserService userService;
         try {
             userService = ServiceFactory.getUserServiceInstance();
         } catch (UserServiceException e) {
             throw new ServletException("Error creating userService", e);
         }
-        boolean authenticated = false;
+        boolean authenticated;
+        //attempt to authenticate user
         try {
             authenticated = userService.verifyUser(email, password);
             session.setAttribute("loggedIn", authenticated);
@@ -90,10 +80,31 @@ public class LoginServlet extends HttpServlet {
             throw new ServletException("Error authenticating", e);
         }
 
+        //if user authenticates
+        //get today and store in session
+        //also stores user email in session
         if (authenticated) {
+            FoodService foodService;
+            try {
+                foodService = ServiceFactory.getFoodServiceInstance();
+            } catch (FoodServiceException e) {
+                throw new ServletException("Could not create foodService ", e);
+            }
+            //getting day here
+            Day day;
+            try {
+                day = foodService.getDay(email, DateTime.now());
+            } catch (FoodServiceException e) {
+                throw new ServletException("Could not get day ", e);
+            }
+
+            //store info we'll need later in session
+            session.setAttribute("email", email);
+            session.setAttribute("foodService", foodService);
+            session.setAttribute("day", day);
             response.sendRedirect("welcome");
         } else {
-            request.setAttribute("error", "Username not found. Do you want to <a href = \"register.html\"> register</a>?");
+            request.setAttribute("error", "Username not found. Do you want to <a href = \"register\"> register</a>?");
             request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }
     }

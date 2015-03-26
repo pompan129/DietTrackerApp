@@ -43,7 +43,7 @@ public class Day {
         this.date = date;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "day")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "day", fetch = FetchType.EAGER)
     public Collection<Meal> getMeals() {
         return meals;
     }
@@ -67,7 +67,7 @@ public class Day {
      * @return int = total calories consumed this day
      */
     @Transient
-    int getCalories(){
+    public int getCalories(){
         int totalCalories = 0;
         for(Meal meal:meals){
             totalCalories += meal.getCalories();

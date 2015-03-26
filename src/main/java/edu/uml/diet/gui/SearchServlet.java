@@ -36,14 +36,10 @@ public class SearchServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String query = request.getParameter("query");
+        HttpSession session = request.getSession(false);
 
         //after user has searched, process their request
-        FoodService foodService;
-        try {
-            foodService = ServiceFactory.getFoodServiceInstance();
-        } catch (FoodServiceException e) {
-            throw new ServletException("SearchServlet Error when creating foodService: ", e);
-        }
+        FoodService foodService = (FoodService) session.getAttribute("foodService");
         List<Portion> portionList = null;
         if(foodService != null) {
             try {
