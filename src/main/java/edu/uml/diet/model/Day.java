@@ -43,7 +43,7 @@ public class Day {
         this.date = date;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "day")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "day", fetch = FetchType.EAGER)
     public Collection<Meal> getMeals() {
         return meals;
     }

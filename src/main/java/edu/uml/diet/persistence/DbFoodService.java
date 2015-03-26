@@ -66,7 +66,7 @@ public class DbFoodService implements PersistanceFoodService {
             if (!databaseBuilder.checkIfTableExists(tableName)) {
                 return null;
             }
-            Session session = databaseConnector.getSessionFactory().openSession();
+            Session session = databaseConnector.getSessionFactory().getCurrentSession();
 
             try {
                 session.beginTransaction();
@@ -107,7 +107,7 @@ public class DbFoodService implements PersistanceFoodService {
             if (!databaseBuilder.checkIfTableExists(tableName)) {
                 return null;
             }
-            Session session = databaseConnector.getSessionFactory().openSession();
+            Session session = databaseConnector.getSessionFactory().getCurrentSession();
 
             try {
                 session.beginTransaction();
@@ -219,7 +219,7 @@ public class DbFoodService implements PersistanceFoodService {
                 databaseBuilder.initializeDatabase();
             }
 
-            session = databaseConnector.getSessionFactory().openSession();
+            session = databaseConnector.getSessionFactory().getCurrentSession();
 
             for (BasicFood basicFood : basicFoodArrayList) {
                 try {
@@ -240,9 +240,6 @@ public class DbFoodService implements PersistanceFoodService {
                 if (!connection.isClosed()) {
                     connection.close();
                 }
-                if (session.isConnected()) {
-                    session.disconnect();
-                }
             }
             catch (SQLException e){
                 throw new PersistanceFoodServiceException("Could not close session " + e.getMessage(), null);
@@ -252,7 +249,7 @@ public class DbFoodService implements PersistanceFoodService {
 
    /* public void addOrUpdatePortion(Portion portion){
 
-        Session session = DatabaseConnector.getSessionFactory().openSession();
+        Session session = databaseConnector.getSessionFactory().getCurrentSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -279,32 +276,21 @@ public class DbFoodService implements PersistanceFoodService {
      */
     public Day getDay(String username, DateTime date) throws PersistanceFoodServiceException{
         Day day = null;
-        Connection connection = null;
+        Session session = databaseConnector.getSessionFactory().getCurrentSession();
+        Transaction transaction = null;
 
         try{
             DbUserServices dbUserServices = new DbUserServices();
 
-            connection = databaseConnector.getDatabaseConnection();
-            Session session = databaseConnector.getSessionFactory().openSession();
-
-            try {
-                session.beginTransaction();
-                Query query = session.createQuery("from Day where date = :date AND user_id = :user_id");// '%" + food + "%'");
-                query.setParameter("date", new Date(date.toDate().getTime())) ;
-                query.setParameter("user_id", dbUserServices.getUser(username).getId());
-                if(query.list().size() > 0) {
-                    day = (Day) query.list().get(0);
-                }
-                session.getTransaction().commit();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from Day where date = :date AND user_id = :user_id");// '%" + food + "%'");
+            query.setParameter("date", new Date(date.toDate().getTime())) ;
+            query.setParameter("user_id", dbUserServices.getUser(username).getId());
+            if(query.list().size() > 0) {
+                day = (Day) query.list().get(0);
+                day.getMeals();
             }
-            finally {
-                if(!connection.isClosed()){
-                    connection.close();
-                }
-                if(session.isConnected()){
-                    session.disconnect();
-                }
-            }
+            transaction.commit();
 
             if(day == null){
                 day = new Day();
@@ -340,8 +326,13 @@ public class DbFoodService implements PersistanceFoodService {
                 addOrUpdateDay(day);
             }
         }
-        catch(DatabaseConnectorException | SQLException | PersistanceUserServicesException e){
+        catch(PersistanceUserServicesException e){
             throw new PersistanceFoodServiceException("Could not connect to database." + e.getMessage(), e);
+        }
+        finally {
+            if (transaction != null && transaction.isActive()) {
+                transaction.commit();
+            }
         }
         return day;
     }
@@ -353,7 +344,8 @@ public class DbFoodService implements PersistanceFoodService {
      */
     public void addOrUpdateDay(Day day){
 
-        Session session = DatabaseConnector.getSessionFactory().openSession();
+        //Session session = databaseConnector.getSessionFactory().getCurrentSession();
+        Session session = databaseConnector.getSessionFactory().getCurrentSession();
         Transaction transaction = null;
 
         try {
@@ -368,9 +360,6 @@ public class DbFoodService implements PersistanceFoodService {
             if (transaction != null && transaction.isActive()) {
                 transaction.commit();
             }
-            if (session.isOpen()){
-                session.close();
-            }
         }
     }
 
@@ -383,7 +372,7 @@ public class DbFoodService implements PersistanceFoodService {
 
     /*@SuppressWarnings("unchecked")
     public List<Portion> getPortions(Meal meal) {
-        Session session =  DatabaseConnector.getSessionFactory().openSession();
+        Session session =  databaseConnector.getSessionFactory().getCurrentSession();
         Transaction transaction = null;
         List<Portion> portions = null;
         try {
