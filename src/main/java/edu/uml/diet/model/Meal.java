@@ -64,7 +64,7 @@ public class Meal {
         this.portions = portions;
     }
 
-    @Transient public void setPortion(Portion portion){  //todo MAKE TEST FOR THIS
+    @Transient public void setPortion(Portion portion){
         if(portions == null){portions = new ArrayList<Portion>();}
         this.portions.add(portion);
     }

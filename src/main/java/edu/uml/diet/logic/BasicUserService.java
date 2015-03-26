@@ -65,7 +65,7 @@ public class BasicUserService implements UserService {
         }
 
         //generate passKey from user supplied password
-        String passKey = digester.digest(password);
+       // String passKey = digester.digest(password);
 
         //compare user passkey with passKey in Persistence layer
         try {
