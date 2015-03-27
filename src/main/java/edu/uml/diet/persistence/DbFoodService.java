@@ -219,7 +219,7 @@ public class DbFoodService implements PersistanceFoodService {
                 databaseBuilder.initializeDatabase();
             }
 
-            session = databaseConnector.getSessionFactory().getCurrentSession();
+            session = databaseConnector.getSessionFactory().openSession();
 
             for (BasicFood basicFood : basicFoodArrayList) {
                 try {

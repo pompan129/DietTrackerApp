@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -120,7 +121,7 @@ public class DbFoodServiceTest {
     public void testGetDay() throws PersistanceFoodServiceException{
         DbFoodService dbFoodService = new DbFoodService();
         Day day = dbFoodService.getDay(userName, dateTime);
-        assertTrue(day.getDate().equals(dateTime));
+        assertTrue(DateTimeComparator.getDateOnlyInstance().compare(dateTime, day.getDate()) == 0);
     }
 
     @Test
