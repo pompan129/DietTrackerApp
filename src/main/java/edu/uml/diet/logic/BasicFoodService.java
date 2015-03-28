@@ -18,13 +18,13 @@ import java.util.List;
  */
 public class BasicFoodService implements FoodService {
 
-    PersistanceFoodService persistanceFoodService;
+    private final PersistanceFoodService persistanceFoodService;
 
 
     /**
      * constrcuor class. sets PersistanceFoodService
      *
-     * @param persistanceFoodService
+     * @param persistanceFoodService  service that connects & retrieves data from Persistence Layer
      */
     public BasicFoodService(PersistanceFoodService persistanceFoodService) {
         this.persistanceFoodService = persistanceFoodService;
@@ -34,7 +34,7 @@ public class BasicFoodService implements FoodService {
     /**
      * returns a Portion object wrapped around a BasicFood object. Search based on BasicFood description.
      *
-     * @param foodName
+     * @param foodName String that is short description of food item
      * @return Portion containing the BasicFood
      * @throws FoodServiceException
      */
@@ -52,8 +52,8 @@ public class BasicFoodService implements FoodService {
     /**
      * method to return a List of Portion objects based on BasicFood search criteria
      *
-     * @param food
-     * @return
+     * @param food String that is short description of food item
+     * @return List<Portion> collection of Portion objects
      * @throws FoodServiceException when unable to connect to Persistence or with bad SQL syntax.
      *                              client should try later or inform Persistence admin.
      */
@@ -76,8 +76,8 @@ public class BasicFoodService implements FoodService {
     /**
      * Method to retrieve Day object from Persistance
      *
-     * @param username
-     * @param date
+     * @param username String of user's username
+     * @param date Datetime object associated with Day object to retrieve
      * @return Day object specified by Date & username
      * @throws edu.uml.diet.logic.FoodServiceException when unable to connect to Persistance. client should
      *                                                 try later &/or inform Persistence admin.
@@ -105,7 +105,7 @@ public class BasicFoodService implements FoodService {
     /**
      * method to save Day object to Persistence
      *
-     * @param day
+     * @param day Day object to be updates
      * @throws FoodServiceException . error when unable to connect with Persistence. notify Persistence admin
      *                              &/or try later.
      */

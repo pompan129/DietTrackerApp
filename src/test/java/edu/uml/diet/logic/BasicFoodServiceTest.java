@@ -7,7 +7,6 @@ import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
 import edu.uml.diet.persistence.PersistanceFoodService;
 import edu.uml.diet.persistence.PersistanceServiceFactory;
-import junit.framework.TestCase;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 import org.joda.time.format.DateTimeFormat;
@@ -20,16 +19,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-public class BasicFoodServiceTest extends TestCase {
+public class BasicFoodServiceTest {
 
-    BasicFood basicfood;
-    Double portionSize;
-    Portion portion;
-    String foodName;
-    PersistanceFoodService persistanceFoodService_MOCK;
+    private String foodName;
+    private PersistanceFoodService persistanceFoodService_MOCK;
 
     @Before
     public void setUp() {
