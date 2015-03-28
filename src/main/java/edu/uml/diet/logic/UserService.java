@@ -21,5 +21,5 @@ public interface UserService {
      * @param password
      * @return boolean. true if user creation is successful. false if username already in use.
      */
-    public boolean createUser(String username, String password) throws UserServiceException;
+    public boolean createUser(String username, String password) throws UserServiceException, DuplicateUserException;
 }

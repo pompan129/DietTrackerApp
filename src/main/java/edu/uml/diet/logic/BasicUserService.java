@@ -84,7 +84,7 @@ public class BasicUserService implements UserService {
      * @param password
      * @return boolean. true if user creation is successful. false if username already in use.
      */
-    public boolean createUser(String username, String password) throws UserServiceException {
+    public boolean createUser(String username, String password) throws UserServiceException, edu.uml.diet.logic.DuplicateUserException {
         //if username already exists return false
         try {
             if(persistanceUserService.verifyUsername(username)){return false;}
@@ -102,7 +102,7 @@ public class BasicUserService implements UserService {
         } catch (PersistanceUserServicesException e) {
             throw new UserServiceException("Cannot create user", e);
         } catch (DuplicateUserException e) {
-            throw new UserServiceException("UserName already in use", e);
+            throw new edu.uml.diet.logic.DuplicateUserException("UserName already in use", e);
         }
         return true;
     }
