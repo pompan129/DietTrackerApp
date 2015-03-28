@@ -8,6 +8,7 @@ public interface UserService {
 
     /**
      * method to verify username and password combination.
+     *
      * @param username
      * @param password
      * @return returns boolean. true if verification successful, false if username/password combination
@@ -17,6 +18,7 @@ public interface UserService {
 
     /**
      * Method to create new user account
+     *
      * @param username
      * @param password
      * @return boolean. true if user creation is successful. false if username already in use.

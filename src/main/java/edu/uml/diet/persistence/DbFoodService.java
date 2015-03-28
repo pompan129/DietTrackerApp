@@ -363,38 +363,5 @@ public class DbFoodService implements PersistanceFoodService {
         }
     }
 
-    /**
-     * Get a list of portions in a meal
-     *
-     * @param meal the Meal
-     * @return a list of Portion instances
-     */
-
-    /*@SuppressWarnings("unchecked")
-    public List<Portion> getPortions(Meal meal) {
-        Session session =  databaseConnector.getSessionFactory().getCurrentSession();
-        Transaction transaction = null;
-        List<Portion> portions = null;
-        try {
-            transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Portion.class);
-            //criteria.add(Restrictions.eq("meal", meal));
-            // NOTE criteria.list(); generates unchecked warning so SuppressWarnings
-            portions = criteria.list();
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();  // close transaction
-            }
-        } finally {
-            if (transaction != null && transaction.isActive()) {
-                transaction.commit();
-            }
-        }
-        return portions;
-
-    }*/
-
-
 
 }
