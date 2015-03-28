@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -94,6 +95,8 @@ public class DbFoodServiceTest {
             SQLException, DatabaseConnectorException, DuplicateFoodException{
         DbFoodService dbFoodService = new DbFoodService();
         dbFoodService.populateFoodDatabase();
+        basicFoodList = dbFoodService.searchForFoodList("");
+        assertEquals(basicFoodList.size(), 8615);
     }
 
    /*@Test

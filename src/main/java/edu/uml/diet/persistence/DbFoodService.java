@@ -107,13 +107,20 @@ public class DbFoodService implements PersistanceFoodService {
             if (!databaseBuilder.checkIfTableExists(tableName)) {
                 return null;
             }
-            Session session = databaseConnector.getSessionFactory().getCurrentSession();
+            Session session = databaseConnector.getSessionFactory().openSession();
 
             try {
                 session.beginTransaction();
-                Query query = session.createQuery("from BasicFood where name like :foodName");// '%" + food + "%'");
-                query.setParameter("foodName","%" + food + "%");
-                foundFood = query.list();
+                Query query = null;
+                if(food == ""){
+                    query = session.createQuery("from BasicFood");
+                    foundFood = query.list();
+                }
+                else {
+                    query = session.createQuery("from BasicFood where name like :foodName");
+                    query.setParameter("foodName", "%" + food + "%");
+                    foundFood = query.list();
+                }
                 session.getTransaction().commit();
             }
             finally {
@@ -163,6 +170,10 @@ public class DbFoodService implements PersistanceFoodService {
 
         if(checkForDuplicateFood(basicFood,connection,session)){
             throw new DuplicateFoodException("Could not create new food, food already exists ", null);
+        }
+
+        if(basicFood.getHouseholdWeight() == 0){
+
         }
 
         Transaction transaction = null;
