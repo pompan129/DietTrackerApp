@@ -35,6 +35,10 @@ public class SearchServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //so we can check if the post has happened yet
+        boolean posted = true;
+        request.setAttribute("posted", posted);
+
         //get user search query
         String query = request.getParameter("query");
         HttpSession session = request.getSession(false);
