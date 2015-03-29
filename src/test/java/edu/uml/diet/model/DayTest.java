@@ -1,34 +1,35 @@
 package edu.uml.diet.model;
 
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class DayTest extends TestCase {
-    Meal meal_1;
-    Meal meal_2;
-    int id;
-    String name;
-    Portion portion_1, portion_2;
-    BasicFood food;
-    String foodName;
-    int calories;
-    int fat;
-    int carbs;
-    int protein;
-    double householdWeight;
-    String householdWeightDescription;
-    Day day;
-    Date date;
-    User user;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class DayTest {
+    private Meal meal_1;
+    private Meal meal_2;
+    private int id;
+    private Portion portion_1;
+    private Portion portion_2;
+    private BasicFood food;
+    private String foodName;
+    private int calories;
+    private int fat;
+    private int carbs;
+    private int protein;
+    private double householdWeight;
+    private String householdWeightDescription;
+    private Day day;
+    private Date date;
+    private User user;
 
     @Before
     public void setUp() {
         id = 7;
-        name = "LUNCH";
         foodName = "TEST_FOOD";
         calories = 150;
         fat = 5;
@@ -86,8 +87,8 @@ public class DayTest extends TestCase {
         mealArrayList.add(meal_2);
         day = new Day();
         day.setMeals(mealArrayList);
-        assertTrue("contains meal 1",mealArrayList.contains(meal_1));
-        assertTrue("contains meal 2",mealArrayList.contains(meal_2));
+        assertTrue("contains meal 1", mealArrayList.contains(meal_1));
+        assertTrue("contains meal 2", mealArrayList.contains(meal_2));
 
     }
 
@@ -98,8 +99,8 @@ public class DayTest extends TestCase {
         mealArrayList.add(meal_2);
         day = new Day();
         day.setMeals(mealArrayList);
-        assertTrue("contains meal 1",mealArrayList.contains(meal_1));
-        assertTrue("contains meal 2",mealArrayList.contains(meal_2));
+        assertTrue("contains meal 1", mealArrayList.contains(meal_1));
+        assertTrue("contains meal 2", mealArrayList.contains(meal_2));
 
     }
 
@@ -120,7 +121,7 @@ public class DayTest extends TestCase {
     @Test
     public void testGetCalories() throws Exception {
         day = new Day();
-        ArrayList<Meal> mealArrayList= new ArrayList<>();
+        ArrayList<Meal> mealArrayList = new ArrayList<>();
         mealArrayList.add(meal_1);
         mealArrayList.add(meal_2);
         day.setMeals(mealArrayList);
@@ -132,7 +133,7 @@ public class DayTest extends TestCase {
     public void testEquals() throws Exception {
         day = new Day();
         Day dayCopy = new Day();
-        ArrayList<Meal> mealArrayList= new ArrayList<>();
+        ArrayList<Meal> mealArrayList = new ArrayList<>();
         mealArrayList.add(meal_1);
         mealArrayList.add(meal_2);
         day.setMeals(mealArrayList);
@@ -151,7 +152,7 @@ public class DayTest extends TestCase {
     public void testHashCode() throws Exception {
         day = new Day();
         Day dayCopy = new Day();
-        ArrayList<Meal> mealArrayList= new ArrayList<>();
+        ArrayList<Meal> mealArrayList = new ArrayList<>();
         mealArrayList.add(meal_1);
         mealArrayList.add(meal_2);
         day.setMeals(mealArrayList);

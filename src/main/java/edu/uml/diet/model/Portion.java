@@ -3,7 +3,7 @@ package edu.uml.diet.model;
 import javax.persistence.*;
 
 /**
- * Created by Kurt Johnson on 3/13/2015.
+ * Class that represents a Portion of food consumed in a Meal.
  */
 @Entity
 @Table(name = "PORTIONS", schema = "", catalog = "DietTracker")
@@ -17,13 +17,30 @@ public class Portion {
     @JoinColumn(name = "meal_id")
     private Meal meal;
 
-    public Portion(){ this.portionSize = 1.0;}; //for persistence mapping
+    /**
+     * constructor with no parameters. sets portion size to default of 1.0
+     */
+    public Portion() {
+        this.portionSize = 1.0;
+    }
 
-    public Portion(BasicFood food){
+    ; //for persistence mapping
+
+    /**
+     * constructor method. sets food type and portions size to default of 1.0
+     *
+     * @param food
+     */
+    public Portion(BasicFood food) {
         this.food = food;
         this.portionSize = 1.0;
     }
 
+    /**
+     * method to return unique integer ID for this object
+     *
+     * @return int - unique ID
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -31,36 +48,71 @@ public class Portion {
         return id;
     }
 
+    /**
+     * method to set unique integer ID for this object
+     *
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     * method to return BasicFood object associated with this Portion
+     *
+     * @return BasicFood - consumed in this Portion
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "food_id")
-    public BasicFood getFood(){
+    public BasicFood getFood() {
         return food;
     }
 
-    public void setFood(BasicFood food){
+    /**
+     * method to set BasicFood object associated with this Portion
+     *
+     * @param food - BasicFood object associated with this Portion
+     */
+    public void setFood(BasicFood food) {
         this.food = food;
     }
 
+    /**
+     * method to get size of this Portion object
+     *
+     * @return Double - represents size of Portion
+     */
     @Basic
     @Column(name = "portion_size")
     public Double getPortionSize() {
         return portionSize;
     }
 
+    /**
+     * method to get size of this Portion object
+     *
+     * @param portionSize Double - represents size of Portion
+     */
     public void setPortionSize(Double portionSize) {
         this.portionSize = portionSize;
     }
 
+    /**
+     * method to return Meal object associated with this Portion
+     *
+     * @return Meal that contains this Portion
+     */
     @ManyToOne
     @JoinColumn(name = "meal_id")
     public Meal getMeal() {
         return meal;
     }
 
+    /**
+     * method to set Meal object associated with this Portion
+     *
+     * @param meal Meal that contains this Portion
+     */
     public void setMeal(Meal meal) {
         this.meal = meal;
     }
@@ -68,33 +120,44 @@ public class Portion {
 
     /**
      * method to return calories present in this portion size or this food.
-     *based on common household wieght. If no household weight present in DB, then calories
+     * based on common household wieght & Portion size. If no household weight present in Persistence, then calories
      * based on 100 grams.
-     * @return int number of calories in portion size
+     *
+     * @return int number of calories in Portion based on portion size & householdweight
      */
     @Transient
-    public int getCalories(){
+    public int getCalories() {
         double householdWeight = food.getHouseholdWeight();
 
-        if(householdWeight == 0){householdWeight = 100.0;}
-        return (int) ((food.getCalories()/100.0 )*householdWeight* portionSize);
+        if (householdWeight == 0) {
+            householdWeight = 100.0;
+        }
+        return (int) ((food.getCalories() / 100.0) * householdWeight * portionSize);
     }
 
     /**
      * Method to return the common household weight of a food (ie. 1 cup, 1 tablespoon)
      * if there is no common wieht in the DB the method will return the standard 100 grams
+     *
      * @return String representing household weight description
      */
     @Transient
-    public String getHouseholdWeightDescription(){
+    public String getHouseholdWeightDescription() {
         String description = food.getHouseholdWeightDescription();
-        if(description.equals("0")){description = "100 grams";}
+        if (description.equals("0")) {
+            description = "100 grams";
+        }
 
         return description;
     }
 
 
-
+    /**
+     * equals method to compare this object with another
+     *
+     * @param o
+     * @return boolean (true if objects are equal)
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,6 +172,11 @@ public class Portion {
         return true;
     }
 
+    /**
+     * method to generate a hashcode for this object
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;

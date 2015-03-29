@@ -19,8 +19,8 @@ public interface FoodService {
 
     /**
      * Mthod to retrieve Day object from Persistance
-     * @param username
-     * @param date
+     * @param username String of user's username
+     * @param date DateTime object associated with the Day object to be retrieved
      * @return Day object specified by Date & username
      * @throws FoodServiceException
      */
@@ -28,7 +28,7 @@ public interface FoodService {
 
     /**
      * method to save Day object to Persistence
-     * @param day
+     * @param day Day object to be created or updated
      */
     void addOrUpdateDay(Day day) throws FoodServiceException;
 }
