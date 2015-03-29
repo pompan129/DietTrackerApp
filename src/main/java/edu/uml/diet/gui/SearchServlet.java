@@ -50,6 +50,24 @@ public class SearchServlet extends HttpServlet {
         //get search results as portionList
         portionList = getPortions(query, foodService, portionList);
 
+        //process search results
+        //if results are good, shows user results
+        processSearchResults(request, response, portionList);
+
+
+    }
+
+    /**
+     * process search results from user query
+     * throw error if user query is empty
+     * otherwise, show results
+     * @param request
+     * @param response
+     * @param portionList
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void processSearchResults(HttpServletRequest request, HttpServletResponse response, List<Portion> portionList) throws ServletException, IOException {
         //if search results are empty, show user an error
         if(portionList.isEmpty()) {
             request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
@@ -64,7 +82,7 @@ public class SearchServlet extends HttpServlet {
     }
 
     /**
-     *
+     * get list of portions fro user search query
      * @param query
      * @param foodService
      * @param portionList
