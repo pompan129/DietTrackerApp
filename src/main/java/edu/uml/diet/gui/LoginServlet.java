@@ -50,7 +50,6 @@ public class LoginServlet extends HttpServlet {
         //attempt to authenticate user
         boolean authenticated = authenticate(session, email, password);
 
-
         //if user authenticates
         //get today and store in session
         //also stores user email in session
@@ -96,7 +95,6 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("day", day);
         response.sendRedirect("welcome");
     }
-
 
     /**
      * method to authenticate user. takes inputted email and password

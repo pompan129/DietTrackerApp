@@ -44,6 +44,30 @@ public class SearchServlet extends HttpServlet {
         List<Portion> portionList = null;
 
         //get search results as portionList
+        portionList = getPortions(query, foodService, portionList);
+
+        //if search results are empty, show user an error
+        if(portionList.isEmpty()) {
+            request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
+            request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
+        }
+        //if search results not empty, set search result in session
+        //and display the search results for selection
+        else {
+            request.setAttribute("portionList", portionList);
+            request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     *
+     * @param query
+     * @param foodService
+     * @param portionList
+     * @return portionList
+     * @throws ServletException
+     */
+    private List<Portion> getPortions(String query, FoodService foodService, List<Portion> portionList) throws ServletException {
         if(foodService != null) {
             try {
                 portionList = foodService.foodListSearch(query);
@@ -51,18 +75,6 @@ public class SearchServlet extends HttpServlet {
                 throw new ServletException("SearchServlet Error when creating foodList: ", e);
             }
         }
-
-        //if search results are empty, show user an error
-        if(portionList.isEmpty()) {
-            request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
-            request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
-        }
-
-        //if search results not empty, set search result in session
-        //and display the search results for selection
-        else {
-            request.setAttribute("portionList", portionList);
-            request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
-        }
+        return portionList;
     }
 }
