@@ -47,6 +47,68 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        //attempt to authenticate user
+        boolean authenticated = authenticate(session, email, password);
+
+
+        //if user authenticates
+        //get today and store in session
+        //also stores user email in session
+        if (authenticated) {
+            getInfo(response, session, email);
+        }
+
+        //if not authenticated, show error, direct user to registration page
+        else {
+            request.setAttribute("error", "Username not found. Do you want to <a href = \"register\"> register</a>?");
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        }
+    }
+
+    /**
+     * gets required database info for authenticated user
+     * sets session variables (email, foodService, day)
+     * directs user to the next page
+     * @param response
+     * @param session
+     * @param email
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void getInfo(HttpServletResponse response, HttpSession session, String email) throws ServletException, IOException {
+        FoodService foodService;
+        try {
+            foodService = ServiceFactory.getFoodServiceInstance();
+        } catch (FoodServiceException e) {
+            throw new ServletException("Could not create foodService ", e);
+        }
+        //getting day here
+        Day day;
+        try {
+            day = foodService.getDay(email, DateTime.now());
+        } catch (FoodServiceException e) {
+            throw new ServletException("Could not get day ", e);
+        }
+
+        //store info we'll need later in session
+        session.setAttribute("email", email);
+        session.setAttribute("foodService", foodService);
+        session.setAttribute("day", day);
+        response.sendRedirect("welcome");
+    }
+
+
+    /**
+     * method to authenticate user. takes inputted email and password
+     * and checks it against existing database entries
+     * also correctly sets session variable
+     * @param session
+     * @param email
+     * @param password
+     * @return authenticated
+     * @throws ServletException
+     */
+    private boolean authenticate(HttpSession session, String email, String password) throws ServletException {
         //create service to authenticate user
         UserService userService;
         try {
@@ -63,36 +125,6 @@ public class LoginServlet extends HttpServlet {
         } catch (UserServiceException e) {
             throw new ServletException("Error authenticating", e);
         }
-
-        //if user authenticates
-        //get today and store in session
-        //also stores user email in session
-        if (authenticated) {
-            FoodService foodService;
-            try {
-                foodService = ServiceFactory.getFoodServiceInstance();
-            } catch (FoodServiceException e) {
-                throw new ServletException("Could not create foodService ", e);
-            }
-            //getting day here
-            Day day;
-            try {
-                day = foodService.getDay(email, DateTime.now());
-            } catch (FoodServiceException e) {
-                throw new ServletException("Could not get day ", e);
-            }
-
-            //store info we'll need later in session
-            session.setAttribute("email", email);
-            session.setAttribute("foodService", foodService);
-            session.setAttribute("day", day);
-            response.sendRedirect("welcome");
-        }
-
-        //if not authenticated, show error, direct user to registration page
-        else {
-            request.setAttribute("error", "Username not found. Do you want to <a href = \"register\"> register</a>?");
-            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
-        }
+        return authenticated;
     }
 }
