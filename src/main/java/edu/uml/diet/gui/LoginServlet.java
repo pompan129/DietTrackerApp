@@ -7,9 +7,6 @@ import edu.uml.diet.logic.UserService;
 import edu.uml.diet.logic.UserServiceException;
 import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Portion;
-import edu.uml.diet.persistence.DbFoodService;
-import edu.uml.diet.persistence.DuplicateFoodException;
-import edu.uml.diet.persistence.PersistanceFoodServiceException;
 import org.joda.time.DateTime;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,20 +27,6 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //create session
         HttpSession session = request.getSession(true);
-        //TODO REMOVE THIS
-        /* DbFoodService dbFoodService = null;
-        try {
-            dbFoodService = new DbFoodService();
-        } catch (PersistanceFoodServiceException e) {
-            e.printStackTrace();
-        }
-        try {
-            dbFoodService.populateFoodDatabase();
-        } catch (PersistanceFoodServiceException e) {
-            e.printStackTrace();
-        } catch (DuplicateFoodException e) {
-            e.printStackTrace();
-        } */
 
         //SESSION INITIALIZATION
         session.setAttribute("loggedIn", false);
@@ -72,6 +55,7 @@ public class LoginServlet extends HttpServlet {
             throw new ServletException("Error creating userService", e);
         }
         boolean authenticated;
+
         //attempt to authenticate user
         try {
             authenticated = userService.verifyUser(email, password);
@@ -103,7 +87,10 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("foodService", foodService);
             session.setAttribute("day", day);
             response.sendRedirect("welcome");
-        } else {
+        }
+
+        //if not authenticated, show error, direct user to registration page
+        else {
             request.setAttribute("error", "Username not found. Do you want to <a href = \"register\"> register</a>?");
             request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }

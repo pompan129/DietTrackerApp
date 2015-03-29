@@ -4,10 +4,7 @@ import edu.uml.diet.logic.FoodService;
 import edu.uml.diet.logic.FoodServiceException;
 import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Meal;
-import edu.uml.diet.model.Portion;
 import org.joda.time.DateTime;
-
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,19 +23,19 @@ public class WelcomeServlet extends HttpServlet {
         //send the user straight on to the welcome page
         HttpSession session = request.getSession();
         FoodService foodService = (FoodService) session.getAttribute("foodService");
-        //Day day = (Day) session.getAttribute("day");
-        //ArrayList<Meal> meals = new ArrayList<Meal>(day.getMeals());
-        //request.setAttribute("meals", meals);
-
 
         Day day = (Day) session.getAttribute("day");
+
+        //get the user's email to use later
         String email = (String) session.getAttribute("email");
         DateTime dateTime = new DateTime(day.getDate());
 
         String daySelect;
         daySelect = request.getParameter("newDay");
 
+        //make sure dayselect isn't null
         if(daySelect != null) {
+            //show next day
             if (daySelect.equals("next")) {
                 dateTime = dateTime.plusDays(1);
                 try {
@@ -48,6 +45,7 @@ public class WelcomeServlet extends HttpServlet {
                     throw new ServletException("Could not go to next day", e);
                 }
             }
+            //show previous day
             if (daySelect.equals("previous")) {
                 dateTime = dateTime.minusDays(1);
                 try {
@@ -57,6 +55,7 @@ public class WelcomeServlet extends HttpServlet {
                     throw new ServletException("Could not go to next day", e);
                 }
             }
+            //show today
             if (daySelect.equals("today")) {
                 try {
                     day = foodService.getDay(email, DateTime.now());
