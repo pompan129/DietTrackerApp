@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet {
      * @return authenticated
      * @throws ServletException
      */
-    private boolean authenticate(HttpSession session, String email, String password) throws ServletException {
+    protected boolean authenticate(HttpSession session, String email, String password) throws ServletException {
         //create service to authenticate user
         UserService userService;
         try {
@@ -104,7 +104,7 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void getInfo(HttpServletResponse response, HttpSession session, String email) throws ServletException, IOException {
+    protected void getInfo(HttpServletResponse response, HttpSession session, String email) throws ServletException, IOException {
         FoodService foodService;
         try {
             foodService = ServiceFactory.getFoodServiceInstance();
