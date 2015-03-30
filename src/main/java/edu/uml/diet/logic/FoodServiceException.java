@@ -1,7 +1,7 @@
 package edu.uml.diet.logic;
 
 /**
- * Created by Kurt Johnson on 3/8/2015.
+ * Exception class to indicate problems connecting to Persistance
  */
 public class FoodServiceException extends Exception {
 

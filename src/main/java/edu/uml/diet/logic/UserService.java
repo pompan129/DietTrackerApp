@@ -8,8 +8,9 @@ public interface UserService {
 
     /**
      * method to verify username and password combination.
-     * @param username
-     * @param password
+     *
+     * @param username String of user's username
+     * @param password String of user's password
      * @return returns boolean. true if verification successful, false if username/password combination
      * is incorrect
      */
@@ -17,9 +18,10 @@ public interface UserService {
 
     /**
      * Method to create new user account
-     * @param username
-     * @param password
+     *
+     * @param username String of user's username
+     * @param password String of user's password
      * @return boolean. true if user creation is successful. false if username already in use.
      */
-    public boolean createUser(String username, String password) throws UserServiceException;
+    public boolean createUser(String username, String password) throws UserServiceException, DuplicateUserException;
 }

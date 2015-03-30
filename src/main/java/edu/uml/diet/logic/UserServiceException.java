@@ -1,7 +1,7 @@
 package edu.uml.diet.logic;
 
 /**
- * Created by Kurt Johnson on 3/3/2015.
+ * Exception class. Notify client of errors in verifying & creating users.
  */
 public class UserServiceException extends Exception {
     /**

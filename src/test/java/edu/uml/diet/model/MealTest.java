@@ -1,6 +1,5 @@
 package edu.uml.diet.model;
 
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,21 +7,25 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class MealTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    Meal meal;
-    int id;
-    String name;
-    Portion portion_1, portion_2;
-    BasicFood food;
-    String foodName;
-    int calories;
-    int fat;
-    int carbs;
-    int protein;
-    double householdWeight;
-    String householdWeightDescription;
-    Day day;
+public class MealTest {
+
+    private Meal meal;
+    private int id;
+    private String name;
+    private Portion portion_1;
+    private Portion portion_2;
+    private BasicFood food;
+    private String foodName;
+    private int calories;
+    private int fat;
+    private int carbs;
+    private int protein;
+    private double householdWeight;
+    private String householdWeightDescription;
+    private Day day;
 
 
     @Before
@@ -67,6 +70,7 @@ public class MealTest extends TestCase {
         assertEquals("name is equal", meal.getName(), name);
     }
 
+    @Test
     public void testSetName() throws Exception {
         meal = new Meal();
         meal.setName(name);
@@ -128,7 +132,6 @@ public class MealTest extends TestCase {
         meal = new Meal();
         meal.setPortion(portion_1);
         meal.setPortion(portion_2);
-        Collection<Portion> portionArrayListCopy = meal.getPortions();
         int calories = (portion_1.getCalories()) + (portion_2.getCalories());
         assertTrue("Calories are equal", meal.getCalories() == calories);
 
@@ -170,4 +173,6 @@ public class MealTest extends TestCase {
 
 
     }
+
+
 }

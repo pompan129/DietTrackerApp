@@ -1,17 +1,20 @@
 package edu.uml.diet.model;
 
-import edu.uml.diet.model.BasicFood;
-import edu.uml.diet.model.Portion;
-import edu.uml.diet.persistence.*;
-import junit.framework.TestCase;
+import edu.uml.diet.persistence.DatabaseBuilder;
+import edu.uml.diet.persistence.DatabaseConnector;
+import edu.uml.diet.persistence.DatabaseConnectorException;
+import edu.uml.diet.persistence.PersistanceFoodServiceException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class PortionTest extends TestCase {
+import java.util.Objects;
 
-    private static DatabaseConnector databaseConnector;
+import static org.junit.Assert.*;
+
+public class PortionTest {
+
     private DatabaseBuilder databaseBuilder;
-    private String databaseName;
     private BasicFood food;
     private Double portionSize;
     private Portion portion;
@@ -31,8 +34,8 @@ public class PortionTest extends TestCase {
         id = 10;
         food = new BasicFood("Fake_Food",calories,1,1,1,householdWeight,householdWeightDescription);
 
-        databaseName = "DietTracker";
-        databaseConnector = new DatabaseConnector();
+        String databaseName = "DietTracker";
+        DatabaseConnector databaseConnector = new DatabaseConnector();
         databaseBuilder = new DatabaseBuilder(databaseConnector,databaseName);
         databaseBuilder.initializeDatabase();
 
@@ -49,6 +52,7 @@ public class PortionTest extends TestCase {
     }
 
 
+    @Test
     public void testSetFood() throws Exception {
         BasicFood newBasicFood = new BasicFood("newFood", calories +1, 9, 2, 46, householdWeight +1,
                 householdWeightDescription + "test");
@@ -68,6 +72,7 @@ public class PortionTest extends TestCase {
         portion.setPortionSize(portionSize);
         assertEquals("testGetPortionSize: Positive", portionSize, portion.getPortionSize());
     }
+
     /**
      * Negative test for getPortionSize()
      */
@@ -81,6 +86,7 @@ public class PortionTest extends TestCase {
 
     /**
      * test of the setPortionSize() method
+     *
      * @throws Exception
      */
     @Test
@@ -94,6 +100,7 @@ public class PortionTest extends TestCase {
 
     /**
      * Test of the getID() method
+     *
      * @throws Exception
      */
     @Test
@@ -107,6 +114,7 @@ public class PortionTest extends TestCase {
 
     /**
      * test of the setId(() method
+     *
      * @throws Exception
      */
     @Test
@@ -119,6 +127,7 @@ public class PortionTest extends TestCase {
 
     /**
      * test of the getMeal() method
+     *
      * @throws Exception
      */
     @Test
@@ -127,12 +136,13 @@ public class PortionTest extends TestCase {
         meal.setId(id);
         portion = new Portion();
         portion.setMeal(meal);
-        assertTrue("meals have same ID", meal.getId()== portion.getMeal().getId());
+        assertTrue("meals have same ID", Objects.equals(meal.getId(), portion.getMeal().getId()));
 
     }
 
     /**
      * test of the setMeal() method
+     *
      * @throws Exception
      */
     @Test
@@ -141,11 +151,12 @@ public class PortionTest extends TestCase {
         meal.setId(id);
         portion = new Portion();
         portion.setMeal(meal);
-        assertTrue("meals have same ID", meal.getId()== portion.getMeal().getId());
+        assertTrue("meals have same ID", Objects.equals(meal.getId(), portion.getMeal().getId()));
     }
 
     /**
      * test of the get calories method.
+     *
      * @throws Exception
      */
     @Test
@@ -158,6 +169,7 @@ public class PortionTest extends TestCase {
 
     /**
      * test of the getCalories() method. when BasicFood has a householdweight of 0
+     *
      * @throws Exception
      */
     @Test
@@ -170,6 +182,7 @@ public class PortionTest extends TestCase {
 
     /**
      * test of the getHouseholdWeightDescription() method
+     *
      * @throws Exception
      */
     @Test
@@ -181,6 +194,7 @@ public class PortionTest extends TestCase {
 
     /**
      * test of the getHouseholdWeightDescription() method when the description in DB  is empty
+     *
      * @throws Exception
      */
     @Test
@@ -192,15 +206,11 @@ public class PortionTest extends TestCase {
     }
 
 
-
+    @After
     public void tearDown() throws Exception {
         databaseBuilder.initializeDatabase();
 
     }
-
-
-
-
 
 
 }

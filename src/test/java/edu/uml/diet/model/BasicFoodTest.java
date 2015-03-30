@@ -1,26 +1,20 @@
 package edu.uml.diet.model;
 
-/**
- * Created by Kurt Johnson on 2/8/2015.
- */
 
-import edu.uml.diet.model.BasicFood;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class BasicFoodTest {
-    String foodName;
-    int calories;
-    int fat;
-    int carbs;
-    int protein;
-    double householdWeight;
-    String householdWeightDescription;
+    private String foodName;
+    private int calories;
+    private int fat;
+    private int carbs;
+    private int protein;
+    private double householdWeight;
+    private String householdWeightDescription;
 
 
     @Before
@@ -127,6 +121,7 @@ public class BasicFoodTest {
     /**
      * test to verify equals() method in BasicFood Class
      */
+    @Test
     public void testEquals() {
         BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, householdWeight, householdWeightDescription);
         BasicFood basicfood2 = new BasicFood(basicfood.getName(), basicfood.getCalories(),
@@ -140,6 +135,7 @@ public class BasicFoodTest {
     /**
      * Negative test to verify equals() method in BasicFood Class
      */
+    @Test
     public void testEqualsNegative() {
         BasicFood basicfood = new BasicFood(foodName, calories, fat, carbs, protein, householdWeight, householdWeightDescription);
         //add one to protein for mismatch on basicfood2

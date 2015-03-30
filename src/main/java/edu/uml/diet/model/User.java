@@ -15,6 +15,9 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+    private Double weight;
+    private Double goalWeight;
+    private Double height;
     @OneToMany(mappedBy = "user" )
     private Collection<Day> days;
 
@@ -39,7 +42,6 @@ public class User {
     }
 
     /**
-     *
      * @return the user's username
      */
     @Basic
@@ -58,7 +60,6 @@ public class User {
     }
 
     /**
-     *
      * @return the user's password
      */
     @Basic
@@ -77,7 +78,6 @@ public class User {
     }
 
     /**
-     *
      * @return the user's first name
      */
     @Basic
@@ -88,6 +88,7 @@ public class User {
 
     /**
      * Sets the user's first name
+     *
      * @param firstName
      */
     public void setFirstName(String firstName){
@@ -95,7 +96,6 @@ public class User {
     }
 
     /**
-     *
      * @return the user's last name
      */
     @Basic
@@ -113,38 +113,136 @@ public class User {
         this.lastName = lastName;
     }
 
+    /**
+     * method to return weight in lbs of user
+     *
+     * @return Double - represents weight in lbs
+     */
+    @Basic
+    @Column(name = "weight_lbs")
+    public Double getWeight() {
+        return weight;
+    }
 
+    /**
+     * method to set user's weight in lbs
+     *
+     * @param weight Double - represents weight in lbs
+     */
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    /**
+     * method to return user's desired weight in lbs
+     *
+     * @return Double - represents goal weight in lbs
+     */
+    @Basic
+    @Column(name = "goal_weight_lbs")
+    public Double getGoalWeight() {
+        return goalWeight;
+    }
+
+
+    /**
+     * method to return user's desired weight in lbs
+     *
+     * @param goalWeight Double - represents goal weight in lbs
+     */
+    public void setGoalWeight(Double goalWeight) {
+        this.goalWeight = goalWeight;
+    }
+
+    /**
+     * method to return user's height in feet
+     *
+     * @return Double - represents height in feet
+     */
+    @Basic
+    @Column(name = "height_ft")
+    public Double getHeight() {
+        return height;
+    }
+
+    /**
+     * method to set user's height in feet
+     *
+     * @param height Double - represents height in feet
+     */
+    public void setHeight(Double height) {
+        this.height = height;
+    }
+
+    /**
+     * method to return collection of Day objects for which the user has recorded nutritional
+     * information
+     *
+     * @return Collection<Day>  - collection of all Day objects associated with this User
+     */
     @OneToMany(mappedBy = "user" )
     public Collection<Day> getDays() {
         return days;
     }
 
+    /**
+     * method to set collection of Day objects for which the user has recorded nutritional
+     * information
+     *
+     * @param days Collection<Day>  - collection of all Day objects associated with this User
+     */
     public void setDays(Collection<Day> days) {
         this.days = days;
     }
 
     /**
+     * method to calculate a person's BMI based on the formula
+     * English Units: BMI = Weight (lb) / (Height (in) x Height (in)) x 703
      *
-     * @param o  object being tested for quality to User object
-     * @return true if objects are equal, false otherwise
+     * @return
+     */
+    @Transient
+    public Double getBMI() {
+        Double heightInches = height * 12.0;
+        return weight / (heightInches * heightInches) * 703.0;
+    }
+
+    /**
+     * equals method to compare this object with another
+     *
+     * @param o
+     * @return boolean (true if objects are equal)
      */
     @Override
     public boolean equals(Object o){
         if(this ==o) return true;
-        if(o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
 
         User user = (User) o;
+
         if(id != user.id) return false;
-        if(userName != null ? !userName.equals(user.userName) : user.userName != null){
+        if (days != null ? !days.equals(user.days) : user.days != null) {
             return false;
         }
-        if(password != null ? !password.equals(user.password) : user.password != null){
+        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) {
             return false;
         }
-        if(firstName != null ? !firstName.equals(user.firstName) : user.firstName != null){
+        if (goalWeight != null ? !goalWeight.equals(user.goalWeight) : user.goalWeight != null) {
+            return false;
+        }
+        if (height != null ? !height.equals(user.height) : user.height != null) {
             return false;
         }
         if(lastName != null ? !lastName.equals(user.lastName) : user.lastName != null){
+            return false;
+        }
+        if (password != null ? !password.equals(user.password) : user.password != null) {
+            return false;
+        }
+        if (userName != null ? !userName.equals(user.userName) : user.userName != null) {
+            return false;
+        }
+        if (weight != null ? !weight.equals(user.weight) : user.weight != null) {
             return false;
         }
 
@@ -152,7 +250,25 @@ public class User {
     }
 
     /**
+     * method to generate a hashcode for this object
      *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (weight != null ? weight.hashCode() : 0);
+        result = 31 * result + (goalWeight != null ? goalWeight.hashCode() : 0);
+        result = 31 * result + (height != null ? height.hashCode() : 0);
+        result = 31 * result + (days != null ? days.hashCode() : 0);
+        return result;
+    }
+
+    /**
      * @return formatted user object, does NOT return password
      */
     @Override

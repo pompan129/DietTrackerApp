@@ -5,7 +5,6 @@ import javax.persistence.*;
 /**
  * Container class to represent 1 food item
  * immutable
- *
  */
 @Entity
 @Table(name="FOOD")
@@ -94,6 +93,7 @@ public class BasicFood {
     }
 
     /**
+     * getter to return short String description of food item
      *
      * @return string representing name of food
      */
@@ -104,6 +104,7 @@ public class BasicFood {
     }
 
     /**
+     * setter to set short String description of food item
      *
      * @param name name of food
      */
@@ -112,6 +113,7 @@ public class BasicFood {
     }
 
     /**
+     * getter to return calories of food item
      *
      * @return int value representing calories per serving
      */
@@ -120,6 +122,7 @@ public class BasicFood {
     public int getCalories() { return calories; }
 
     /**
+     * setter to set calories of food item
      *
      * @param calories number of calories per 100g in food
      */
@@ -128,6 +131,7 @@ public class BasicFood {
     }
 
     /**
+     * getter to return number of fat (g) per 100g in food
      *
      * @return int value representing fat per serving
      */
@@ -136,6 +140,7 @@ public class BasicFood {
     public int getFat() { return fat; }
 
     /**
+     * setter to set  of fat (g) per 100g in food
      *
      * @param fat number of fat (g) per 100g in food
      */
@@ -144,6 +149,7 @@ public class BasicFood {
     }
 
     /**
+     * getter to return number of carbs (g) per 100g in food
      *
      * @return int value representing Carbohydrates per serving
      */
@@ -152,6 +158,7 @@ public class BasicFood {
     public int getCarbs() {return carbs; }
 
     /**
+     * setter to set number of carbs (g) per 100g in food
      *
      * @param carbs number (g) of carbs per 100g in food
      */
@@ -160,6 +167,7 @@ public class BasicFood {
     }
 
     /**
+     * getter to return number of protein (g) per 100g in food
      *
      * @return int value representing protein per serving
      */
@@ -168,6 +176,7 @@ public class BasicFood {
     public int getProtein() { return protein; }
 
     /**
+     * setter to set number of protein (g) per 100g in food
      *
      * @param protein number (g) of protein per 100g in food
      */
@@ -176,6 +185,8 @@ public class BasicFood {
     }
 
     /**
+     * getter to return number of grams in typical household measurement for this
+     * food. (ie. 8 grams in a tablespoon)
      *
      * @return typical household weight of BasicFood
      */
@@ -186,6 +197,8 @@ public class BasicFood {
     }
 
     /**
+     * setter to set number of grams in typical household measurement for this
+     * food. (ie. 8 grams in a tablespoon)
      *
      * @param householdWeight typical household weight of BasicFood
      */
@@ -194,6 +207,8 @@ public class BasicFood {
     }
 
     /**
+     * getter to return a short description for the typical household measurement for this
+     * food (tablespoon, cup, slice, oz. etc...).
      *
      * @return typical household weight description of BasicFood
      */
@@ -204,6 +219,8 @@ public class BasicFood {
     }
 
     /**
+     * setter to set a short description for the typical household measurement for this
+     * food (tablespoon, cup, slice, oz. etc...).
      *
      * @param householdWeightDescription typical household weight description of BasicFood
      */
@@ -212,6 +229,12 @@ public class BasicFood {
     }
 
 
+    /**
+     * equals method for comparing this object with another.
+     *
+     * @param o
+     * @return boolean (true if they are equal)
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -230,6 +253,11 @@ public class BasicFood {
         return true;
     }
 
+    /**
+     * generates hashcode for this object
+     *
+     * @return int representing hashcode for this object
+     */
     @Override
     public int hashCode() {
         int result = name.hashCode();

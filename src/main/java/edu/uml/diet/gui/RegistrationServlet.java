@@ -1,5 +1,6 @@
 package edu.uml.diet.gui;
 
+import edu.uml.diet.logic.DuplicateUserException;
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.UserService;
 import edu.uml.diet.logic.UserServiceException;
@@ -41,6 +42,8 @@ public class RegistrationServlet extends HttpServlet {
             userService.createUser(email, password);
         } catch (UserServiceException e) {
             throw new ServletException("Error creating user: ", e);
+        } catch (DuplicateUserException e) {
+
         }
         response.sendRedirect("login");
     }
