@@ -51,35 +51,14 @@ public class SelectServlet extends HttpServlet {
         boolean posted = true;
         request.setAttribute("posted", posted);
 
+        //get session
+        HttpSession session = request.getSession(false);
+
         //variable messages to JSP
         Map<String, String> messages = new HashMap<String, String>();
         request.setAttribute("messages", messages);
+        Day day = getAndUpdateDay(request, session);
 
-        //get selected mealID
-        int mealID = Integer.parseInt((String) request.getParameter("mealID"));
-
-        //decrement to prevent fencepost error
-        mealID--;
-        HttpSession session = request.getSession(false);
-        ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
-
-        //get the right day
-        Day day = (Day) session.getAttribute("day");
-        //get meals list from day
-        ArrayList<Meal> meals = new ArrayList<Meal>(day.getMeals());
-        //get the particular meal the user selected
-        Meal userMeal = meals.get(mealID);
-
-        //set selected portions to the selected meal
-        userMeal.setPortions(userPortionList);
-
-        //put the updated meal back in the meallist
-        meals.set(mealID, userMeal);
-
-        //put the updated meal list back in the day
-        day.setMeals(meals);
-        request.setAttribute("userMeal", userMeal);
-        request.setAttribute("userPortionList", userPortionList);
 
         FoodService foodService = (FoodService) session.getAttribute("foodService");
 
@@ -97,7 +76,6 @@ public class SelectServlet extends HttpServlet {
         //refresh page
         request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
     }
-
 
     /**
      * Get selected portions from previous page
@@ -140,6 +118,41 @@ public class SelectServlet extends HttpServlet {
         Day day = (Day) session.getAttribute("day");
         request.setAttribute("meals", day.getMeals());
         request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
+    }
+
+    /**
+     * get day from user input from previous page
+     * update the session day with the new information
+     * @param request
+     * @param session
+     * @return
+     */
+    private Day getAndUpdateDay(HttpServletRequest request, HttpSession session) {
+        //get selected mealID
+        int mealID = Integer.parseInt((String) request.getParameter("mealID"));
+
+        //decrement to prevent fencepost error
+        mealID--;
+        ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
+
+        //get the right day
+        Day day = (Day) session.getAttribute("day");
+        //get meals list from day
+        ArrayList<Meal> meals = new ArrayList<Meal>(day.getMeals());
+        //get the particular meal the user selected
+        Meal userMeal = meals.get(mealID);
+
+        //set selected portions to the selected meal
+        userMeal.setPortions(userPortionList);
+
+        //put the updated meal back in the meallist
+        meals.set(mealID, userMeal);
+
+        //put the updated meal list back in the day
+        day.setMeals(meals);
+        request.setAttribute("userMeal", userMeal);
+        request.setAttribute("userPortionList", userPortionList);
+        return day;
     }
 }
 
