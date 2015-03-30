@@ -121,7 +121,7 @@ public class DayTest {
     @Test
     public void testGetCalories() throws Exception {
         day = new Day();
-        ArrayList<Meal> mealArrayList= new ArrayList<>();
+        ArrayList<Meal> mealArrayList = new ArrayList<>();
         mealArrayList.add(meal_1);
         mealArrayList.add(meal_2);
         day.setMeals(mealArrayList);

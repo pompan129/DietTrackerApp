@@ -8,7 +8,7 @@ import java.util.Collection;
  * for User object
  */
 @Entity
-@Table(name="USERS")
+@Table(name = "USERS")
 public class User {
     private int id;
     private String userName;
@@ -18,7 +18,7 @@ public class User {
     private Double weight;
     private Double goalWeight;
     private Double height;
-    @OneToMany(mappedBy = "user" )
+    @OneToMany(mappedBy = "user")
     private Collection<Day> days;
 
     /**
@@ -27,8 +27,8 @@ public class User {
      * @return user ID number as integer
      */
     @Id
-    @Column(name="id", nullable = false)
-    public int getId(){
+    @Column(name = "id", nullable = false)
+    public int getId() {
         return id;
     }
 
@@ -37,7 +37,7 @@ public class User {
      *
      * @param id unique ID number for user as integer
      */
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -45,8 +45,8 @@ public class User {
      * @return the user's username
      */
     @Basic
-    @Column(name="username")
-    public String getUserName(){
+    @Column(name = "username")
+    public String getUserName() {
         return userName;
     }
 
@@ -55,7 +55,7 @@ public class User {
      *
      * @param userName
      */
-    public void setUserName(String userName){
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -63,17 +63,17 @@ public class User {
      * @return the user's password
      */
     @Basic
-    @Column(name="password")
-    public String getPassword(){
+    @Column(name = "password")
+    public String getPassword() {
         return password;
     }
 
     /**
-     *Set the user's password
+     * Set the user's password
      *
      * @param password
      */
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -81,8 +81,8 @@ public class User {
      * @return the user's first name
      */
     @Basic
-    @Column(name="first_name")
-    public String getFirstName(){
+    @Column(name = "first_name")
+    public String getFirstName() {
         return firstName;
     }
 
@@ -91,7 +91,7 @@ public class User {
      *
      * @param firstName
      */
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -99,8 +99,8 @@ public class User {
      * @return the user's last name
      */
     @Basic
-    @Column(name="last_name")
-    public String getLastName(){
+    @Column(name = "last_name")
+    public String getLastName() {
         return lastName;
     }
 
@@ -109,7 +109,7 @@ public class User {
      *
      * @param lastName
      */
-    public void setLastName(String lastName){
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -180,7 +180,7 @@ public class User {
      *
      * @return Collection<Day>  - collection of all Day objects associated with this User
      */
-    @OneToMany(mappedBy = "user" )
+    @OneToMany(mappedBy = "user")
     public Collection<Day> getDays() {
         return days;
     }
@@ -214,13 +214,13 @@ public class User {
      * @return boolean (true if objects are equal)
      */
     @Override
-    public boolean equals(Object o){
-        if(this ==o) return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
         if (!(o instanceof User)) return false;
 
         User user = (User) o;
 
-        if(id != user.id) return false;
+        if (id != user.id) return false;
         if (days != null ? !days.equals(user.days) : user.days != null) {
             return false;
         }
@@ -233,7 +233,7 @@ public class User {
         if (height != null ? !height.equals(user.height) : user.height != null) {
             return false;
         }
-        if(lastName != null ? !lastName.equals(user.lastName) : user.lastName != null){
+        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) {
             return false;
         }
         if (password != null ? !password.equals(user.password) : user.password != null) {
@@ -272,7 +272,7 @@ public class User {
      * @return formatted user object, does NOT return password
      */
     @Override
-    public String toString(){
+    public String toString() {
         return "User{" +
                 "id=" + id +
                 ", username='" + userName + '\'' +

@@ -20,7 +20,7 @@ public class BasicUserService implements UserService {
      *
      * @param persistanceUserService interface
      */
-    public BasicUserService(PersistanceUserServices persistanceUserService){
+    public BasicUserService(PersistanceUserServices persistanceUserService) {
         this.persistanceUserService = persistanceUserService;
         //setup encryption
         digester = new StandardStringDigester();
@@ -40,9 +40,10 @@ public class BasicUserService implements UserService {
     public boolean verifyUser(String username, String password) throws UserServiceException {
         //return false if username is NOT in persistence layer
         try {
-            if(!persistanceUserService.verifyUsername(username)){
+            if (!persistanceUserService.verifyUsername(username)) {
 
-                return false;}
+                return false;
+            }
         } catch (PersistanceUserServicesException e) {
             throw new UserServiceException("Cannot verify user", e);
         }
@@ -50,7 +51,9 @@ public class BasicUserService implements UserService {
 
         //compare user passkey with passKey in Persistence layer
         try {
-            if(digester.matches(password, persistanceUserService.getPassword(username))) {return true;}
+            if (digester.matches(password, persistanceUserService.getPassword(username))) {
+                return true;
+            }
         } catch (PersistanceUserServicesException e) {
             throw new UserServiceException("password does not verify", e);
         }

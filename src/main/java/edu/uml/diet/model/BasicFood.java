@@ -7,7 +7,7 @@ import javax.persistence.*;
  * immutable
  */
 @Entity
-@Table(name="FOOD")
+@Table(name = "FOOD")
 public class BasicFood {
     private int id;
     private String name;
@@ -33,6 +33,7 @@ public class BasicFood {
 
     /**
      * constructor
+     *
      * @param name
      * @param calories
      * @param fat
@@ -108,7 +109,7 @@ public class BasicFood {
      *
      * @param name name of food
      */
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -118,15 +119,17 @@ public class BasicFood {
      * @return int value representing calories per serving
      */
     @Basic
-    @Column(name="calories")
-    public int getCalories() { return calories; }
+    @Column(name = "calories")
+    public int getCalories() {
+        return calories;
+    }
 
     /**
      * setter to set calories of food item
      *
      * @param calories number of calories per 100g in food
      */
-    public void setCalories(int calories){
+    public void setCalories(int calories) {
         this.calories = calories;
     }
 
@@ -136,15 +139,17 @@ public class BasicFood {
      * @return int value representing fat per serving
      */
     @Basic
-    @Column(name="fat")
-    public int getFat() { return fat; }
+    @Column(name = "fat")
+    public int getFat() {
+        return fat;
+    }
 
     /**
      * setter to set  of fat (g) per 100g in food
      *
      * @param fat number of fat (g) per 100g in food
      */
-    public void setFat(int fat){
+    public void setFat(int fat) {
         this.fat = fat;
     }
 
@@ -154,15 +159,17 @@ public class BasicFood {
      * @return int value representing Carbohydrates per serving
      */
     @Basic
-    @Column(name="carbohydrates")
-    public int getCarbs() {return carbs; }
+    @Column(name = "carbohydrates")
+    public int getCarbs() {
+        return carbs;
+    }
 
     /**
      * setter to set number of carbs (g) per 100g in food
      *
      * @param carbs number (g) of carbs per 100g in food
      */
-    public void setCarbs(int carbs){
+    public void setCarbs(int carbs) {
         this.carbs = carbs;
     }
 
@@ -172,15 +179,17 @@ public class BasicFood {
      * @return int value representing protein per serving
      */
     @Basic
-    @Column(name="protein")
-    public int getProtein() { return protein; }
+    @Column(name = "protein")
+    public int getProtein() {
+        return protein;
+    }
 
     /**
      * setter to set number of protein (g) per 100g in food
      *
      * @param protein number (g) of protein per 100g in food
      */
-    public void setProtein(int protein){
+    public void setProtein(int protein) {
         this.protein = protein;
     }
 
@@ -213,7 +222,7 @@ public class BasicFood {
      * @return typical household weight description of BasicFood
      */
     @Basic
-    @Column(name="household_weight_description")
+    @Column(name = "household_weight_description")
     public String getHouseholdWeightDescription() {
         return householdWeightDescription;
     }

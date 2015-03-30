@@ -9,8 +9,8 @@ public class UserServiceException extends Exception {
      * and cause for exception.
      *
      * @param message explanation for why the exception was thrown
-     * @param cause cause for the exception, null value indicates cause is unknown
-     *              or does not exist
+     * @param cause   cause for the exception, null value indicates cause is unknown
+     *                or does not exist
      */
     public UserServiceException(String message, Throwable cause) {
         super(message, cause);

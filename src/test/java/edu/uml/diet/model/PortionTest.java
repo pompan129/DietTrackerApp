@@ -32,11 +32,11 @@ public class PortionTest {
         householdWeight = 5.0;
         portionSize = 3.0;
         id = 10;
-        food = new BasicFood("Fake_Food",calories,1,1,1,householdWeight,householdWeightDescription);
+        food = new BasicFood("Fake_Food", calories, 1, 1, 1, householdWeight, householdWeightDescription);
 
         String databaseName = "DietTracker";
         DatabaseConnector databaseConnector = new DatabaseConnector();
-        databaseBuilder = new DatabaseBuilder(databaseConnector,databaseName);
+        databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
         databaseBuilder.initializeDatabase();
 
     }
@@ -45,7 +45,7 @@ public class PortionTest {
      * test to verify that correct  BasicFood  is returned by getFood()
      */
     @Test
-    public void testGetFood(){
+    public void testGetFood() {
         portion = new Portion(food);
         assertEquals("testGetFood: Positive", food, portion.getFood());
 
@@ -54,11 +54,11 @@ public class PortionTest {
 
     @Test
     public void testSetFood() throws Exception {
-        BasicFood newBasicFood = new BasicFood("newFood", calories +1, 9, 2, 46, householdWeight +1,
+        BasicFood newBasicFood = new BasicFood("newFood", calories + 1, 9, 2, 46, householdWeight + 1,
                 householdWeightDescription + "test");
         Portion newPortion = new Portion(food);
         newPortion.setFood(newBasicFood);
-        assertEquals("foods are equal after setFood()",newBasicFood,newPortion.getFood());
+        assertEquals("foods are equal after setFood()", newBasicFood, newPortion.getFood());
 
     }
 
@@ -80,7 +80,7 @@ public class PortionTest {
     public void testGetPortionSizeNegative() {
         portion = new Portion(food);
         portion.setPortionSize(portionSize);
-        assertFalse("testGetPortionSize: Negative", (portionSize +1.0) == portion.getPortionSize());
+        assertFalse("testGetPortionSize: Negative", (portionSize + 1.0) == portion.getPortionSize());
 
     }
 

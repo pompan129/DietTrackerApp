@@ -31,7 +31,7 @@ public class Portion {
      *
      * @param food
      */
-    public Portion(BasicFood food){
+    public Portion(BasicFood food) {
         this.food = food;
         this.portionSize = 1.0;
     }
@@ -64,7 +64,7 @@ public class Portion {
      */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "food_id")
-    public BasicFood getFood(){
+    public BasicFood getFood() {
         return food;
     }
 
@@ -73,7 +73,7 @@ public class Portion {
      *
      * @param food - BasicFood object associated with this Portion
      */
-    public void setFood(BasicFood food){
+    public void setFood(BasicFood food) {
         this.food = food;
     }
 
@@ -126,11 +126,13 @@ public class Portion {
      * @return int number of calories in Portion based on portion size & householdweight
      */
     @Transient
-    public int getCalories(){
+    public int getCalories() {
         double householdWeight = food.getHouseholdWeight();
 
-        if(householdWeight == 0){householdWeight = 100.0;}
-        return (int) ((food.getCalories()/100.0 )*householdWeight* portionSize);
+        if (householdWeight == 0) {
+            householdWeight = 100.0;
+        }
+        return (int) ((food.getCalories() / 100.0) * householdWeight * portionSize);
     }
 
     /**
@@ -140,9 +142,11 @@ public class Portion {
      * @return String representing household weight description
      */
     @Transient
-    public String getHouseholdWeightDescription(){
+    public String getHouseholdWeightDescription() {
         String description = food.getHouseholdWeightDescription();
-        if(description.equals("0")){description = "100 grams";}
+        if (description.equals("0")) {
+            description = "100 grams";
+        }
 
         return description;
     }

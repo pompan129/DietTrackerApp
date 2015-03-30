@@ -15,7 +15,7 @@ public class Meal {
     @ManyToOne
     @JoinColumn(name = "day_id")
     private Day day;
-    @OneToMany(mappedBy = "meal" )
+    @OneToMany(mappedBy = "meal")
     private Collection<Portion> portions;
 
 
@@ -26,7 +26,7 @@ public class Meal {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id", nullable = false)
+    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -85,7 +85,7 @@ public class Meal {
      *
      * @return Collection<Portion> containing all the Portions in this meal
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "meal" )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "meal")
     public Collection<Portion> getPortions() {
         return portions;
     }
@@ -96,7 +96,7 @@ public class Meal {
      * @param portions - a Collection of Portion objects to be associated with this meal
      */
     public void setPortions(Collection<Portion> portions) {
-        for(Portion portion : portions){
+        for (Portion portion : portions) {
             portion.setMeal(this);
         }
         this.portions = portions;
@@ -109,7 +109,9 @@ public class Meal {
      */
     @Transient
     public void setPortion(Portion portion) {
-        if(portions == null){portions = new ArrayList<Portion>();}
+        if (portions == null) {
+            portions = new ArrayList<Portion>();
+        }
         this.portions.add(portion);
     }
 
@@ -119,9 +121,9 @@ public class Meal {
      * @return int = total calories in meal.
      */
     @Transient
-    public int getCalories(){
+    public int getCalories() {
         int totalCalories = 0;
-        for(Portion portion: portions){
+        for (Portion portion : portions) {
             totalCalories += portion.getCalories();
         }
 

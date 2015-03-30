@@ -59,7 +59,7 @@ public class BasicFoodService implements FoodService {
      */
     @Override
     public List<Portion> foodListSearch(String food) throws FoodServiceException {
-        ArrayList<Portion> portionList =  new ArrayList<Portion>();
+        ArrayList<Portion> portionList = new ArrayList<Portion>();
         List<BasicFood> basicFoodList = null;
         try {
             basicFoodList = persistanceFoodService.searchForFoodList(food);
@@ -67,7 +67,7 @@ public class BasicFoodService implements FoodService {
             throw new FoodServiceException("FoodService Error: cannot connect to service", e);
         }
 
-        for(BasicFood basicFood: basicFoodList){
+        for (BasicFood basicFood : basicFoodList) {
             portionList.add(new Portion(basicFood));
         }
         return portionList;
@@ -87,13 +87,13 @@ public class BasicFoodService implements FoodService {
 
         Day day = null;
         try {
-            day = persistanceFoodService.getDay(username,date);
+            day = persistanceFoodService.getDay(username, date);
         } catch (PersistanceFoodServiceException e) {
             throw new FoodServiceException("Problem retrieveing 'Day' information", e);
         }
 
-        for(Meal meal:day.getMeals()){
-            if(meal.getPortions() == null){
+        for (Meal meal : day.getMeals()) {
+            if (meal.getPortions() == null) {
                 meal.setPortions(new ArrayList<Portion>());
             }
         }
@@ -110,7 +110,7 @@ public class BasicFoodService implements FoodService {
      *                              &/or try later.
      */
     @Override
-    public void addOrUpdateDay(Day day) throws FoodServiceException{
+    public void addOrUpdateDay(Day day) throws FoodServiceException {
         try {
             persistanceFoodService.addOrUpdateDay(day);
         } catch (PersistanceUserServicesException e) {
