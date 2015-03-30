@@ -10,7 +10,7 @@ import java.sql.SQLException;
  */
 public class ServiceFactory {
 
-    private ServiceFactory(){}; //stop instantiation
+    private ServiceFactory(){} //stop instantiation
 
     public static FoodService getFoodServiceInstance() throws FoodServiceException {
         PersistanceFoodService persistanceFoodService;
@@ -23,7 +23,7 @@ public class ServiceFactory {
             throw new FoodServiceException("FoodService Error: ", e);
 
         } catch (DatabaseConnectorException e) {
-            throw new FoodServiceException("FoodService Error: ", e);
+            throw new FoodServiceException("FoodService Error: Cannot connect to Database", e);
 
         } catch (DuplicateFoodException e) {
             throw new FoodServiceException("Service Error: Duplicate foods", e);

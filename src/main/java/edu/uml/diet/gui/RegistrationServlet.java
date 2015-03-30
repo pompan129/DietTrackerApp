@@ -43,7 +43,7 @@ public class RegistrationServlet extends HttpServlet {
         } catch (UserServiceException e) {
             throw new ServletException("Error creating user: ", e);
         } catch (DuplicateUserException e) {
-             
+
         }
         response.sendRedirect("login");
     }
