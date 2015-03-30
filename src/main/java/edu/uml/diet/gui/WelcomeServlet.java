@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * shows current day
+ * user can navigate forward and backward through days
+ *
  * Created by adil on 3/15/15.
  */
 public class WelcomeServlet extends HttpServlet {
@@ -33,7 +36,7 @@ public class WelcomeServlet extends HttpServlet {
         String daySelect;
         daySelect = request.getParameter("newDay");
 
-        //make sure dayselect isn't null
+        //make sure daySelect isn't null
         if(daySelect != null) {
             day = getDay(session, foodService, day, email, dateTime, daySelect);
 
@@ -49,13 +52,13 @@ public class WelcomeServlet extends HttpServlet {
     /**
      * get the day that the user requests to show on the welcome page
      * User can select previous day, next day, or today
-     * @param session
-     * @param foodService
-     * @param day
-     * @param email
-     * @param dateTime
-     * @param daySelect
-     * @return
+     * @param session       HTTP session variable
+     * @param foodService   service to interact with food database
+     * @param day           user's current day
+     * @param email         user email address
+     * @param dateTime      current date
+     * @param daySelect     whether user wants today, next day, previous day
+     * @return Day          selected day
      * @throws ServletException
      */
     private Day getDay(HttpSession session, FoodService foodService, Day day, String email, DateTime dateTime, String daySelect) throws ServletException {
