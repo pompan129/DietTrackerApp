@@ -87,13 +87,13 @@ public class SelectServlet extends HttpServlet {
      * Get portions from the database
      * Store portions in user's day
      * Refresh page with updated info
-     * @param request
-     * @param response
-     * @param session
-     * @param portionIDs
-     * @param portionSizesParsed
-     * @param foodService
-     * @param userPortionList
+     * @param request               HTTP request variable
+     * @param response              HTTP response variable
+     * @param session               HTTP session variable
+     * @param portionIDs            user selected portionIDs
+     * @param portionSizesParsed    parsed list of user-selected portionSizes
+     * @param foodService           service to interact with food database
+     * @param userPortionList       user portion list for session and day updating
      * @throws ServletException
      * @throws IOException
      */
@@ -128,9 +128,9 @@ public class SelectServlet extends HttpServlet {
     /**
      * get day from user input from previous page
      * update the session day with the new information
-     * @param request
-     * @param session
-     * @return
+     * @param request       HTTP request variable
+     * @param session       HTTP session variable
+     * @return Day
      */
     private Day getAndUpdateDay(HttpServletRequest request, HttpSession session) {
         //get selected mealID
