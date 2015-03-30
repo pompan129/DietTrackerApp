@@ -75,4 +75,9 @@ public class LoginServletTest extends TestCase {
         //make sure user got forwarded to the welcome page
         assertEquals("welcome", response.getRedirectedUrl());
     }
+
+    @Test
+    public void testAuthenticateNegative() throws Exception {
+        assertFalse(loginServlet.authenticate(session, wrongEmail, wrongPassword));
+    }
 }
