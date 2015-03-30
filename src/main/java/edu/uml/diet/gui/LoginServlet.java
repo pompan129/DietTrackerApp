@@ -68,9 +68,9 @@ public class LoginServlet extends HttpServlet {
      * method to authenticate user. takes inputted email and password
      * and checks it against existing database entries
      * also correctly sets session variable
-     * @param session
-     * @param email
-     * @param password
+     * @param session       HTTP session variable
+     * @param email         User-inputted email address
+     * @param password      User password
      * @return authenticated
      * @throws ServletException
      */
@@ -98,9 +98,9 @@ public class LoginServlet extends HttpServlet {
      * gets required database info for authenticated user
      * sets session variables (email, foodService, day)
      * directs user to the next page
-     * @param response
-     * @param session
-     * @param email
+     * @param response      HTTP response variable
+     * @param session       HTTP session variable
+     * @param email         user email address
      * @throws ServletException
      * @throws IOException
      */
