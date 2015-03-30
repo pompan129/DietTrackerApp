@@ -32,40 +32,14 @@ public class SelectServlet extends HttpServlet {
         List<String> portionSizesParsed = new ArrayList<String>(Arrays.asList(portionSizes));
         portionSizesParsed.removeAll(Arrays.asList("", null));
 
-        double portionSize;
-        String portionID;
-
-        //get foodserivce from session
+        //get foodSerivce from session
         FoodService foodService = (FoodService) session.getAttribute("foodService");
-        Portion portion;
         ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
 
         //make sure user actually selected some portions
         if(portionIDs != null) {
-            for (int i = 0; i<portionSizesParsed.size(); i++) {
-                //set portionSize and portionID
-                portionSize = Integer.parseInt(portionSizesParsed.get(i));
-                portionID = portionIDs[i];
-
-                //get actual portion from database
-                try {
-                    portion = foodService.foodSearch(portionID);
-                } catch (FoodServiceException e) {
-                    throw new ServletException("Error searching for single food: ", e);
-                }
-
-                //set portion size
-                portion.setPortionSize(portionSize);
-                //add to user's portion list
-                userPortionList.add(portion);
-            }
-            session.setAttribute("userPortionList", userPortionList);
-            //get current day from session
-            Day day = (Day) session.getAttribute("day");
-            request.setAttribute("meals", day.getMeals());
-            request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
+            setSelectedPortions(request, response, session, portionIDs, portionSizesParsed, foodService, userPortionList);
         }
-
         else {
             request.setAttribute("error", "Error: nothing selected.");
         }
@@ -123,4 +97,50 @@ public class SelectServlet extends HttpServlet {
         //refresh page
         request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
     }
+
+
+    /**
+     * Get selected portions from previous page
+     * Get portions from the database
+     * Store portions in user's day
+     * Refresh page with updated info
+     * @param request
+     * @param response
+     * @param session
+     * @param portionIDs
+     * @param portionSizesParsed
+     * @param foodService
+     * @param userPortionList
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void setSelectedPortions(HttpServletRequest request, HttpServletResponse response, HttpSession session, String[] portionIDs, List<String> portionSizesParsed, FoodService foodService, ArrayList<Portion> userPortionList) throws ServletException, IOException {
+        double portionSize;
+        String portionID;
+        Portion portion;
+        for (int i = 0; i<portionSizesParsed.size(); i++) {
+            //set portionSize and portionID
+            portionSize = Integer.parseInt(portionSizesParsed.get(i));
+            portionID = portionIDs[i];
+
+            //get actual portion from database
+            try {
+                portion = foodService.foodSearch(portionID);
+            } catch (FoodServiceException e) {
+                throw new ServletException("Error searching for single food: ", e);
+            }
+
+            //set portion size
+            portion.setPortionSize(portionSize);
+            //add to user's portion list
+            userPortionList.add(portion);
+        }
+        session.setAttribute("userPortionList", userPortionList);
+        //get current day from session
+        Day day = (Day) session.getAttribute("day");
+        request.setAttribute("meals", day.getMeals());
+        request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
+    }
 }
+
+

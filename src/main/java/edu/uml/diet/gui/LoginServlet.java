@@ -65,6 +65,36 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
+     * method to authenticate user. takes inputted email and password
+     * and checks it against existing database entries
+     * also correctly sets session variable
+     * @param session
+     * @param email
+     * @param password
+     * @return authenticated
+     * @throws ServletException
+     */
+    private boolean authenticate(HttpSession session, String email, String password) throws ServletException {
+        //create service to authenticate user
+        UserService userService;
+        try {
+            userService = ServiceFactory.getUserServiceInstance();
+        } catch (UserServiceException e) {
+            throw new ServletException("Error creating userService", e);
+        }
+        boolean authenticated;
+
+        //attempt to authenticate user
+        try {
+            authenticated = userService.verifyUser(email, password);
+            session.setAttribute("loggedIn", authenticated);
+        } catch (UserServiceException e) {
+            throw new ServletException("Error authenticating", e);
+        }
+        return authenticated;
+    }
+
+    /**
      * gets required database info for authenticated user
      * sets session variables (email, foodService, day)
      * directs user to the next page
@@ -94,35 +124,5 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("foodService", foodService);
         session.setAttribute("day", day);
         response.sendRedirect("welcome");
-    }
-
-    /**
-     * method to authenticate user. takes inputted email and password
-     * and checks it against existing database entries
-     * also correctly sets session variable
-     * @param session
-     * @param email
-     * @param password
-     * @return authenticated
-     * @throws ServletException
-     */
-    private boolean authenticate(HttpSession session, String email, String password) throws ServletException {
-        //create service to authenticate user
-        UserService userService;
-        try {
-            userService = ServiceFactory.getUserServiceInstance();
-        } catch (UserServiceException e) {
-            throw new ServletException("Error creating userService", e);
-        }
-        boolean authenticated;
-
-        //attempt to authenticate user
-        try {
-            authenticated = userService.verifyUser(email, password);
-            session.setAttribute("loggedIn", authenticated);
-        } catch (UserServiceException e) {
-            throw new ServletException("Error authenticating", e);
-        }
-        return authenticated;
     }
 }

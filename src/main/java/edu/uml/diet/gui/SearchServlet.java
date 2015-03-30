@@ -58,6 +58,25 @@ public class SearchServlet extends HttpServlet {
     }
 
     /**
+     * get list of portions fro user search query
+     * @param query
+     * @param foodService
+     * @param portionList
+     * @return portionList
+     * @throws ServletException
+     */
+    private List<Portion> getPortions(String query, FoodService foodService, List<Portion> portionList) throws ServletException {
+        if(foodService != null) {
+            try {
+                portionList = foodService.foodListSearch(query);
+            } catch (FoodServiceException e) {
+                throw new ServletException("SearchServlet Error when creating foodList: ", e);
+            }
+        }
+        return portionList;
+    }
+
+    /**
      * process search results from user query
      * throw error if user query is empty
      * otherwise, show results
@@ -79,24 +98,5 @@ public class SearchServlet extends HttpServlet {
             request.setAttribute("portionList", portionList);
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         }
-    }
-
-    /**
-     * get list of portions fro user search query
-     * @param query
-     * @param foodService
-     * @param portionList
-     * @return portionList
-     * @throws ServletException
-     */
-    private List<Portion> getPortions(String query, FoodService foodService, List<Portion> portionList) throws ServletException {
-        if(foodService != null) {
-            try {
-                portionList = foodService.foodListSearch(query);
-            } catch (FoodServiceException e) {
-                throw new ServletException("SearchServlet Error when creating foodList: ", e);
-            }
-        }
-        return portionList;
     }
 }
