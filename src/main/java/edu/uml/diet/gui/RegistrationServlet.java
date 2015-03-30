@@ -42,17 +42,21 @@ public class RegistrationServlet extends HttpServlet {
             throw new ServletException("Error creating userService: ", e);
         }
 
+        boolean duplicate = false;
         //create user
         try {
             userService.createUser(email, password);
         } catch (UserServiceException e) {
             throw new ServletException("Error creating user: ", e);
         } catch (DuplicateUserException e) {
+            duplicate = true;
             request.setAttribute("error", "Username already found. Please try again with a different username.");
             request.getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
         }
 
         //redirect user to login page
-        response.sendRedirect("login");
+        if(!duplicate) {
+            response.sendRedirect("login");
+        }
     }
 }
