@@ -35,7 +35,7 @@ public class RegistrationServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         //get user service instance
-        UserService userService = null;
+        UserService userService;
         try {
             userService = ServiceFactory.getUserServiceInstance();
         } catch (UserServiceException e) {
