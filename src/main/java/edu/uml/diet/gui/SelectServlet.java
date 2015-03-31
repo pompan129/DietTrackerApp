@@ -19,6 +19,8 @@ import java.util.Map;
 
 
 /**
+ * handles selecting searched portions
+ *
  * Created by adil on 3/15/15.
  */
 public class SelectServlet extends HttpServlet {
@@ -33,10 +35,10 @@ public class SelectServlet extends HttpServlet {
         String[] portionSizes = request.getParameterValues("portionSize");
 
         //parse portionSizes to remove empty entries
-        List<String> portionSizesParsed = new ArrayList<String>(Arrays.asList(portionSizes));
+        List<String> portionSizesParsed = new ArrayList<>(Arrays.asList(portionSizes));
         portionSizesParsed.removeAll(Arrays.asList("", null));
 
-        //get foodSerivce from session
+        //get foodService from session
         FoodService foodService = (FoodService) session.getAttribute("foodService");
         ArrayList<Portion> userPortionList = (ArrayList<Portion>) session.getAttribute("userPortionList");
 
@@ -52,14 +54,13 @@ public class SelectServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //so we can check if the post has happened yet
-        boolean posted = true;
-        request.setAttribute("posted", posted);
+        request.setAttribute("posted", true);
 
         //get session
         HttpSession session = request.getSession(false);
 
         //variable messages to JSP
-        Map<String, String> messages = new HashMap<String, String>();
+        Map<String, String> messages = new HashMap<>();
         request.setAttribute("messages", messages);
         Day day = getAndUpdateDay(request, session);
 
@@ -86,13 +87,13 @@ public class SelectServlet extends HttpServlet {
      * Get portions from the database
      * Store portions in user's day
      * Refresh page with updated info
-     * @param request
-     * @param response
-     * @param session
-     * @param portionIDs
-     * @param portionSizesParsed
-     * @param foodService
-     * @param userPortionList
+     * @param request               HTTP request variable
+     * @param response              HTTP response variable
+     * @param session               HTTP session variable
+     * @param portionIDs            user selected portionIDs
+     * @param portionSizesParsed    parsed list of user-selected portionSizes
+     * @param foodService           service to interact with food database
+     * @param userPortionList       user portion list for session and day updating
      * @throws ServletException
      * @throws IOException
      */
@@ -127,13 +128,13 @@ public class SelectServlet extends HttpServlet {
     /**
      * get day from user input from previous page
      * update the session day with the new information
-     * @param request
-     * @param session
-     * @return
+     * @param request       HTTP request variable
+     * @param session       HTTP session variable
+     * @return Day
      */
     private Day getAndUpdateDay(HttpServletRequest request, HttpSession session) {
         //get selected mealID
-        int mealID = Integer.parseInt((String) request.getParameter("mealID"));
+        int mealID = Integer.parseInt(request.getParameter("mealID"));
 
         //decrement to prevent fencepost error
         mealID--;
@@ -142,14 +143,14 @@ public class SelectServlet extends HttpServlet {
         //get the right day
         Day day = (Day) session.getAttribute("day");
         //get meals list from day
-        ArrayList<Meal> meals = new ArrayList<Meal>(day.getMeals());
+        ArrayList<Meal> meals = new ArrayList<>(day.getMeals());
         //get the particular meal the user selected
         Meal userMeal = meals.get(mealID);
 
         //set selected portions to the selected meal
         userMeal.setPortions(userPortionList);
 
-        //put the updated meal back in the meallist
+        //put the updated meal back in the meal list
         meals.set(mealID, userMeal);
 
         //put the updated meal list back in the day

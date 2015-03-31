@@ -11,6 +11,7 @@
     Password: <input type = "password" name="password" />
     <input type ="submit" value="Register" /><input type="reset" value="clear" />
 </form>
+<p>  <span class="error">${error}</span> </p>
 
 
 </body>

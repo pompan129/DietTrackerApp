@@ -13,6 +13,8 @@ import java.util.List;
 
 /**
  * Created by adil on 3/8/15.
+ *
+ * handles user searches for food portions
  */
 public class SearchServlet extends HttpServlet {
 
@@ -36,8 +38,7 @@ public class SearchServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //so we can check if the post has happened yet
-        boolean posted = true;
-        request.setAttribute("posted", posted);
+        request.setAttribute("posted", true);
 
         //get user search query
         String query = request.getParameter("query");
@@ -45,10 +46,10 @@ public class SearchServlet extends HttpServlet {
 
         //after user has searched, process their request
         FoodService foodService = (FoodService) session.getAttribute("foodService");
-        List<Portion> portionList = null;
+        List<Portion> portionList;
 
         //get search results as portionList
-        portionList = getPortions(query, foodService, portionList);
+        portionList = getPortions(query, foodService);
 
         //process search results
         //if results are good, shows user results
@@ -59,13 +60,13 @@ public class SearchServlet extends HttpServlet {
 
     /**
      * get list of portions fro user search query
-     * @param query
-     * @param foodService
-     * @param portionList
+     * @param query         user search query
+     * @param foodService   service to retrieve portion information
      * @return portionList
      * @throws ServletException
      */
-    private List<Portion> getPortions(String query, FoodService foodService, List<Portion> portionList) throws ServletException {
+    private List<Portion> getPortions(String query, FoodService foodService) throws ServletException {
+        List<Portion> portionList = null;
         if(foodService != null) {
             try {
                 portionList = foodService.foodListSearch(query);
@@ -80,9 +81,9 @@ public class SearchServlet extends HttpServlet {
      * process search results from user query
      * throw error if user query is empty
      * otherwise, show results
-     * @param request
-     * @param response
-     * @param portionList
+     * @param request       HTTP request variable
+     * @param response      HTTP response variable
+     * @param portionList   List of user portions
      * @throws ServletException
      * @throws IOException
      */
