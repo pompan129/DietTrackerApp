@@ -21,6 +21,7 @@ public class SearchServletTest extends TestCase {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private MockHttpSession session;
+    FoodService foodService;
 
 
     @Before
@@ -31,6 +32,8 @@ public class SearchServletTest extends TestCase {
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         session = new MockHttpSession();
+        foodService = ServiceFactory.getFoodServiceInstance();
+        session.setAttribute("foodService", foodService);
     }
 
     @Test
