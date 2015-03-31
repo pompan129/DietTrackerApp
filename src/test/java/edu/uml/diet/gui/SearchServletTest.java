@@ -77,7 +77,14 @@ public class SearchServletTest extends TestCase {
 
     @Test
     public void testGetPortions() throws Exception {
-
+        //set login info for session
+        session.setAttribute("loggedIn", true);
+        request.setSession(session);
+        //set search query info
+        request.setParameter("query", query);
+        List<Portion> portionList = searchServlet.getPortions(query, foodService);
+        List<Portion> portionList2 = foodService.foodListSearch(query);
+        assertEquals(portionList, portionList2);
     }
 
     @Test
