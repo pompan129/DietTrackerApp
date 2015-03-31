@@ -3,7 +3,9 @@ package edu.uml.diet.gui;
 import edu.uml.diet.logic.FoodService;
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.UserService;
+import edu.uml.diet.model.Day;
 import junit.framework.TestCase;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -24,6 +26,8 @@ public class WelcomeServletTest extends TestCase {
     UserService userService;
     FoodService foodService;
     String daySelect;
+    Day day;
+    DateTime dateTime = DateTime.now();
 
     @Before
     public void setUp() throws Exception {
@@ -38,6 +42,8 @@ public class WelcomeServletTest extends TestCase {
         response = new MockHttpServletResponse();
         session = new MockHttpSession();
         foodService = ServiceFactory.getFoodServiceInstance();
+        day = foodService.getDay(email, DateTime.now());
+        session.setAttribute("day", day);
         session.setAttribute("loggedIn", loggedIn);
         session.setAttribute("email", email);
         session.setAttribute("foodService", foodService);
@@ -47,17 +53,28 @@ public class WelcomeServletTest extends TestCase {
     @Test
     public void testDoGet() throws Exception {
         request.setSession(session);
+        welcomeServlet.doGet(request, response);
         //make sure that we get to the welcome page unscathed
         assertEquals("/WEB-INF/welcome.jsp", response.getForwardedUrl());
     }
 
     @Test
     public void testGetNextDay() throws Exception {
-
+        daySelect = "next";
+        dateTime = dateTime.plusDays(1);
+        request.setParameter("newDay", daySelect);
+        Day newDay = welcomeServlet.getDay(session, foodService, day, email, DateTime.now(), daySelect);
+        day = foodService.getDay(email, dateTime);
+        assertEquals(day, newDay);
     }
 
     @Test
     public void testGetPreviousDay() throws Exception {
-
+        daySelect = "previous";
+        dateTime = dateTime.minusDays(1);
+        request.setParameter("newDay", daySelect);
+        Day newDay = welcomeServlet.getDay(session, foodService, day, email, DateTime.now(), daySelect);
+        day = foodService.getDay(email, dateTime);
+        assertEquals(day, newDay);
     }
 }
