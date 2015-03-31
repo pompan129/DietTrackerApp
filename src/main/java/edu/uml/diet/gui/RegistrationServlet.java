@@ -4,10 +4,12 @@ import edu.uml.diet.logic.DuplicateUserException;
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.UserService;
 import edu.uml.diet.logic.UserServiceException;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 /**
  * Servlet for handling registration (creating a new user)
@@ -28,9 +30,11 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //get email and password from user input
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
+        //get user service instance
         UserService userService = null;
         try {
             userService = ServiceFactory.getUserServiceInstance();
@@ -38,6 +42,7 @@ public class RegistrationServlet extends HttpServlet {
             throw new ServletException("Error creating userService: ", e);
         }
 
+        //create user
         try {
             userService.createUser(email, password);
         } catch (UserServiceException e) {
@@ -45,6 +50,8 @@ public class RegistrationServlet extends HttpServlet {
         } catch (DuplicateUserException e) {
 
         }
+
+        //redirect user to login page
         response.sendRedirect("login");
     }
 }

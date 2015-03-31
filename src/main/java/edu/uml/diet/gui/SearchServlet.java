@@ -1,6 +1,5 @@
 package edu.uml.diet.gui;
 
-import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.FoodService;
 import edu.uml.diet.logic.FoodServiceException;
 import edu.uml.diet.model.Portion;
@@ -19,6 +18,7 @@ public class SearchServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         //login check
         boolean loggedIn = false;
         HttpSession session = request.getSession(false);
@@ -26,7 +26,7 @@ public class SearchServlet extends HttpServlet {
             loggedIn = (boolean) session.getAttribute("loggedIn");
         }
 
-        //check if user is logged in and send them to search page
+        //if logged in, allow user to go to search page
         if(loggedIn)
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         //if not logged in, go to login page
@@ -35,12 +35,37 @@ public class SearchServlet extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //so we can check if the post has happened yet
+        boolean posted = true;
+        request.setAttribute("posted", posted);
+
+        //get user search query
         String query = request.getParameter("query");
         HttpSession session = request.getSession(false);
 
         //after user has searched, process their request
         FoodService foodService = (FoodService) session.getAttribute("foodService");
         List<Portion> portionList = null;
+
+        //get search results as portionList
+        portionList = getPortions(query, foodService, portionList);
+
+        //process search results
+        //if results are good, shows user results
+        processSearchResults(request, response, portionList);
+
+
+    }
+
+    /**
+     * get list of portions fro user search query
+     * @param query
+     * @param foodService
+     * @param portionList
+     * @return portionList
+     * @throws ServletException
+     */
+    private List<Portion> getPortions(String query, FoodService foodService, List<Portion> portionList) throws ServletException {
         if(foodService != null) {
             try {
                 portionList = foodService.foodListSearch(query);
@@ -48,10 +73,27 @@ public class SearchServlet extends HttpServlet {
                 throw new ServletException("SearchServlet Error when creating foodList: ", e);
             }
         }
+        return portionList;
+    }
+
+    /**
+     * process search results from user query
+     * throw error if user query is empty
+     * otherwise, show results
+     * @param request
+     * @param response
+     * @param portionList
+     * @throws ServletException
+     * @throws IOException
+     */
+    private void processSearchResults(HttpServletRequest request, HttpServletResponse response, List<Portion> portionList) throws ServletException, IOException {
+        //if search results are empty, show user an error
         if(portionList.isEmpty()) {
             request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         }
+        //if search results not empty, set search result in session
+        //and display the search results for selection
         else {
             request.setAttribute("portionList", portionList);
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
