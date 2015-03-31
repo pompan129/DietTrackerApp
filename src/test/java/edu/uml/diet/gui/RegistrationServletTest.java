@@ -1,4 +1,4 @@
-package edu.uml.diet;
+package edu.uml.diet.gui;
 
 import edu.uml.diet.gui.LoginServlet;
 import edu.uml.diet.gui.RegistrationServlet;

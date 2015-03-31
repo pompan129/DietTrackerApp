@@ -61,7 +61,7 @@ public class WelcomeServlet extends HttpServlet {
      * @return Day          selected day
      * @throws ServletException
      */
-    private Day getDay(HttpSession session, FoodService foodService, Day day, String email, DateTime dateTime, String daySelect) throws ServletException {
+    protected Day getDay(HttpSession session, FoodService foodService, Day day, String email, DateTime dateTime, String daySelect) throws ServletException {
         //show next day
         if (daySelect.equals("next")) {
             dateTime = dateTime.plusDays(1);

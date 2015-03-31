@@ -45,7 +45,7 @@ public class SearchServletTest extends TestCase {
         request.setSession(session);
         searchServlet.doGet(request, response);
         //if logged in, user should go to search page
-        assertEquals(response.getForwardedUrl(), "/WEB-INF/search.jsp");
+        assertEquals("/WEB-INF/search.jsp", response.getForwardedUrl());
     }
 
     @Test
@@ -57,7 +57,7 @@ public class SearchServletTest extends TestCase {
         request.setSession(session);
         searchServlet.doGet(request, response);
         //if not logged in, user gets kicked to login page
-        assertEquals(response.getRedirectedUrl(), "login");
+        assertEquals("login", response.getRedirectedUrl());
     }
 
     @Test
