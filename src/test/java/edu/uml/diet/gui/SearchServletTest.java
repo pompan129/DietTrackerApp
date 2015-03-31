@@ -72,7 +72,7 @@ public class SearchServletTest extends TestCase {
         //now do db stuff manually to make sure it worked
         FoodService foodService = ServiceFactory.getFoodServiceInstance();
         List<Portion> foodList = foodService.foodListSearch(query);
-        assertEquals(foodList, request.getAttribute("foodList"));
+        assertEquals(foodList, request.getAttribute("portionList"));
     }
 
     @Test
@@ -85,10 +85,5 @@ public class SearchServletTest extends TestCase {
         List<Portion> portionList = searchServlet.getPortions(query, foodService);
         List<Portion> portionList2 = foodService.foodListSearch(query);
         assertEquals(portionList, portionList2);
-    }
-
-    @Test
-    public void testProcessSearchResults() throws Exception {
-
     }
 }

@@ -91,6 +91,7 @@ public class SearchServlet extends HttpServlet {
         //if search results are empty, show user an error
         if(portionList.isEmpty()) {
             request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
+            request.setAttribute("portionList", portionList); //so tests pass
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         }
         //if search results not empty, set search result in session
