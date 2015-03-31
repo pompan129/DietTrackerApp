@@ -46,7 +46,8 @@ public class WelcomeServletTest extends TestCase {
 
     @Test
     public void testDoGet() throws Exception {
-        //make sure that we get to the welcome page unscatched
+        request.setSession(session);
+        //make sure that we get to the welcome page unscathed
         assertEquals("/WEB-INF/welcome.jsp", response.getForwardedUrl());
     }
 
