@@ -10,6 +10,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
@@ -93,6 +95,8 @@ public class DbFoodServiceTest {
             SQLException, DatabaseConnectorException, DuplicateFoodException{
         DbFoodService dbFoodService = new DbFoodService();
         dbFoodService.populateFoodDatabase();
+        basicFoodList = dbFoodService.searchForFoodList("");
+        assertEquals(basicFoodList.size(), 8615);
     }
 
    /*@Test
@@ -120,7 +124,7 @@ public class DbFoodServiceTest {
     public void testGetDay() throws PersistanceFoodServiceException{
         DbFoodService dbFoodService = new DbFoodService();
         Day day = dbFoodService.getDay(userName, dateTime);
-        assertTrue(day.getDate().equals(dateTime));
+        assertTrue(DateTimeComparator.getDateOnlyInstance().compare(dateTime, day.getDate()) == 0);
     }
 
     @Test

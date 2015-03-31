@@ -15,19 +15,19 @@ public class BasicFood {
     private int fat;
     private int carbs;
     private int protein;
-    private double householdWeight;
+    private Double householdWeight;
     private String householdWeightDescription;
 
     /**
      * default constructor
      */
-    public BasicFood() {
+    public BasicFood(){
         this.name = null;
         this.calories = 0;
         this.fat = 0;
         this.carbs = 0;
         this.protein = 0;
-        this.householdWeight = 0;
+        this.householdWeight = 0.0;
         this.householdWeightDescription = null;
     }
 
@@ -39,8 +39,10 @@ public class BasicFood {
      * @param fat
      * @param carbs
      * @param protein
+     * @param householdWeight
+     * @param householdWeightDescription
      */
-    public BasicFood(String name, int calories, int fat, int carbs, int protein, double householdWeight, String householdWeightDescription) {
+    public BasicFood(String name, int calories, int fat, int carbs, int protein, Double householdWeight, String householdWeightDescription){
         this.name = name;
         this.calories = calories;
         this.fat = fat;
@@ -51,23 +53,43 @@ public class BasicFood {
     }
 
     /**
+     * constructor
+     * @param name
+     * @param calories
+     * @param fat
+     * @param carbs
+     * @param protein
+     * @param householdWeight
+     * @param householdWeightDescription
+     */
+    public BasicFood(String name, int calories, int fat, int carbs, int protein, int householdWeight, String householdWeightDescription){
+        this.name = name;
+        this.calories = calories;
+        this.fat = fat;
+        this.carbs = carbs;
+        this.protein = protein;
+        this.householdWeight = Double.parseDouble(Integer.toString(householdWeight));
+        this.householdWeightDescription = householdWeightDescription;
+    }
+
+    /**
      * ID number for each user in the FOOD table - primary key
      *
      * @return user ID number as integer
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    public int getId() {
+    @Column(name="id", nullable = false)
+    public int getId(){
         return id;
     }
 
     /**
-     * Sets the ID number for food
-     *
-     * @param id unique ID number for food as integer
-     */
-    public void setId(int id) {
+    * Sets the ID number for food
+    *
+    * @param id unique ID number for food as integer
+    */
+    public void setId(int id){
         this.id = id;
     }
 
@@ -77,7 +99,7 @@ public class BasicFood {
      * @return string representing name of food
      */
     @Basic
-    @Column(name = "name")
+    @Column(name="name")
     public String getName() {
         return name;
     }
@@ -178,8 +200,8 @@ public class BasicFood {
      * @return typical household weight of BasicFood
      */
     @Basic
-    @Column(name = "household_weight")
-    public double getHouseholdWeight() {
+    @Column(name="household_weight")
+    public Double getHouseholdWeight() {
         return householdWeight;
     }
 
@@ -189,7 +211,7 @@ public class BasicFood {
      *
      * @param householdWeight typical household weight of BasicFood
      */
-    public void setHouseholdWeight(double householdWeight) {
+    public void setHouseholdWeight(Double householdWeight) {
         this.householdWeight = householdWeight;
     }
 
@@ -234,7 +256,7 @@ public class BasicFood {
         if (fat != basicFood.fat) return false;
         if (protein != basicFood.protein) return false;
         if (!name.equals(basicFood.name)) return false;
-        if (householdWeight != basicFood.householdWeight) return false;
+        if (householdWeight.doubleValue() != basicFood.householdWeight.doubleValue()) return false;
         if (!householdWeightDescription.equals(basicFood.householdWeightDescription)) return false;
 
         return true;
@@ -252,7 +274,7 @@ public class BasicFood {
         result = 31 * result + fat;
         result = 31 * result + carbs;
         result = 31 * result + protein;
-        result = 31 * result + (int) householdWeight;
+        result = 31 * result + Integer.parseInt(householdWeight.toString());
         return result;
     }
 }

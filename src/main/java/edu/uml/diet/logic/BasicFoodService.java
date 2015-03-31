@@ -26,7 +26,7 @@ public class BasicFoodService implements FoodService {
      *
      * @param persistanceFoodService  service that connects & retrieves data from Persistence Layer
      */
-    public BasicFoodService(PersistanceFoodService persistanceFoodService) {
+    public BasicFoodService(PersistanceFoodService persistanceFoodService){
         this.persistanceFoodService = persistanceFoodService;
     }
 
