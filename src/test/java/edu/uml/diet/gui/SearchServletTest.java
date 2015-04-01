@@ -26,7 +26,7 @@ public class SearchServletTest extends TestCase {
 
     @Before
     public void setUp() throws Exception {
-        query = "cheese";
+        query = "CHEESE,BLUE";
         loggedIn = true;
         searchServlet = new SearchServlet();
         request = new MockHttpServletRequest();

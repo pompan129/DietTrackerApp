@@ -33,10 +33,8 @@ public class SelectServlet extends HttpServlet {
         //get selected portionIDs and sizes from previous page
         String[] portionIDs = request.getParameterValues("portionID");
         String[] portionSizes = request.getParameterValues("portionSize");
+        List<String> portionSizesParsed = parsePortionList(portionSizes);
 
-        //parse portionSizes to remove empty entries
-        List<String> portionSizesParsed = new ArrayList<>(Arrays.asList(portionSizes));
-        portionSizesParsed.removeAll(Arrays.asList("", null));
 
         //get foodService from session
         FoodService foodService = (FoodService) session.getAttribute("foodService");
@@ -82,6 +80,14 @@ public class SelectServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/select.jsp").forward(request, response);
     }
 
+
+    protected List<String> parsePortionList(String[] portionSizes) {
+        //parse portionSizes to remove empty entries
+        List<String> portionSizesParsed = new ArrayList<>(Arrays.asList(portionSizes));
+        portionSizesParsed.removeAll(Arrays.asList("", null));
+        return portionSizesParsed;
+    }
+
     /**
      * Get selected portions from previous page
      * Get portions from the database
@@ -97,7 +103,7 @@ public class SelectServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void setSelectedPortions(HttpServletRequest request, HttpServletResponse response, HttpSession session, String[] portionIDs, List<String> portionSizesParsed, FoodService foodService, ArrayList<Portion> userPortionList) throws ServletException, IOException {
+    protected void setSelectedPortions(HttpServletRequest request, HttpServletResponse response, HttpSession session, String[] portionIDs, List<String> portionSizesParsed, FoodService foodService, ArrayList<Portion> userPortionList) throws ServletException, IOException {
         double portionSize;
         String portionID;
         Portion portion;
@@ -132,7 +138,7 @@ public class SelectServlet extends HttpServlet {
      * @param session       HTTP session variable
      * @return Day
      */
-    private Day getAndUpdateDay(HttpServletRequest request, HttpSession session) {
+    protected Day getAndUpdateDay(HttpServletRequest request, HttpSession session) {
         //get selected mealID
         int mealID = Integer.parseInt(request.getParameter("mealID"));
 
