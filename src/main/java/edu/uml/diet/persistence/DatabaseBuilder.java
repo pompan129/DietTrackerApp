@@ -1,13 +1,15 @@
 package edu.uml.diet.persistence;
 
+
 import com.ibatis.common.jdbc.ScriptRunner;
-import com.ibatis.common.jdbc.*;
-import java.io.*;
-import java.sql.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
 
 /**
  * Class used to check whether DB and required tables exist
@@ -73,7 +75,6 @@ public class DatabaseBuilder {
      * @throws edu.uml.diet.persistence.DatabaseConnectorException
      */
     public boolean checkIfDbExists() throws DatabaseConnectorException {
-        Statement statement = null;
         Connection connection = databaseConnector.getServerConnection();
         boolean exists = false;
         try{
@@ -92,8 +93,6 @@ public class DatabaseBuilder {
         }
         finally{
             try {
-                if (statement != null)
-                    statement.close();
                 if (connection != null)
                     connection.close();
             }
@@ -112,7 +111,6 @@ public class DatabaseBuilder {
      * @throws DatabaseConnectorException
      */
     public boolean checkIfTableExists(String tableName) throws DatabaseConnectorException{
-        Statement statement = null;
         Connection connection = databaseConnector.getDatabaseConnection();
         boolean exists = false;
         try{
@@ -132,8 +130,6 @@ public class DatabaseBuilder {
         }
         finally{
             try {
-                if (statement != null)
-                    statement.close();
                 if (connection != null)
                     connection.close();
             }

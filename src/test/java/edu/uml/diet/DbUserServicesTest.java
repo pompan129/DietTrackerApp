@@ -7,14 +7,13 @@ import edu.uml.diet.persistence.PersistanceUserServicesException;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
- * Created by Ray Goolishian on 2/24/2015.
+ * Test class for DbUserServices methods
  */
 public class DbUserServicesTest {
 
@@ -22,7 +21,6 @@ public class DbUserServicesTest {
     private String existingPassword;
     private String nonExistingUsername;
     private String newUsername;
-    private String newPassword;
     private static DbUserServices dbUserServices;
     private static boolean createdDatabase;
 
@@ -32,7 +30,7 @@ public class DbUserServicesTest {
         existingPassword = "password";
         nonExistingUsername = "test";
         newUsername = "rgoolishian1";
-        newPassword = "PASSWORD1";
+        String newPassword = "PASSWORD1";
         dbUserServices = new DbUserServices();
 
         // create database to test

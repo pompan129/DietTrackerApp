@@ -16,11 +16,11 @@ import static org.junit.Assert.assertEquals;
  * @author Ray Goolishian
  */
 public class DbParserTest {
-    String filename;
-    String foodName;
-    DbParser dbParser;
-    File file;
-    int lengthOfFile;
+    private String filename;
+    private String foodName;
+    private DbParser dbParser;
+    private File file;
+    private int lengthOfFile;
 
     @Before
     public void setup() throws IOException{
@@ -48,12 +48,12 @@ public class DbParserTest {
      */
     @Test
     public void testImportDatabase() throws IOException{
-        ArrayList<DbParser.dbFood> dbFoodList = dbParser.importDatabase(filename);
+        ArrayList<DbParser.databaseFood> databaseFoodList = dbParser.importDatabase(filename);
 
         //test that all lines imported
-        assertEquals(lengthOfFile,dbFoodList.size());
+        assertEquals(lengthOfFile, databaseFoodList.size());
 
         // test that name of food in last record matches ASCII file
-        assertEquals(dbFoodList.get(dbFoodList.size() - 1).getName(),foodName);
+        assertEquals(databaseFoodList.get(databaseFoodList.size() - 1).getName(),foodName);
     }
 }

@@ -4,14 +4,13 @@ import edu.uml.diet.model.BasicFood;
 import edu.uml.diet.model.Day;
 import org.hibernate.Session;
 import org.joda.time.DateTime;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by Kurt Johnson on 2/15/2015.
+ * Interface for PersistenceFoodService class
  */
 public interface PersistanceFoodService {
 
@@ -46,17 +45,17 @@ public interface PersistanceFoodService {
 
     /**
      *
-     * @param username
-     * @param dateTime
-     * @return
+     * @param username User Name of User whose day is being opened/created
+     * @param dateTime Date of Day object being opened/created
+     * @return Day object for User and Date passed to method
+     * @throws PersistanceFoodServiceException
      */
     public Day getDay(String username, DateTime dateTime) throws PersistanceFoodServiceException;
 
     /**
+     * Method used to create Day in database or update existing Day
      *
-     * @param day
-     * @return
-     * @throws PersistanceUserServicesException
+     * @param day Day object to be added or updated
      */
     public void addOrUpdateDay(Day day) throws PersistanceUserServicesException;
 

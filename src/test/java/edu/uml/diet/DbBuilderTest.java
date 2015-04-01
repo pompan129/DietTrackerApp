@@ -3,14 +3,12 @@ package edu.uml.diet;
 import edu.uml.diet.persistence.DatabaseBuilder;
 import edu.uml.diet.persistence.DatabaseConnector;
 import edu.uml.diet.persistence.DatabaseConnectorException;
-import edu.uml.diet.persistence.PersistanceFoodServiceException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.sql.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test class fo DatabaseBuilder class
@@ -23,7 +21,6 @@ public class DbBuilderTest {
     private String userTableName;
     private String foodTableName;
     private boolean createdDatabase;
-    private DatabaseBuilder databaseBuilder;
 
     @Before
     public void setup() throws DatabaseConnectorException {
@@ -32,7 +29,7 @@ public class DbBuilderTest {
         databaseConnector = new DatabaseConnector();
         userTableName = "USERS";
         foodTableName = "FOOD";
-        databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
+        DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 
         if(!databaseBuilder.checkIfDbExists()){
             databaseBuilder.initializeDatabase();

@@ -17,24 +17,10 @@ public class ServiceFactory {
 
         try {
             persistanceFoodService = PersistanceServiceFactory.getPersistanceFoodServiceInstance();
-        } catch (SQLException e) {
-            throw new FoodServiceException("UserService Error: ", e);
         } catch (PersistanceFoodServiceException e) {
             throw new FoodServiceException("FoodService Error: ", e);
-
-        } catch (DatabaseConnectorException e) {
-            throw new FoodServiceException("FoodService Error: Cannot connect to Database", e);
-
-        } catch (DuplicateFoodException e) {
-            throw new FoodServiceException("Service Error: Duplicate foods", e);
-
-        } catch (IOException e) {
-            throw new FoodServiceException("Service connection Error: ", e);
-
         }
-
         return new BasicFoodService(persistanceFoodService);
-
     }
 
     public static UserService getUserServiceInstance() throws UserServiceException {
