@@ -92,27 +92,6 @@ public class DbFoodServiceTest {
         assertEquals(basicFoodList.size(), 8615);
     }
 
-   /*@Test
-    public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
-        DbFoodService dbFoodService = new DbFoodService();
-        //Meal meal = new Meal();
-       //meal.setId(99);
-        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4, 2.0, "some_weight");
-        dbFoodService.createFood(portionTestFood, connection, session);
-        portionTestFood = dbFoodService.searchForFood("PORTION_TEST_FOOD");
-        Portion portion = new Portion();
-        portion.setFood(portionTestFood);
-        portion.setPortionSize(5.0);
-       portion.getFood().setCarbs(1000);
-       //portion.setMeal(meal);
-
-       dbFoodService.addOrUpdatePortion(portion);
-
-       // List<Portion> portionList =  dbFoodService.getPortions(meal);
-       //assertTrue("List is not empty", portionList.size() > 0);
-
-    }*/
-
     @Test
     public void testGetDay() throws PersistanceFoodServiceException{
         DbFoodService dbFoodService = new DbFoodService();
