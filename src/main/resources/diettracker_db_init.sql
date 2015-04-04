@@ -62,6 +62,6 @@ INSERT INTO DietTracker.USERS (username,password)
 
 
 
-INSERT INTO DietTracker.FOOD (name, calories, fat, carbohydrates, protein)
-  SELECT * FROM (SELECT 'testfood', '1', '2', '3', '4') AS tmp
+INSERT INTO DietTracker.FOOD (name, calories, fat, carbohydrates, protein, household_weight, household_weight_description)
+  SELECT * FROM (SELECT 'testfood', '1', '2', '3', '4', '5', '6') AS tmp
   WHERE NOT EXISTS(SELECT name FROM DietTracker.FOOD WHERE name = 'testfood');

@@ -1,6 +1,5 @@
-package edu.uml.diet;
+package edu.uml.diet.gui;
 
-import edu.uml.diet.gui.SearchServlet;
 import edu.uml.diet.logic.FoodService;
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.model.Portion;
@@ -10,8 +9,10 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
+
 import java.util.List;
 
+import static org.junit.Assert.*;
 
 public class SearchServletTest extends TestCase {
     String query; //search query
@@ -20,17 +21,20 @@ public class SearchServletTest extends TestCase {
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
     private MockHttpSession session;
+    FoodService foodService;
+
 
     @Before
     public void setUp() throws Exception {
-        query = "cheese";
+        query = "CHEESE,BLUE";
         loggedIn = true;
         searchServlet = new SearchServlet();
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         session = new MockHttpSession();
+        foodService = ServiceFactory.getFoodServiceInstance();
+        session.setAttribute("foodService", foodService);
     }
-
 
     @Test
     public void testDoGet() throws Exception {
@@ -41,9 +45,9 @@ public class SearchServletTest extends TestCase {
         request.setSession(session);
         searchServlet.doGet(request, response);
         //if logged in, user should go to search page
-        assertEquals(response.getForwardedUrl(), "/WEB-INF/search.jsp");
-
+        assertEquals("/WEB-INF/search.jsp", response.getForwardedUrl());
     }
+
     @Test
     public void testDoGetNegative() throws Exception {
         //make sure session is set correctly
@@ -53,7 +57,7 @@ public class SearchServletTest extends TestCase {
         request.setSession(session);
         searchServlet.doGet(request, response);
         //if not logged in, user gets kicked to login page
-        assertEquals(response.getRedirectedUrl(), "login");
+        assertEquals("login", response.getRedirectedUrl());
     }
 
     @Test
@@ -68,6 +72,18 @@ public class SearchServletTest extends TestCase {
         //now do db stuff manually to make sure it worked
         FoodService foodService = ServiceFactory.getFoodServiceInstance();
         List<Portion> foodList = foodService.foodListSearch(query);
-        assertEquals(foodList, request.getAttribute("foodList"));
+        assertEquals(foodList, request.getAttribute("portionList"));
+    }
+
+    @Test
+    public void testGetPortions() throws Exception {
+        //set login info for session
+        session.setAttribute("loggedIn", true);
+        request.setSession(session);
+        //set search query info
+        request.setParameter("query", query);
+        List<Portion> portionList = searchServlet.getPortions(query, foodService);
+        List<Portion> portionList2 = foodService.foodListSearch(query);
+        assertEquals(portionList, portionList2);
     }
 }

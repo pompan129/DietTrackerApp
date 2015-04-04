@@ -65,7 +65,7 @@ public class SearchServlet extends HttpServlet {
      * @return portionList
      * @throws ServletException
      */
-    private List<Portion> getPortions(String query, FoodService foodService) throws ServletException {
+    protected List<Portion> getPortions(String query, FoodService foodService) throws ServletException {
         List<Portion> portionList = null;
         if(foodService != null) {
             try {
@@ -87,10 +87,11 @@ public class SearchServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void processSearchResults(HttpServletRequest request, HttpServletResponse response, List<Portion> portionList) throws ServletException, IOException {
+    protected void processSearchResults(HttpServletRequest request, HttpServletResponse response, List<Portion> portionList) throws ServletException, IOException {
         //if search results are empty, show user an error
         if(portionList.isEmpty()) {
             request.setAttribute("error", "ERROR: Query not found/ListReturned empty");
+            request.setAttribute("portionList", portionList); //so tests pass
             request.getRequestDispatcher("/WEB-INF/search.jsp").forward(request, response);
         }
         //if search results not empty, set search result in session
