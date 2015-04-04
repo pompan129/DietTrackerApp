@@ -4,21 +4,24 @@ import java.util.concurrent.TimeUnit;
 
 import edu.uml.diet.logic.ServiceFactory;
 import edu.uml.diet.logic.UserService;
-import org.junit.*;
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class SeleniumTest {
     private WebDriver driver;
     private String baseUrl;
-    private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
     @Before
     public void setUp() throws Exception {
-        driver = new FirefoxDriver();
+        driver = new HtmlUnitDriver();
         baseUrl = "http://localhost:8080/";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         UserService userService = ServiceFactory.getUserServiceInstance();
@@ -50,7 +53,7 @@ public class SeleniumTest {
         driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
         driver.findElement(By.linkText("here")).click();
         driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
-        Assert.assertTrue(driver.getPageSource().contains("testfood"));
+        assertTrue(driver.getPageSource().contains("testfood"));
     }
 
     @After
