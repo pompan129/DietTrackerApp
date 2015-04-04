@@ -2,6 +2,7 @@ package edu.uml.diet.gui;
 
 import edu.uml.diet.logic.FoodService;
 import edu.uml.diet.logic.ServiceFactory;
+import edu.uml.diet.logic.UserService;
 import edu.uml.diet.model.Day;
 import edu.uml.diet.model.Meal;
 import edu.uml.diet.model.Portion;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertNull;
+import static java.lang.Math.random;
+
 
 public class SelectServletTest extends TestCase {
     String[] portionIDs;
@@ -31,25 +32,31 @@ public class SelectServletTest extends TestCase {
     SelectServlet selectServlet;
     List<String> portionSizesParsed;
     String email;
+    String password;
     Day day;
     String mealID;
+    UserService userService;
 
     @Before
     public void setUp() throws Exception {
         portionIDs = new String[1];
         portionSizes = new String[1];
-        portionIDs[0] = "CHEESE,BLUE";
+        portionIDs[0] = "testfood";
         portionSizes[0] = "2";
         portionSizesParsed = parsePortionList(portionSizes);
         request = new MockHttpServletRequest();
         response = new MockHttpServletResponse();
         session = new MockHttpSession();
 
-        email = "123";
+        email = random() + "goodExample.com";
+        password = "password";
 
         selectServlet = new SelectServlet();
 
         foodService = ServiceFactory.getFoodServiceInstance();
+        userService = ServiceFactory.getUserServiceInstance();
+
+        userService.createUser(email, password);
         day = foodService.getDay(email, DateTime.now());
         userPortionList =  new ArrayList<>();
         session.setAttribute("loggedIn", true);
