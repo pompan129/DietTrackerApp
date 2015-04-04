@@ -1,20 +1,13 @@
 package edu.uml.diet.persistence;
 
 import edu.uml.diet.model.BasicFood;
-
 import edu.uml.diet.model.Meal;
-import edu.uml.diet.model.Portion;
-import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
 import edu.uml.diet.model.Day;
-import edu.uml.diet.model.Meal;
-import edu.uml.diet.model.Portion;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
-
 import java.sql.Date;
 import java.sql.SQLException;
 import java.io.File;
@@ -24,13 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rgoolishian on 3/4/2015.
+ * Class utilized for all persistent food activities
  */
 public class DbFoodService implements PersistanceFoodService {
 
-    public DatabaseConnector databaseConnector = new DatabaseConnector();
-    public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
-    private String tableName = "FOOD";
+    private final DatabaseConnector databaseConnector = new DatabaseConnector();
+    private final DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
+    private final String tableName = "FOOD";
 
     /**
      * Default constructor for DbFoodService class, if FOOD table doesn't exist
@@ -53,10 +46,10 @@ public class DbFoodService implements PersistanceFoodService {
     /**
      *
      * @param food food item being searched for as String
-     * @return
+     * @return BasicFood object matching String passed to method
      */
     public BasicFood searchForFood(String food) throws PersistanceFoodServiceException{
-        Connection connection = null;
+        Connection connection;
         BasicFood foundFood = null;
         try{
             connection = databaseConnector.getDatabaseConnection();
@@ -97,7 +90,7 @@ public class DbFoodService implements PersistanceFoodService {
      * @throws PersistanceFoodServiceException
      */
     public List<BasicFood> searchForFoodList(String food) throws PersistanceFoodServiceException{
-        Connection connection = null;
+        Connection connection;
         List<BasicFood> foundFood = null;
         try{
             connection = databaseConnector.getDatabaseConnection();
@@ -111,8 +104,8 @@ public class DbFoodService implements PersistanceFoodService {
 
             try {
                 session.beginTransaction();
-                Query query = null;
-                if(food == ""){
+                Query query;
+                if(food.equals("")){
                     query = session.createQuery("from BasicFood");
                     foundFood = query.list();
                 }
@@ -140,12 +133,12 @@ public class DbFoodService implements PersistanceFoodService {
 
     /**
      * Method to query database for duplicate record prior to creating a new food record
-     * @param basicFood
-     * @param connection
-     * @param session
+     *
+     * @param basicFood BasicFood object being checked for existence
+     * @param session Session object to be used for transaction
      * @return true if duplicate food is found, else return false
      */
-    private boolean checkForDuplicateFood(BasicFood basicFood, Connection connection, Session session){
+    private boolean checkForDuplicateFood(BasicFood basicFood, Session session){
         boolean isDuplicate = false;
         session.beginTransaction();
         Query query = session.createQuery("from BasicFood where name = :name");
@@ -160,15 +153,15 @@ public class DbFoodService implements PersistanceFoodService {
     /**
      * Method used to create food
      * @param basicFood adds a new food item to the database
-     * @param connection
-     * @param session
+     * @param connection Connection object to be used for transaction
+     * @param session Session object to be used for transaction
      * @throws PersistanceFoodServiceException
      * @throws DuplicateFoodException
      */
     public void createFood(BasicFood basicFood, Connection connection, Session session)
             throws PersistanceFoodServiceException, DuplicateFoodException {
 
-        if(checkForDuplicateFood(basicFood,connection,session)){
+        if(checkForDuplicateFood(basicFood,session)){
             throw new DuplicateFoodException("Could not create new food, food already exists ", null);
         }
 
@@ -199,18 +192,18 @@ public class DbFoodService implements PersistanceFoodService {
     public void populateFoodDatabase() throws PersistanceFoodServiceException, DuplicateFoodException{
         DbParser dbParser = new DbParser();
         ArrayList<BasicFood> basicFoodArrayList = new ArrayList<>();
-        DbFoodService dbFoodService = null;
+        DbFoodService dbFoodService;
         try {
             dbFoodService = new DbFoodService();
             File file = new File(getClass().getClassLoader().getResource("asciiFoodDatabase.txt").getFile());
-            ArrayList<DbParser.dbFood> dbFoodArrayList = dbParser.importDatabase(file.getPath());
+            ArrayList<DbParser.databaseFood> databaseFoodArrayList = dbParser.importDatabase(file.getPath());
 
-            for (DbParser.dbFood dbFood : dbFoodArrayList) {
-                BasicFood basicFood = new BasicFood(dbFood.getName(), (int) dbFood.getCalories(),
-                        (int) (dbFood.getMonounsaturatedFat() + dbFood.getPolyunsaturatedFat() + dbFood.getSaturatedFat()),
+            for (DbParser.databaseFood databaseFood : databaseFoodArrayList) {
+                BasicFood basicFood = new BasicFood(databaseFood.getName(), (int) databaseFood.getCalories(),
+                        (int) (databaseFood.getMonounsaturatedFat() + databaseFood.getPolyunsaturatedFat() + databaseFood.getSaturatedFat()),
 
-                        (int) dbFood.getCarbohydrate(), (int) dbFood.getProtein(), dbFood.getHouseholdWeight1(),
-                        dbFood.getHouseholdWeight1Description());
+                        (int) databaseFood.getCarbohydrate(), (int) databaseFood.getProtein(), databaseFood.getHouseholdWeight1(),
+                        databaseFood.getHouseholdWeight1Description());
                 basicFoodArrayList.add(basicFood);
             }
         }
@@ -219,7 +212,7 @@ public class DbFoodService implements PersistanceFoodService {
         }
 
         Connection connection = null;
-        Session session = null;
+        Session session;
         try {
             connection = databaseConnector.getDatabaseConnection();
             if (!databaseBuilder.checkIfDbExists()) {
@@ -233,6 +226,7 @@ public class DbFoodService implements PersistanceFoodService {
                     dbFoodService.createFood(basicFood, connection, session);
                 }
                 catch(DuplicateFoodException e){
+                    continue;
                 }
                 catch (PersistanceFoodServiceException e) {
                     throw new PersistanceFoodServiceException("Could not create new food " + e.getMessage(), null);
@@ -276,9 +270,9 @@ public class DbFoodService implements PersistanceFoodService {
 
     /**
      *
-     * @param username
-     * @param date
-     * @return
+     * @param username User Name of User whose day is being opened/created
+     * @param date Date of Day object being opened/created
+     * @return Day object for User and Date passed to method
      * @throws PersistanceFoodServiceException
      */
     public Day getDay(String username, DateTime date) throws PersistanceFoodServiceException{
@@ -321,7 +315,7 @@ public class DbFoodService implements PersistanceFoodService {
                 snack.setName("Snack");
                 snack.setDay(day);
 
-                List<Meal> meals = new ArrayList<Meal>();
+                List<Meal> meals = new ArrayList<>();
                 meals.add(breakfast);
                 meals.add(lunch);
                 meals.add(dinner);
@@ -345,13 +339,12 @@ public class DbFoodService implements PersistanceFoodService {
     }
 
     /**
+     * Method used to create Day in database or update existing Day
      *
      * @param day Day object to be added or updated
-     * @return
      */
     public void addOrUpdateDay(Day day){
 
-        //Session session = databaseConnector.getSessionFactory().getCurrentSession();
         Session session = databaseConnector.getSessionFactory().getCurrentSession();
         Transaction transaction = null;
 

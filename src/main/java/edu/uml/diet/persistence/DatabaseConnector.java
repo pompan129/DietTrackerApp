@@ -1,15 +1,16 @@
 package edu.uml.diet.persistence;
 
-import java.sql.*;
-
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
- * Created by Raymond on 2/22/2015.
+ * Utility class utilized to open Server and Database connections and
+ * to create SessionFactory instances
  */
 public class DatabaseConnector {
     private static Configuration configuration;
@@ -42,7 +43,7 @@ public class DatabaseConnector {
      * @throws DatabaseConnectorException
      */
     public static Connection getServerConnection() throws DatabaseConnectorException {
-        Connection connection = null;
+        Connection connection;
         Configuration configuration = getServerConfiguration();
         try {
             Class.forName(configuration.getProperty("hibernate.connection.driver_class"));
@@ -64,7 +65,7 @@ public class DatabaseConnector {
      * @throws DatabaseConnectorException
      */
     public static Connection getDatabaseConnection() throws DatabaseConnectorException {
-        Connection connection = null;
+        Connection connection;
         Configuration configuration = getDatabaseConfiguration();
         try {
             Class.forName(configuration.getProperty("hibernate.connection.driver_class"));
@@ -79,7 +80,7 @@ public class DatabaseConnector {
         return connection;
     }
 
-    /*
+  /**
   * @return SessionFactory for use with database transactions
   */
     public static SessionFactory getSessionFactory() {

@@ -6,25 +6,22 @@ import edu.uml.diet.persistence.DatabaseConnectorException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 /**
- * Created by Raymond on 2/22/2015.
+ * Test class for DatabaseConnector class
  */
 public class DatabaseConnectorTest {
     private DatabaseConnector databaseConnector;
     private DatabaseBuilder databaseBuilder;
-    private String databaseName;
     private boolean createdDatabase;
 
     @Before
     public void setup() throws DatabaseConnectorException {
-        databaseName = "DietTracker";
+        String databaseName = "DietTracker";
         databaseConnector = new DatabaseConnector();
         databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
 

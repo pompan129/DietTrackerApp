@@ -14,20 +14,17 @@ import org.joda.time.DateTimeComparator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
 /**
- * Created by rgoolishian on 3/4/2015.
+ * Test class for DbFoodService class
  */
 public class DbFoodServiceTest {
     private static DatabaseConnector databaseConnector;
@@ -35,20 +32,16 @@ public class DbFoodServiceTest {
     private static BasicFood basicFood2;
     private static BasicFood basicFood3;
     private static BasicFood basicFood4;
-    private BasicFood basicFood5;
     private List<BasicFood> basicFoodList;
-    private static DatabaseBuilder databaseBuilder;
     private static Connection connection;
     private static Session session;
-    private static boolean createdDatabase;
-    private String databaseName;
     private String userName;
     private DateTime dateTime;
 
    @Before
     public void setup()throws DatabaseConnectorException, PersistanceFoodServiceException, IOException{
-        databaseName = "DietTracker";
-        databaseBuilder = new DatabaseBuilder(databaseConnector,databaseName);
+       String databaseName = "DietTracker";
+       DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector, databaseName);
         databaseConnector = new DatabaseConnector();
         basicFood1 = new BasicFood("testcheese1", 1, 2, 3, 4, 5, "test");
         basicFood2 = new BasicFood("testcheese2", 1, 2, 3, 4, 5, "test");
@@ -76,7 +69,7 @@ public class DbFoodServiceTest {
             SQLException, DatabaseConnectorException{
         DbFoodService dbFoodService = new DbFoodService();
         dbFoodService.createFood(basicFood2, connection, session);
-        basicFood5 = dbFoodService.searchForFood(basicFood2.getName());
+        BasicFood basicFood5 = dbFoodService.searchForFood(basicFood2.getName());
         assertTrue(basicFood2.equals(basicFood5));
     }
 
@@ -99,27 +92,6 @@ public class DbFoodServiceTest {
         assertEquals(basicFoodList.size(), 8615);
     }
 
-   /*@Test
-    public void testAddOrUpdatePortion() throws PersistanceFoodServiceException, DuplicateFoodException {
-        DbFoodService dbFoodService = new DbFoodService();
-        //Meal meal = new Meal();
-       //meal.setId(99);
-        BasicFood portionTestFood = new BasicFood("PORTION_TEST_FOOD", 1, 2, 3, 4, 2.0, "some_weight");
-        dbFoodService.createFood(portionTestFood, connection, session);
-        portionTestFood = dbFoodService.searchForFood("PORTION_TEST_FOOD");
-        Portion portion = new Portion();
-        portion.setFood(portionTestFood);
-        portion.setPortionSize(5.0);
-       portion.getFood().setCarbs(1000);
-       //portion.setMeal(meal);
-
-       dbFoodService.addOrUpdatePortion(portion);
-
-       // List<Portion> portionList =  dbFoodService.getPortions(meal);
-       //assertTrue("List is not empty", portionList.size() > 0);
-
-    }*/
-
     @Test
     public void testGetDay() throws PersistanceFoodServiceException{
         DbFoodService dbFoodService = new DbFoodService();
@@ -136,7 +108,7 @@ public class DbFoodServiceTest {
         Portion portion = new Portion();
         List<Portion> portions = new ArrayList<>();
         portions.add(portion);
-        ArrayList<Meal> dayMeals = new ArrayList<Meal>(day.getMeals());
+        ArrayList<Meal> dayMeals = new ArrayList<>(day.getMeals());
         dayMeals.get(0).setPortions(portions);
         dbFoodService.addOrUpdateDay(day);
 
@@ -145,7 +117,7 @@ public class DbFoodServiceTest {
         Portion portion2 = new Portion();
         List<Portion> portions2 = new ArrayList<>();
         portions2.add(portion2);
-        ArrayList<Meal> dayMeals2 = new ArrayList<Meal>(day2.getMeals());
+        ArrayList<Meal> dayMeals2 = new ArrayList<>(day2.getMeals());
         dayMeals2.get(0).setPortions(portions2);
         dbFoodService.addOrUpdateDay(day2);
 
@@ -154,13 +126,13 @@ public class DbFoodServiceTest {
         Portion portion3 = new Portion();
         List<Portion> portions3 = new ArrayList<>();
         portions3.add(portion3);
-        ArrayList<Meal> dayMeals3 = new ArrayList<Meal>(day3.getMeals());
+        ArrayList<Meal> dayMeals3 = new ArrayList<>(day3.getMeals());
         dayMeals3.get(1).setPortions(portions3);
         dbFoodService.addOrUpdateDay(day3);
 
         // get all portions from first day
         Day testDay = dbFoodService.getDay(userName, dateTime);
-        ArrayList<Meal> testMeals = new ArrayList<Meal>(testDay.getMeals());
+        ArrayList<Meal> testMeals = new ArrayList<>(testDay.getMeals());
         int portionCount = testMeals.get(0).getPortions().size() + testMeals.get(1).getPortions().size();
 
         assertTrue(portionCount == 2);
@@ -180,9 +152,6 @@ public class DbFoodServiceTest {
         query.setString("name4", basicFood4.getName());
         query.executeUpdate();
         transaction.commit();
-        if (createdDatabase) {
-            databaseBuilder.tearDownDatabase();
-        }
     }
 
 

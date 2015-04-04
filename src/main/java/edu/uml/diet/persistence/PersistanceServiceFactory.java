@@ -1,21 +1,31 @@
 package edu.uml.diet.persistence;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 /**
- * Created by Kurt Johnson on 3/3/2015.
+ * Class used to create User and Food Service objects
  */
 public class PersistanceServiceFactory {
 
-    private PersistanceServiceFactory(){}; //stop instantiation
+    /**
+     * stop instantiation
+     */
+    private PersistanceServiceFactory(){}
 
+    /**
+     *
+     * @return PersistanceUserServices object
+     * @throws PersistanceUserServicesException
+     */
     public static PersistanceUserServices getPersistanceUserServicesInstance() throws PersistanceUserServicesException {
         return new DbUserServices();
 
     }
 
-    public static PersistanceFoodService getPersistanceFoodServiceInstance() throws SQLException, PersistanceFoodServiceException, DatabaseConnectorException, DuplicateFoodException, IOException {
+    /**
+     *
+     * @return PersistanceFoodService object
+     * @throws PersistanceFoodServiceException
+     */
+    public static PersistanceFoodService getPersistanceFoodServiceInstance() throws PersistanceFoodServiceException {
 
         return new DbFoodService();
     }

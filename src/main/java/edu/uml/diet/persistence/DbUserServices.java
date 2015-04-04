@@ -5,9 +5,10 @@ package edu.uml.diet.persistence;
 import edu.uml.diet.model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
-
-import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.ResultSet;
 
 /**
  * concrete class for UserServices.
@@ -16,19 +17,14 @@ import java.sql.*;
  */
 public class DbUserServices implements PersistanceUserServices {
 
-    public DatabaseConnector databaseConnector = new DatabaseConnector();
-    public DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
-    private String tableName = "USERS";
+    private final DatabaseConnector databaseConnector = new DatabaseConnector();
+    public final DatabaseBuilder databaseBuilder = new DatabaseBuilder(databaseConnector,"DietTracker");
+    private final String tableName = "USERS";
 
     /**
      * Default constructor for DbUserServices class, if USERS table doesn't exist
      * constructor will create it
-     *
-     * @throws DatabaseConnectorException
-     * @throws IOException
-     * @throws PersistanceFoodServiceException
-     * @throws SQLException
-     * @throws DuplicateFoodException
+     * @throws PersistanceUserServicesException
      */
     public DbUserServices() throws PersistanceUserServicesException {
         try {
@@ -76,7 +72,7 @@ public class DbUserServices implements PersistanceUserServices {
     /**
      * Method to query database to check if User exists
      *
-     * @param username
+     * @param username Name of User being verified
      * @return true if User exists, false if User does not exist
      * @throws PersistanceUserServicesException
      */
@@ -90,8 +86,7 @@ public class DbUserServices implements PersistanceUserServices {
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()){response = true;}
-            else{response = false;}
+            response = resultSet.next();
 
             preparedStatement.close();
             connection.close();
@@ -132,8 +127,8 @@ public class DbUserServices implements PersistanceUserServices {
 
     /**
      *
-     * @param username
-     * @return
+     * @param username Name of User being retrieved
+     * @return User object of User with username
      */
     public User getUser(String username) throws PersistanceUserServicesException{
         User user = new User();
